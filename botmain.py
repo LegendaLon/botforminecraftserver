@@ -27,3 +27,4 @@ async def cat(ctx):
     await ctx.send("Вот вам кот: https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
 
 token = os.environ.get('BOT_TOKEN')
+bot.run(str(token))
