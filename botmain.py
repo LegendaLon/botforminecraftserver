@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from botconfig import *
+import os
 
 bot = commands.Bot(command_prefix=PREFIX_COMMAND)
 
@@ -25,4 +26,4 @@ async def Инфо(ctx):
 async def cat(ctx):
     await ctx.send("Вот вам кот: https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
 
-bot.run(TOKEN)
+token = os.environ.get('BOT_TOKEN')
