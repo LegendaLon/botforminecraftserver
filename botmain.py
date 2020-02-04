@@ -4,7 +4,6 @@ from discord.ext.commands import Bot
 import botconfig
 import os
 
-BOT_AUTHOR = "Lonely_#1572"
 bot = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND)
 
 bot.remove_command('help') # Удаляет команду help
@@ -65,7 +64,7 @@ async def ver(ctx):
     embed = discord.Embed(title="**Версия**", description=" ", color=0xeee657)
     embed.add_field(name="**Последняя версия**", value="Версия - {0}".format(botconfig.version), inline=True)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(BOT_AUTHOR)) # Подвал сообщения
-    await ctx.author.send(embed=embed)    
+    await ctx.send(embed=embed)
     
 token = os.environ.get('BOT_TOKEN')
 bot.run(str(token))
