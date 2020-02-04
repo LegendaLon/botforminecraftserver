@@ -9,4 +9,4 @@ donate_webmoney = 'None'
 
 BOT_AUTHOR = "Lonely_#1572"
 
-BOT_STATUS = "Minecraft."
+BOT_STATUS = "Minecraft"
