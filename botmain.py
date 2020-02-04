@@ -27,6 +27,7 @@ async def Помощь(ctx):
     embed.add_field(name='**$ip**', value="IP-Адрес и версия.", inline=False)
     embed.add_field(name='**$donate**', value="Пожертвования для сервера.", inline=False)
     embed.add_field(name='**$cat**', value="Отправляет гифку кота =D.", inline=False)
+    embed.add_field(name='**$ver**', value="Узнать версию бота.", inline=False)
     embed.set_footer(text="Все права на бота пренадлежат: Lonely_#1572.") # Подвал сообщения
     await ctx.send(embed=embed)
 
