@@ -4,15 +4,15 @@ from discord.ext.commands import Bot
 import botconfig
 import os
 
-bot = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND)
+bot = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Задает префикс для команд, берит из botconfig.py
 
 bot.remove_command('help') # Удаляет команду help
 
 @bot.event
-async def on_ready():
-    activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их botconfig.py
+async def on_ready(): # Когда запускаеться бот
+    activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await bot.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
-    print('Бот запущен')
+    print('Бот запущен') # Выводит сообщение в консоль
 
 @bot.command()
 async def say(ctx):
