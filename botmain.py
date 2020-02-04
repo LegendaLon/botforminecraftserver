@@ -61,8 +61,7 @@ async def cat(ctx):
 
 @bot.command()
 async def ver(ctx):
-    embed = discord.Embed(title="**Версия бота
-                          **", description=" ", color=0xeee657)
+    embed = discord.Embed(title="**Версия бота**", description=" ", color=0xeee657)
     embed.add_field(name="**Последняя версия**", value="Версия - {0}".format(botconfig.version), inline=True)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
