@@ -27,7 +27,7 @@ async def Помощь(ctx):
     embed.add_field(name='**$donate**', value="Пожертвования для сервера.", inline=False)
     embed.add_field(name='**$cat**', value="Отправляет гифку кота =D.", inline=False)
     embed.add_field(name='**$ver**', value="Узнать версию бота.", inline=False)
-    embed.set_footer(text="Все права на бота пренадлежат: Lonely_#1572.") # Подвал сообщения
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -37,7 +37,7 @@ async def Сервер(ctx):
     embed.add_field(name="**Немного о сервере:**", value="Нету приватов, нету доната, свобода действий, не ограниченая территория.", inline=False)
     embed.add_field(name="**Узнать все команды:**", value="$Помощь.", inline=False)
     embed.add_field(name="**Пожертвования:**", value="Если у вас появилось желание помочь серверу\n просто напишите - $donate", inline=False)
-    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(BOT_AUTHOR)) # Подвал сообщения
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
 
     await ctx.send(embed=embed)
 
@@ -45,14 +45,14 @@ async def Сервер(ctx):
 async def ip(ctx):
     embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=0xeee657)
     embed.add_field(name="IP и версия", value="IP - {0}\nВерсия - {1}".format(botconfig.server_ip, botconfig.server_version), inline=True)
-    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(BOT_AUTHOR)) # Подвал сообщения
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.author.send(embed=embed)
 
 @bot.command()
 async def donate(ctx):
     embed = discord.Embed(title="**Реквизиты**", description="Места куда можно скинуть денюжку.", color=0xeee657)
     embed.add_field(name="**Реквизиты**", value="QIWI - {0}\nWebMoney - {1}".format(botconfig.donate_qiwi, botconfig.donate_webmoney), inline=True)
-    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(BOT_AUTHOR)) # Подвал сообщения
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.author.send(embed=embed)
     
 @bot.command()
@@ -63,7 +63,7 @@ async def cat(ctx):
 async def ver(ctx):
     embed = discord.Embed(title="**Версия**", description=" ", color=0xeee657)
     embed.add_field(name="**Последняя версия**", value="Версия - {0}".format(botconfig.version), inline=True)
-    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(BOT_AUTHOR)) # Подвал сообщения
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
     
 token = os.environ.get('BOT_TOKEN')
