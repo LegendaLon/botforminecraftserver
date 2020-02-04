@@ -22,7 +22,7 @@ async def say(ctx):
 
 @bot.command()
 async def Помощь(ctx):
-    embed = discord.Embed(title="Все команды которые может предоставить **Енот Бот**", description="", color=0xeee657)
+    embed = discord.Embed(title="Все команды **Енот Бот**", description="", color=0xeee657)
     embed.add_field(name='**$Сервер**', value="Информация о сервере.", inline=False)
     embed.add_field(name='**$ip**', value="IP-Адрес и версия.", inline=False)
     embed.add_field(name='**$donate**', value="Пожертвования для сервера.", inline=False)
