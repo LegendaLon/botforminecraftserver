@@ -11,6 +11,11 @@ client.remove_command('help') # Удаляет команду help
 
 # client.event
 
+@client.event
+async def on_ready(): # Когда бот запущен и готов к работе
+    print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
+
+
 # client.command
 
 @client.command(pass_context = True)
