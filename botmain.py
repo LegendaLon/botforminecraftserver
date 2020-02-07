@@ -18,6 +18,13 @@ async def on_ready(): # Когда бот запущен и готов к раб
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
+    
+@client.event
+async def on_member_join(member):
+    chennel = client.get_channel(654042717382246420)
+    print("{}, присоединился к нам!".format(member.name))
+    await member.send('Привет {}, чтобы знать все мои команды напиши ``{}{}`` в любой доступный чат, а если нужна верся и IP-Адрес сервер напиши ``{}{}``'.format(member.name, botconfig.PREFIX_COMMAND, botconfig.help_private_message_onejoin, botconfig.PREFIX_COMMAND, botconfig.ip_private_message_onejoin))
+    await chennel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!'))
 
 # client.command
 # Fun and test
