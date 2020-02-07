@@ -12,5 +12,5 @@ donate_webmoney = 'None'
 channel_hello_bot = '647180605573955604'
 help_message_hello = 'Помощь'
 
-version = "1.1.1.0"
+version = "1.1.2.0"
 BOT_AUTHOR = "Lonely_#1572"
