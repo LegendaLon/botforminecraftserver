@@ -20,9 +20,9 @@ async def on_ready(): # Когда бот запущен и готов к раб
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
     embed = discord.Embed(title="**Енот Бот** запущен", description="", color=0xeee657)
-    embed.add_field(name='**Статус**'.format(botconfig.PREFIX_COMMAND), value="Статус бота - {}.".format(botconfig.BOT_STATUS), inline=True)
-    embed.add_field(name='**Версия**'.format(botconfig.PREFIX_COMMAND), value='Версия - {}'.format(botconfig.version), inline=True)
-    embed.add_field(name='**Все хорошо**'.format(botconfig.PREFIX_COMMAND), value='Все функции работают хорошо!', inline=True)
+    embed.add_field(name='**Статус**', value="Статус бота - {}.".format(botconfig.BOT_STATUS), inline=True)
+    embed.add_field(name='**Версия**', value='Версия - {}'.format(botconfig.version), inline=True)
+    embed.add_field(name='**Все хорошо**', value='Все функции работают хорошо!', inline=True)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await channel.send(embed=embed)
 
