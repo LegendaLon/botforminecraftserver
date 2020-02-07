@@ -15,15 +15,20 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
-    channel = client.get_channel(672163621299552349)
+    channel = client.get_channel(botconfig.channel_start_message)
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
-    await channel.send(embed=discord.Embed(description= 'Главная версия бота запущена! Все команды работают!'))
+    embed = discord.Embed(title="**Енот Бот** запущен", description="", color=0xeee657)
+    embed.add_field(name='**Статус**'.format(botconfig.PREFIX_COMMAND), value="Статус бота - {}.".format(botconfig.BOT_STATUS), inline=True)
+    embed.add_field(name='**Версия**'.format(botconfig.PREFIX_COMMAND), value='Версия - {}'.format(botconfig.version), inline=True)
+    embed.add_field(name='**Все хорошо**'.format(botconfig.PREFIX_COMMAND), value='Все функции работают хорошо!', inline=True)
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
+    await channel.send(embed=embed)
 
 @client.event
 async def on_member_join(member):
-    channel = client.get_channel(654042717382246420)
+    channel = client.get_channel(botconfig.chennel_join_message)
     print("{}, присоединился к нам!".format(member.name))
     await member.send('Привет {}, чтобы знать все мои команды напиши ``{}{}`` в любой доступный чат, а если нужна верся и IP-Адрес сервер напиши ``{}{}``'.format(member.name, botconfig.PREFIX_COMMAND, botconfig.help_private_message_onejoin, botconfig.PREFIX_COMMAND, botconfig.ip_private_message_onejoin))
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!'))
@@ -115,6 +120,7 @@ async def помощь(ctx, amount = 1):
     embed.add_field(name='**{}ver**'.format(botconfig.PREFIX_COMMAND), value="Узнать версию бота.", inline=False)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
+
 
 # RUN
     
