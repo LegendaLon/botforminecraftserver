@@ -19,7 +19,7 @@ async def on_ready(): # Когда бот запущен и готов к раб
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
-    await channel.send(embed=discord.Embed(description= 'Тестовая версия бота включина!'))
+    await channel.send(embed=discord.Embed(description= 'Главная версия бота запущена! Все команды работают!'))
 
 @client.event
 async def on_member_join(member):
