@@ -5,7 +5,7 @@ PREFIX_COMMAND = '.' # Префикс для команды
 
 # First Start
 BOT_STATUS = "Minecraft"
-channel_start_message = '672163621299552349'
+channel_start_bot_message = '672163621299552349'
 
 # join 
 chennel_join_message = '654042717382246420'
