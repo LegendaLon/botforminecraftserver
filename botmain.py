@@ -121,7 +121,6 @@ async def помощь(ctx, amount = 1):
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
 
-
 # RUN
     
 token = os.environ.get('BOT_TOKEN')
