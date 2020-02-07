@@ -4,7 +4,7 @@
 PREFIX_COMMAND = '.' # Префикс для команды
 
 # First Start
-BOT_STATUS = "Тестовый  режим"
+BOT_STATUS = "Minecraft"
 channel_start_message = '672163621299552349'
 
 # join 
@@ -23,5 +23,5 @@ ip_private_message_onejoin = 'ip'
 help_private_message_onejoin = 'Помощь'
 
 # ver
-version = "Тестовая 1.1.2.0" # 1.1.2.0
+version = "Основная 1.1.2.0" # 1.1.2.0
 BOT_AUTHOR = "Lonely_#1572"
