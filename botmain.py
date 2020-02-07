@@ -1,3 +1,5 @@
+# importing module
+
 import discord
 from discord.ext import commands
 import botconfig
@@ -17,8 +19,8 @@ async def on_ready(): # Когда бот запущен и готов к раб
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
 
-
 # client.command
+# Fun and test
 
 @client.command(pass_context = True)
 async def say(ctx, amount = 1):
@@ -33,6 +35,8 @@ async def say_m(ctx, member: discord.Member, amount = 1):
     author = ctx.message.author
     say_at_me = input("Введите сообщение через консоль для {} в лс: ".format(member))
     await member.send('{}, вам посылка из консоли - `{}`'.format(author.mention, say_at_me))
+
+# Functions
 
 @client.command(pass_context = True)
 async def Помощь(ctx):
@@ -82,6 +86,8 @@ async def ver(ctx):
     embed.add_field(name="**Последняя версия**", value="Версия - {0}".format(botconfig.version), inline=True)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
+
+# RUN
     
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))
