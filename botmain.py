@@ -15,16 +15,18 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
+    channel = client.get_channel(672163621299552349)
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
-    
+    await channel.send(embed=discord.Embed(description= 'Тестовая версия бота включина!'))
+
 @client.event
 async def on_member_join(member):
-    chennel = client.get_channel(654042717382246420)
+    channel = client.get_channel(654042717382246420)
     print("{}, присоединился к нам!".format(member.name))
     await member.send('Привет {}, чтобы знать все мои команды напиши ``{}{}`` в любой доступный чат, а если нужна верся и IP-Адрес сервер напиши ``{}{}``'.format(member.name, botconfig.PREFIX_COMMAND, botconfig.help_private_message_onejoin, botconfig.PREFIX_COMMAND, botconfig.ip_private_message_onejoin))
-    await chennel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!'))
+    await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!'))
 
 # client.command
 # Fun and test
@@ -46,7 +48,8 @@ async def say_m(ctx, member: discord.Member, amount = 1):
 # Functions
 
 @client.command(pass_context = True)
-async def Помощь(ctx):
+async def Помощь(ctx, amount = 1):
+    await ctx.channel.purge( limit = amount)
     embed = discord.Embed(title="Все команды **Енот Бот**", description="", color=0xeee657)
     embed.add_field(name='**{}Сервер**'.format(botconfig.PREFIX_COMMAND), value="Информация о сервере.", inline=False)
     embed.add_field(name='**{}ip**'.format(botconfig.PREFIX_COMMAND), value="IP-Адрес и версия.", inline=False)
@@ -57,7 +60,8 @@ async def Помощь(ctx):
     await ctx.send(embed=embed)
 
 @client.command(pass_context = True)
-async def Сервер(ctx):
+async def Сервер(ctx, amount = 1):
+    await ctx.channel.purge( limit = amount)
     embed = discord.Embed(title="Сервер: **Legend of The World**", description="**Енот Бот** был сделан специально для этого сервера.", color=0xeee657)
     embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value="Если ты тут значит тебя приняли,\n чтобы узнать айпи напиши - $ip", inline=True)
     embed.add_field(name="**Немного о сервере:**", value="Нету приватов, нету доната, свобода действий, не ограниченая территория.", inline=False)
@@ -84,13 +88,31 @@ async def donate(ctx, amount = 1):
     await ctx.author.send(embed=embed)
     
 @client.command(pass_context = True)
-async def cat(ctx):
+async def cat(ctx, amount = 1):
+    await ctx.channel.purge( limit = amount)
     await ctx.send("Вот вам кот: https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
 
 @client.command(pass_context = True)
-async def ver(ctx):
+async def ver(ctx, amount = 1):
+    await ctx.channel.purge( limit = amount)
     embed = discord.Embed(title="**Версия бота**", color=0xeee657)
     embed.add_field(name="**Последняя версия**", value="Версия - {0}".format(botconfig.version), inline=True)
+    embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
+    await ctx.send(embed=embed)
+
+# Error
+
+# Clone command
+
+@client.command(pass_context = True)
+async def помощь(ctx, amount = 1):
+    await ctx.channel.purge( limit = amount)
+    embed = discord.Embed(title="Все команды **Енот Бот**", description="", color=0xeee657)
+    embed.add_field(name='**{}Сервер**'.format(botconfig.PREFIX_COMMAND), value="Информация о сервере.", inline=False)
+    embed.add_field(name='**{}ip**'.format(botconfig.PREFIX_COMMAND), value="IP-Адрес и версия.", inline=False)
+    embed.add_field(name='**{}donate**'.format(botconfig.PREFIX_COMMAND), value="Пожертвования для сервера.", inline=False)
+    embed.add_field(name='**{}cat**'.format(botconfig.PREFIX_COMMAND), value="Отправляет гифку кота =D.", inline=False)
+    embed.add_field(name='**{}ver**'.format(botconfig.PREFIX_COMMAND), value="Узнать версию бота.", inline=False)
     embed.set_footer(text="Все права на бота пренадлежат: {0}".format(botconfig.BOT_AUTHOR)) # Подвал сообщения
     await ctx.send(embed=embed)
 
