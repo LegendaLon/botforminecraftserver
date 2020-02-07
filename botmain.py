@@ -5,6 +5,10 @@ from discord.ext import commands
 import botconfig
 import os
 
+# Var variable
+
+channel_start_bot_message = int(botconfig.channel_start_bot_message)
+
 # Setting
 
 client = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Префикс для команд 
@@ -15,7 +19,7 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
-    channel = client.get_channel(672163621299552349)
+    channel = client.get_channel(channel_start_bot_message)
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
