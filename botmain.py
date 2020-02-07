@@ -15,7 +15,7 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
-    channel = client.get_channel(botconfig.channel_start_message)
+    channel = client.get_channel(672163621299552349)
     activity = activity = discord.Game(name=botconfig.BOT_STATUS) # Задает статус, берет их из botconfig.py
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
     print("Ready! Gooo!") # Пишет сообщение в консоль что бот запущен
