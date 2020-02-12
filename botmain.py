@@ -31,7 +31,7 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
-    channel = client.get_channel(672163621299552349) # Чат в который кидает данные о боте
+    channel = client.get_channel(botconfig.channel_start_message) # Чат в который кидает данные о боте
     status= choice(botconfig.BOT_STATUS) # Рандомизирует статус с botconfig
     activity = activity = discord.Game(name=status) # Задает статус
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
