@@ -98,7 +98,7 @@ async def Сервер(ctx):
     guild = ctx.guild
     embed = discord.Embed(title=f"Сервер: **{guild.name}**", description="**Енот Бот** был сделан специально для этого тест сервера.", color=orange) # Создает строку
     embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value=f"Если ты тут значит тебя приняли,\n чтобы узнать айпи напиши - {botconfig.PREFIX_COMMAND}ip", inline=True) # Создает строку
-    embed.add_field(name="Людей на сервере", value=f"{guild.member_count}", inline=False)
+    embed.add_field(name="**Людей на сервере**", value=f"{guild.member_count}", inline=False)
     embed.add_field(name="**Немного о сервере:**", value="Нету приватов, нету доната, свобода действий, не ограниченая территория.", inline=False) # Создает строку
     embed.add_field(name="**Узнать все команды:**", value=f"{botconfig.PREFIX_COMMAND}Помощь.", inline=False) # Создает строку
     embed.add_field(name="**Пожертвования:**", value=f"Если у вас появилось желание помочь серверу\n просто напишите - {botconfig.PREFIX_COMMAND}donate", inline=False) # Создает строку
