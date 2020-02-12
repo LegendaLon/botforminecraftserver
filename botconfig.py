@@ -7,12 +7,13 @@ PREFIX_COMMAND = '.' # Префикс для команды
 BOT_STATUS = [
 	"Тестовый режим", "Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
 ]
-channel_start_message = 672163621299552349
+channel_start_bot_message = 672163621299552349
 
 # Log
 channel_log = 676366617940328449
 
 # join 
+channel_message_join = 654042717382246420
 
 # Code
 code1 = '1830962036'
@@ -44,5 +45,5 @@ ip_private_message_onejoin = 'ip'
 help_private_message_onejoin = 'Помощь'
 
 # ver
-version = "Тестовая 1.1.2.0" # 1.1.2.0
+version = "Основная 1.1.4.0" # 1.1.2.0
 BOT_AUTHOR = "Lonely_#1572"
