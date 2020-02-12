@@ -7,6 +7,7 @@ PREFIX_COMMAND = '.' # Префикс для команды
 BOT_STATUS = [
 	"Тестовый режим", "Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
 ]
+channel_start_message = 672163621299552349
 
 # Log
 channel_log = 676366617940328449
