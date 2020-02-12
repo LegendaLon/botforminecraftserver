@@ -31,7 +31,7 @@ client.remove_command('help') # Удаляет команду help
 
 @client.event
 async def on_ready(): # Когда бот запущен и готов к работе
-    channel = client.get_channel(672163621299552349) # Чат в который кидает данные о боте
+    channel = client.get_channel(botconfig.channel_start_bot_message) # Чат в который кидает данные о боте
     status= choice(botconfig.BOT_STATUS) # Рандомизирует статус с botconfig
     activity = activity = discord.Game(name=status) # Задает статус
     await client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
@@ -47,10 +47,11 @@ async def on_ready(): # Когда бот запущен и готов к раб
 
 @client.event
 async def on_member_join(member): # Когда заходит новый пользователь
-    channel = client.get_channel(654042717382246420) # Чат в который будет оправляться сообщение о новых участниках
+    channel = client.get_channel(botconfig.channel_message_join) # Чат в который будет оправляться сообщение о новых участниках
     print(f"{member.name}, присоединился к нам!") # Пишет в консоль о новом учатнике
-    await member.send(embed=discord.Embed(f':wave: Привет {member.name}, чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=orange)) # Пишет в чат сообщение
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name}, чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
+    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
 
 # client.command
 # Fun and test   No comments
@@ -228,6 +229,7 @@ async def clear(ctx, amount: int):
 #         print("No Y")
 #     else:
 #         print("Yest Y")
+
 # Error
 
 @add_event.error
