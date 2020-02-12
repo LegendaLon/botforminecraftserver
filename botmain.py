@@ -48,6 +48,7 @@ async def on_ready(): # Когда бот запущен и готов к раб
 @client.event
 async def on_member_join(member): # Когда заходит новый пользователь
     channel = client.get_channel(654042717382246420) # Чат в который будет оправляться сообщение о новых участниках
+    print(f"{member.name}, присоединился к нам!") # Пишет в консоль о новом учатнике
     await member.send(embed=discord.Embed(f':wave: Привет {member.name}, чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=orange)) # Пишет в чат сообщение
 
@@ -95,9 +96,9 @@ async def sentence(ctx, *, arg): # Создает команду
 @client.command(pass_context=True, aliases = ["сервер", "серв", "server", "Server"]) # Информация о сервере рабоает также с командами...
 async def Сервер(ctx):
     guild = ctx.guild
-    embed = discord.Embed(title=f"Сервер: **{guild.name}**", description="**Енот Бот** был сделан специально для этого тест сервера.", color=orange) # Создает строку
+    embed = discord.Embed(title=f"Сервер: **{guild.name}**", description="**Енот Бот** был сделан специально для этого сервера.", color=orange) # Создает строку
     embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value=f"Если ты тут значит тебя приняли,\n чтобы узнать айпи напиши - {botconfig.PREFIX_COMMAND}ip", inline=True) # Создает строку
-    embed.add_field(name="**Людей на сервере**", value=f"{guild.member_count}", inline=False)
+    embed.add_field(name="Людей на сервере", value=f"{guild.member_count}", inline=False)
     embed.add_field(name="**Немного о сервере:**", value="Нету приватов, нету доната, свобода действий, не ограниченая территория.", inline=False) # Создает строку
     embed.add_field(name="**Узнать все команды:**", value=f"{botconfig.PREFIX_COMMAND}Помощь.", inline=False) # Создает строку
     embed.add_field(name="**Пожертвования:**", value=f"Если у вас появилось желание помочь серверу\n просто напишите - {botconfig.PREFIX_COMMAND}donate", inline=False) # Создает строку
@@ -113,15 +114,13 @@ async def ip(ctx): # Создает команду
 
 @client.command(pass_context=True, aliases=["донат", "Донат", "Donate"]) # 
 async def donate(ctx): # Создает команду
-    await ctx.channel.purge(limit = amount) # 
     embed = discord.Embed(title="**Реквизиты**", description="Места куда можно скинуть денюжку.", color=orange) # 
     embed.add_field(name="**Реквизиты**", value=f"QIWI - {botconfig.donate_qiwi}\nWebMoney - {botconfig.donate_webmoney}", inline=True) # 
     embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.author.send(embed=embed) # 
     
 @client.command(pass_context=True, aliases = ["кот", "мешок"]) # 
-async def cat(ctx): # Создает командуСоздает команду
-    await ctx.channel.purge(limit=amount) # 
+async def cat(ctx): # Создает команду
     r_cat_gif = choice(botconfig.cat_gif) # 
     await ctx.send(r_cat_gif, delete_after=43200) # 
 
