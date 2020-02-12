@@ -135,7 +135,7 @@ async def ver(ctx): # Создает команду
 @client.command(pass_context=True, aliases = ["ball", "Ball", "Шар"]) # 
 async def шар(ctx): # Создает команду
     r_ball = choice(botconfig.ball) # 
-    await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange), delete_after=300) # 
+    await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
 @client.command(pass_context=True) # 
 async def add_event(ctx, arg1, amount=1): # Создает команду
