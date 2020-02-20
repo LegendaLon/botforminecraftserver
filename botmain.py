@@ -223,6 +223,10 @@ async def clear(ctx, amount: int):
     elif amount > 100:
         await ctx.send(embed=discord.Embed(description=f'{author.name} ❎ вы ввели слишком большое число!', color=orange), delete_after=300) 
 
+
+@client.command(pass_context=True)
+async def lox(ctx):
+    await ctx.send("Кто?")
 # @client.command(pass_context=True)
 # async def add_cord(ctx, arg1, arg2, arg3, arg4):
 #     author = ctx.message.author
