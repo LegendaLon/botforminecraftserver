@@ -12,9 +12,9 @@ import botconfig
 
 # Variable
 
-event_list = []
-raffle = []
-code_stop = []
+event_list = [] # Евент лист
+raffle = [] # Розыгрыш
+code1_stop = [] # Black list code
 green = 0x00ff00 # color green for start
 red = 0xff0000 # color red for error 
 orange = 0xff8000 # color orange for custom
@@ -201,10 +201,10 @@ async def code(ctx, arg1, amount=1): # Создает команду
     author = ctx.message.author
     bot_author = client.get_user(518766156790890496)
     if arg1 == botconfig.code1:
-        for x in [code_stop]:
+        for x in [code1_stop]:
             if author not in x:
                 code_stop.append(author)
-                print(code_stop)
+                print(code1_stop)
                 await bot_author.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {botconfig.code1_comment}!!', color=orange))
                 await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели код {arg}, и он оказался верным!!', color=orange))
             else:
