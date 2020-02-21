@@ -256,7 +256,8 @@ async def Request(ctx, *, arg):
 
 @client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
-async def Accept(ctx, member: discord.Member):
+async def Accept(ctx, member: discord.Member, amount=1):
+    await ctx.channel.purge(limit = amount)
     role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
     role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
     channel = client.get_channel(botconfig.channel_message_join) 
