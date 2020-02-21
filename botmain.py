@@ -2,6 +2,7 @@
 
 import discord
 from discord.ext import commands
+from discord import utils
 
 import os
 import random
@@ -12,9 +13,10 @@ import botconfig
 
 # Variable
 
-event_list = [] # Евент лист
-raffle = [] # Розыгрыш
-code1_stop = [] # Black list code
+event_list = [] # 
+raffle = [] #
+code_stop = [] # 
+request_stop = [] # Black list
 green = 0x00ff00 # color green for start
 red = 0xff0000 # color red for error 
 orange = 0xff8000 # color orange for custom
@@ -50,8 +52,7 @@ async def on_member_join(member): # Когда заходит новый пол�
     channel = client.get_channel(botconfig.channel_message_join) # Чат в который будет оправляться сообщение о новых участниках
     print(f"{member.name}, присоединился к нам!") # Пишет в консоль о новом учатнике
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=orange)) # Пишет в чат сообщение
-    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name}, чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
-    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
+    await member.add_role(botconfig.roll_add)
 
 # client.command
 # Fun and test   No comments
@@ -134,7 +135,7 @@ async def ver(ctx): # Создает команду
 
 @client.command(pass_context=True, aliases = ["ball", "Ball", "Шар"]) # 
 async def шар(ctx): # Создает команду
-    r_ball = choice(botconfig.ball)
+    r_ball = choice(botconfig.ball) # 
     await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
 @client.command(pass_context=True) # 
@@ -201,16 +202,17 @@ async def code(ctx, arg1, amount=1): # Создает команду
     author = ctx.message.author
     bot_author = client.get_user(518766156790890496)
     if arg1 == botconfig.code1:
-        for x in [code1_stop]:
+        for x in [code_stop]:
             if author not in x:
                 code_stop.append(author)
-                print(code1_stop)
+                print(code_stop)
                 await bot_author.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {botconfig.code1_comment}!!', color=orange))
-                await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели код {arg}, и он оказался верным!!', color=orange))
+                await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели верный код!!', color=orange))
             else:
                 await author.send(embed=discord.Embed(description=f'{author.name}, вы уже вводили этот код!!', color=red), delete_after=300)
     else:
         await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=red), delete_after=300)
+
 
 @client.command(pass_context=True)
 @commands.has_permissions(administrator=True)
@@ -218,21 +220,70 @@ async def clear(ctx, amount: int):
     author = ctx.message.author
     if amount <= 100:
         await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{author.name} ✅ очищено {amount}', color=orange), delete_after=300)
+        await ctx.send(embed=discord.Embed(description=f'{author.name}, ✅ очищено {amount}', color=orange), delete_after=300)
     elif amount >= 100:
-        await ctx.send(embed=discord.Embed(description=f'{author.name} ❎ вы ввели слишком большое число!', color=orange), delete_after=300) 
+        await ctx.send(embed=discord.Embed(description=f'{author.name}, ❎ вы ввели слишком большое число!', color=red), delete_after=300) 
 
+# Request Accept and Refuse(Отказать)
 
-@client.command(pass_context=True)
-async def lox(ctx):
-    await ctx.send("Кто?")
-# @client.command(pass_context=True)
-# async def add_cord(ctx, arg1, arg2, arg3, arg4):
-#     author = ctx.message.author
-#     if arg4 == "":
-#         print("No Y")
-#     else:
-#         print("Yest Y")
+@client.command(pass_context=True, aliases = ["request", "Заявка", "заявка"])
+async def Request(ctx, *, arg):
+    author = ctx.message.author
+    channel = ctx.message.channel
+    channel_white = client.get_channel(botconfig.channel_request_white)
+    channel_admin = client.get_channel(botconfig.channel_admin)
+    if channel == channel_white:
+        for rs in [request_stop]:
+            if author not in rs:
+                request_stop.append(author)
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
+                embed = discord.Embed(title='Новая заявка!', color=orange)
+                embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
+                embed.add_field(name='Вот заявка', value=f'``{arg}``', inline=False)
+                embed.add_field(name='Принять', value=f'Чтоб принять заявку напишите: ``{botconfig.PREFIX_COMMAND}принять [Упоминание участника]`` в #заявка', inline=True )
+                embed.add_field(name='Отказать', value=f'Чтоб отказать заявку напишите: ``{botconfig.PREFIX_COMMAND}отказать [Упоминание участника]`` в #заявка', inline=True )
+                embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
+
+                await channel_admin.send(embed=embed) # В модераторскую
+            else:
+                print("Stop, second request")
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже подавали заявку подождите пока ее примут!', color=red), delete_after=60) 
+    else:
+        print("Stop no channel")
+        await ctx.send(embed=discord.Embed(description=f'{author.name}, заявку нельзя писать в этот чат!', color=red), delete_after=60) 
+
+    print("End")
+
+@client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
+@commands.has_permissions(manage_roles=True)
+async def Accept(ctx, member: discord.Member):
+    role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
+    role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
+    channel = client.get_channel(botconfig.channel_start_bot_message) 
+    print(f'Принят {member}')
+    await member.add_roles(role_add)
+    await member.remove_roles(role_rem)
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
+    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
+    await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
+
+@client.command(pass_context=True, aliases = ["denny", "Отказать", "отказать"])
+@commands.has_permissions(manage_roles=True)
+async def Denny(ctx, member: discord.Member):
+    for r in [request_stop]:
+        if author not in r:
+            print("Next")
+        else:
+            print(f'Отказано {member}')
+            r.remove(author)
+            print(f'Base: {[request_stop]}\nNew {r}')
+            await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
+
+@client.command(pass_context=True, aliases = ["заявка_помощь", "Request_help", "request_help"])
+async def Заявка_помощь(ctx):
+    author = ctx.message.author
+    channel = client.get_channel(botconfig.channel_request)
+    await ctx.send(f'{author.mention}, заявку можна найти в {channel.mention}!', delete_after=120)
 
 # Error
 
@@ -240,13 +291,37 @@ async def lox(ctx):
 async def add_event_error(ctx, error, amount = 1):
     if isinstance(error, commands.errors.MissingRequiredArgument):
         await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не ввели свой ник!! ``.add_event [Ваш ник]``', color=red))
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не ввели свой ник!! ``.add_event [Ваш ник]``', color=red), delete_after=60)
 
 @list_event.error
 async def list_event_error(ctx, error, amount = 1):
     if isinstance(error, commands.errors.MissingPermissions):
         await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red))
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
+
+@Request.error
+async def Request_error(ctx, error, amount = 1):
+    if isinstance(error, commands.errors.MissingRequiredArgument):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не написали заявку!! Чтобы узнать вопросы заявки напишите ``.заявка_помощь``', color=red), delete_after=60)
+
+@Accept.error
+async def Accept_error(ctx, error, amount = 1):
+    if isinstance(error, commands.errors.MissingRequiredArgument):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не указали участника!! ``.принять [Упоминание участника]``', color=red), delete_after=60)
+    elif isinstance(error, commands.errors.MissingPermissions):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
+
+@Denny.error
+async def Denny_error(ctx, error, amount = 1):
+    if isinstance(error, commands.errors.MissingRequiredArgument):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не указали участника!! ``.принять [Упоминание участника]``', color=red), delete_after=60)
+    elif isinstance(error, commands.errors.MissingPermissions):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
 
 # RUN
     
