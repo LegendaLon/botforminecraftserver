@@ -134,9 +134,8 @@ async def ver(ctx): # Создает команду
 
 @client.command(pass_context=True, aliases = ["ball", "Ball", "Шар"]) # 
 async def шар(ctx): # Создает команду
-    pass
-    # r_ball = choice(botconfig.ball) # 
-    # await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
+    r_ball = choice(botconfig.ball)
+    await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
 @client.command(pass_context=True) # 
 async def add_event(ctx, arg1, amount=1): # Создает команду
@@ -207,7 +206,7 @@ async def code(ctx, arg1, amount=1): # Создает команду
                 code_stop.append(author)
                 print(code_stop)
                 await bot_author.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {botconfig.code1_comment}!!', color=orange))
-                await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели верный код!!', color=orange))
+                await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели код {arg}, и он оказался верным!!', color=orange))
             else:
                 await author.send(embed=discord.Embed(description=f'{author.name}, вы уже вводили этот код!!', color=red), delete_after=300)
     else:
@@ -217,10 +216,10 @@ async def code(ctx, arg1, amount=1): # Создает команду
 @commands.has_permissions(administrator=True)
 async def clear(ctx, amount: int):
     author = ctx.message.author
-    if amount < 100:
+    if amount <= 100:
         await ctx.channel.purge(limit=amount)
         await ctx.send(embed=discord.Embed(description=f'{author.name} ✅ очищено {amount}', color=orange), delete_after=300)
-    elif amount > 100:
+    elif amount >= 100:
         await ctx.send(embed=discord.Embed(description=f'{author.name} ❎ вы ввели слишком большое число!', color=orange), delete_after=300) 
 
 
