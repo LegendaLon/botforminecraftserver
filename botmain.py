@@ -1,4 +1,5 @@
-# importing module
+#
+ importing module
 
 import discord
 from discord.ext import commands
@@ -53,6 +54,14 @@ async def on_member_join(member): # Когда заходит новый пол�
     print(f"{member.name}, присоединился к нам!") # Пишет в консоль о новом учатнике
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=orange)) # Пишет в чат сообщение
     await member.add_role(botconfig.roll_add)
+
+ @client.event
+    async def on_message(message):
+        channel = message.channel
+        channel_ = client.get_channel() # Сюда id чата
+        if channel == channel_:
+            # Сюда код
+
 
 # client.command
 # Fun and test   No comments
@@ -232,43 +241,64 @@ async def Request(ctx, *, arg):
     channel = ctx.message.channel
     channel_white = client.get_channel(botconfig.channel_request_white)
     channel_admin = client.get_channel(botconfig.channel_admin)
-    if channel == channel_white:
+    if channel == channe
+        request_stop.append(author)
         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
         embed = discord.Embed(title='Новая заявка!', color=orange)
         embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
         embed.add_field(name='Вот заявка', value=f'``{arg}``', inline=False)
         embed.add_field(name='Принять', value=f'Чтоб принять заявку напишите: ``{botconfig.PREFIX_COMMAND}принять [Упоминание участника]`` в #заявка', inline=True )
         embed.add_field(name='Отказать', value=f'Чтоб отказать заявку напишите: ``{botconfig.PREFIX_COMMAND}отказать [Упоминание участника]`` в #заявка', inline=True )
-        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщени
+        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
+
         await channel_admin.send(embed=embed) # В модераторскую
     else:
         print("Stop no channel")
         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявку нельзя писать в этот чат!', color=red), delete_after=60) 
 
+    print("End")
+
 @client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
 async def Accept(ctx, member: discord.Member):
-    role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
-    role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
-    channel = client.get_channel(botconfig.channel_message_join) 
-    print(f'Принят {member}')
-    await member.add_roles(role_add)
-    await member.remove_roles(role_rem)
-    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
-    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
-    await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
+    channel_msg = ctx.message.channel
+    channel_black = client.get_channel(botconfig.black_list_channel)
+    if channel_msg not in channel_black;
+        role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
+        role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
+        channel = client.get_channel(botconfig.channel_start_bot_message) 
+        print(f'Принят {member}')
+        await member.add_roles(role_add)
+        await member.remove_roles(role_rem)
+        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
+        f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
+        await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
+    else:
+        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=orange))
 
 @client.command(pass_context=True, aliases = ["denny", "Отказать", "отказать"])
 @commands.has_permissions(manage_roles=True)
 async def Denny(ctx, member: discord.Member):
-    print(f'Отказано {member}')
-    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
+    if author not in r:
+        pass  
+    else:
+        print(f'Отказано {member}')
+        r.remove(author)
+        print(f'Base: {[request_stop]}\nNew {r}')
+        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
 
 @client.command(pass_context=True, aliases = ["заявка_помощь", "Request_help", "request_help"])
 async def Заявка_помощь(ctx):
     author = ctx.message.author
     channel = client.get_channel(botconfig.channel_request)
     await ctx.send(f'{author.mention}, заявку можна найти в {channel.mention}!', delete_after=120)
+
+@client.command(pass_context=True)
+async def testing(ctx):
+    author = ctx.message.author
+    role = utils.get(ctx.message.guild.members, id=author.user_id) # получаем объект пользователя который поставил реакцию
+    print(role)
+
 
 # Error
 
