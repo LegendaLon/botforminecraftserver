@@ -257,37 +257,28 @@ async def Request(ctx, *, arg):
 @client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
 async def Accept(ctx, member: discord.Member):
-    channel = ctx.message.channel
-    channel_white = client.get_channel(botconfig.channel_request_white)
-    if channel == channel_white:
-        role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
-        role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
-        channel_m = client.get_channel(botconfig.channel_start_bot_message) 
-        print(f'Принят {member}')
-        await member.add_roles(role_add)
-        await member.remove_roles(role_rem)
-        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
-        f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
-        await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
-    else:
-        pass
+    role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
+    role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
+    channel = client.get_channel(botconfig.channel_start_bot_message) 
+    print(f'Принят {member}')
+    await member.add_roles(role_add)
+    await member.remove_roles(role_rem)
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
+    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
+    await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
 
 @client.command(pass_context=True, aliases = ["denny", "Отказать", "отказать"])
 @commands.has_permissions(manage_roles=True)
 async def Denny(ctx, member: discord.Member):
-    channel = ctx.message.channel
-    channel_white = client.get_channel(botconfig.channel_request_white)
-    if channel == channel_white:
-        for r in [request_stop]:
+    for r in [request_stop]:
         if author not in r:
-            pass
+            print("Next")
         else:
+            print(f'Отказано {member}')
             r.remove(author)
             print(f'Base: {[request_stop]}\nNew {r}')
             await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
-    else:
-        pass
-    
+
 @client.command(pass_context=True, aliases = ["заявка_помощь", "Request_help", "request_help"])
 async def Заявка_помощь(ctx):
     author = ctx.message.author
