@@ -1,5 +1,4 @@
-#
- importing module
+# importing module
 
 import discord
 from discord.ext import commands
@@ -66,14 +65,14 @@ async def on_member_join(member): # Когда заходит новый пол�
 # client.command
 # Fun and test   No comments
 
-@client.command(pass_context=True) 
+@client.command() 
 async def say(ctx, amount = 1): 
     await ctx.channel.purge(limit = amount)
     author = ctx.message.author
     say_at_me = input(f"Введите сообщение через консоль для {author}: ")
     await ctx.send(f'{author.mention}, вам посылка из консоли - `{say_at_me}`') 
 
-@client.command(pass_context=True)
+@client.command()
 async def say_m(ctx, member: discord.Member, amount = 1):
     await ctx.channel.purge(limit = amount)
     author = ctx.message.author
@@ -82,7 +81,7 @@ async def say_m(ctx, member: discord.Member, amount = 1):
 
 # Functions
 
-@client.command(pass_context=True, aliases=["помощь", "Help", "help"]) # Команда Помощь работает также с...
+@client.command(aliases=["помощь", "Help", "help"]) # Команда Помощь работает также с...
 async def Помощь(ctx): # Создает команду
     embed = discord.Embed(title="Все команды **Енот Бот**", description="", color=orange) # Создает красивый вывод с заголовком title и цветом green 
     embed.add_field(name=f'**{botconfig.PREFIX_COMMAND}Сервер**', value="Информация о сервере.", inline=False) # Создает строку
@@ -95,7 +94,7 @@ async def Помощь(ctx): # Создает команду
     embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.send(embed=embed, delete_after=300) # 
 
-@client.command(pass_context=True, aliases = ["предложение", "Sentence", "Предложение"]) # Команда sentence работает также с...
+@client.command(aliases = ["предложение", "Sentence", "Предложение"]) # Команда sentence работает также с...
 async def sentence(ctx, *, arg): # Создает команду
     author = ctx.message.author # Инициализирует автора
     channel_log = client.get_channel(botconfig.channel_log) # Лог чат
@@ -104,7 +103,7 @@ async def sentence(ctx, *, arg): # Создает команду
     await ctx.send(embed=discord.Embed(description=f'{author.name}, спасибо за вашу идею.', color=orange), delete_after=30) # Отправляет сообщение в чат
     await channel_log.send(embed=discord.Embed(description=f'Пользователь {author} преложил идею: \n``{arg}``', color=orange)) # отправляет сообение в лог чат
 
-@client.command(pass_context=True, aliases = ["сервер", "серв", "server", "Server"]) # Информация о сервере рабоает также с командами...
+@client.command(aliases = ["сервер", "серв", "server", "Server"]) # Информация о сервере рабоает также с командами...
 async def Сервер(ctx):
     guild = ctx.guild
     embed = discord.Embed(title=f"Сервер: **{guild.name}**", description="**Енот Бот** был сделан специально для этого сервера.", color=orange) # Создает строку
@@ -116,38 +115,43 @@ async def Сервер(ctx):
     embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.send(embed=embed, delete_after=300) # Отправляет сообщение а потому удалит после 300 секунд
 
-@client.command(pass_context=True, aliases=["айпи", "ип", "Айпи", "Ип"]) # Команда ip работает также с...
+@client.command(aliases=["айпи", "ип", "Айпи", "Ип"]) # Команда ip работает также с...
 async def ip(ctx): # Создает команду
-    embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=orange) # 
-    embed.add_field(name="IP и версия", value=f"IP - {botconfig.server_ip}\nВерсия - {botconfig.server_version}", inline=True) # 
-    embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
+    channel_msg = ctx.message.channel
+    channel_black = client.get_channel(botconfig.black_list_channel)
+    if channel_msg not in channel_black;
+        embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=orange) # 
+        embed.add_field(name="IP и версия", value=f"IP - {botconfig.server_ip}\nВерсия - {botconfig.server_version}", inline=True) # 
+        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.author.send(embed=embed) # 
+    else:
+        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=orange))
 
-@client.command(pass_context=True, aliases=["донат", "Донат", "Donate"]) # 
+@client.command(aliases=["донат", "Донат", "Donate"]) # 
 async def donate(ctx): # Создает команду
     embed = discord.Embed(title="**Реквизиты**", description="Места куда можно скинуть денюжку.", color=orange) # 
     embed.add_field(name="**Реквизиты**", value=f"QIWI - {botconfig.donate_qiwi}\nWebMoney - {botconfig.donate_webmoney}", inline=True) # 
     embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.author.send(embed=embed) # 
     
-@client.command(pass_context=True, aliases = ["кот", "мешок"]) # 
+@client.command(aliases = ["кот", "мешок"]) # 
 async def cat(ctx): # Создает команду
     r_cat_gif = choice(botconfig.cat_gif) # 
     await ctx.send(r_cat_gif, delete_after=43200) # 
 
-@client.command(pass_context=True, aliases = ["версия", "Версия", "Ver"]) # 
+@client.command(aliases = ["версия", "Версия", "Ver"]) # 
 async def ver(ctx): # Создает команду
     embed = discord.Embed(title="**Версия бота**", color=orange) # 
     embed.add_field(name="**Последняя версия**", value=f"Версия - {botconfig.version}", inline=True) # 
     embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
     await ctx.send(embed=embed, delete_after=300) # 
 
-@client.command(pass_context=True, aliases = ["ball", "Ball", "Шар"]) # 
+@client.command(aliases = ["ball", "Ball", "Шар"]) # 
 async def шар(ctx): # Создает команду
     r_ball = choice(botconfig.ball) # 
     await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
-@client.command(pass_context=True) # 
+@client.command() # 
 async def add_event(ctx, arg1, amount=1): # Создает команду
     await ctx.channel.purge(limit = amount)
     author = ctx.message.author
@@ -164,7 +168,7 @@ async def add_event(ctx, arg1, amount=1): # Создает команду
         else:
             await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже есть в списке участников ивента.', color=red), delete_after=300)
 
-@client.command(pass_context=True) # 
+@client.command() # 
 @commands.has_permissions(administrator=True) # 
 async def list_event(ctx, amount=1): # Создает команду
     await ctx.channel.purge(limit=amount)
@@ -175,7 +179,7 @@ async def list_event(ctx, amount=1): # Создает команду
     await ctx.send(embed=discord.Embed(description=f'В списке участников находиться {player_event_list} участник(ков) ивента!', color=orange), delete_after=300)
     await author.send(embed=discord.Embed(description=f'Вот список игроков на ивент: {event_list}'))
 
-@client.command(pass_context=True, aliases = ["розыгрыш"]) # 
+@client.command(aliases = ["розыгрыш"]) # 
 async def Розыгрыш(ctx): # Создает команду
     author = ctx.message.authorv
     for x in [raffle]: # 
@@ -190,7 +194,7 @@ async def Розыгрыш(ctx): # Создает команду
         else:
             await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже есть в списке участников розыгрыша!', color=red)) # 
 
-@client.command(pass_context=True) # 
+@client.command() # 
 @commands.has_permissions(administrator=True) # 
 async def start_raffle(ctx, amount=1): # Создает команду
     await ctx.channel.purge(limit=amount)
@@ -205,7 +209,7 @@ async def start_raffle(ctx, amount=1): # Создает команду
     await ctx.send(embed=embed, delete_after=300)
     await author.send(f'Победитель {raffle[random_raffle]}')
 
-@client.command(pass_context=True, aliases = ["код", "Код", "Code"]) # 
+@client.command(aliases = ["код", "Код", "Code"]) # 
 async def code(ctx, arg1, amount=1): # Создает команду
     await ctx.channel.purge(limit=amount) # 
     author = ctx.message.author
@@ -223,7 +227,7 @@ async def code(ctx, arg1, amount=1): # Создает команду
         await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=red), delete_after=300)
 
 
-@client.command(pass_context=True)
+@client.command()
 @commands.has_permissions(administrator=True)
 async def clear(ctx, amount: int):
     author = ctx.message.author
@@ -235,14 +239,13 @@ async def clear(ctx, amount: int):
 
 # Request Accept and Refuse(Отказать)
 
-@client.command(pass_context=True, aliases = ["request", "Заявка", "заявка"])
+@client.command(aliases = ["request", "Заявка", "заявка"])
 async def Request(ctx, *, arg):
     author = ctx.message.author
     channel = ctx.message.channel
     channel_white = client.get_channel(botconfig.channel_request_white)
     channel_admin = client.get_channel(botconfig.channel_admin)
-    if channel == channe
-        request_stop.append(author)
+    if channel == channel_white:
         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
         embed = discord.Embed(title='Новая заявка!', color=orange)
         embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
@@ -258,42 +261,38 @@ async def Request(ctx, *, arg):
 
     print("End")
 
-@client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
+@client.command(aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
 async def Accept(ctx, member: discord.Member):
-    channel_msg = ctx.message.channel
-    channel_black = client.get_channel(botconfig.black_list_channel)
-    if channel_msg not in channel_black;
-        role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
-        role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
-        channel = client.get_channel(botconfig.channel_start_bot_message) 
-        print(f'Принят {member}')
-        await member.add_roles(role_add)
-        await member.remove_roles(role_rem)
-        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
-        f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
-        await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
-    else:
-        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=orange))
+    role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
+    role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
+    channel = client.get_channel(botconfig.channel_start_bot_message) 
+    print(f'Принят {member}')
+    await member.add_roles(role_add)
+    await member.remove_roles(role_rem)
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{botconfig.PREFIX_COMMAND}{botconfig.help_private_message_onejoin}`` в любой доступный чат, '
+    f'а если нужна версия и IP-Адрес сервера напиши ``{botconfig.PREFIX_COMMAND}{botconfig.ip_private_message_onejoin}``', color=orange)) # Пишет новому пользователю в лс
+    await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
 
-@client.command(pass_context=True, aliases = ["denny", "Отказать", "отказать"])
+@client.command(aliases = ["denny", "Отказать", "отказать"])
 @commands.has_permissions(manage_roles=True)
 async def Denny(ctx, member: discord.Member):
-    if author not in r:
-        pass  
-    else:
-        print(f'Отказано {member}')
-        r.remove(author)
-        print(f'Base: {[request_stop]}\nNew {r}')
-        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
+    for r in [request_stop]:
+        if author not in r:
+            print("Next")
+        else:
+            print(f'Отказано {member}')
+            r.remove(author)
+            print(f'Base: {[request_stop]}\nNew {r}')
+            await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
 
-@client.command(pass_context=True, aliases = ["заявка_помощь", "Request_help", "request_help"])
+@client.command(aliases = ["заявка_помощь", "Request_help", "request_help"])
 async def Заявка_помощь(ctx):
     author = ctx.message.author
     channel = client.get_channel(botconfig.channel_request)
     await ctx.send(f'{author.mention}, заявку можна найти в {channel.mention}!', delete_after=120)
 
-@client.command(pass_context=True)
+@client.command()
 async def testing(ctx):
     author = ctx.message.author
     role = utils.get(ctx.message.guild.members, id=author.user_id) # получаем объект пользователя который поставил реакцию
