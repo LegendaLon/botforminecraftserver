@@ -5,7 +5,7 @@ PREFIX_COMMAND = '.' # Префикс для команды
 
 # First Start
 BOT_STATUS = [
-	"Тестовый режим", "Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
+	"Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
 ]
 channel_start_bot_message = 672163621299552349
 

@@ -280,9 +280,8 @@ async def Denny(ctx, member: discord.Member):
     if channel == channel_white:
         for r in [request_stop]:
         if author not in r:
-            print("Next")
+            pass
         else:
-            print(f'Отказано {member}')
             r.remove(author)
             print(f'Base: {[request_stop]}\nNew {r}')
             await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
