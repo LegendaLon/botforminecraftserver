@@ -233,26 +233,17 @@ async def Request(ctx, *, arg):
     channel_white = client.get_channel(botconfig.channel_request_white)
     channel_admin = client.get_channel(botconfig.channel_admin)
     if channel == channel_white:
-        for rs in [request_stop]:
-            if author not in rs:
-                request_stop.append(author)
-                await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
-                embed = discord.Embed(title='Новая заявка!', color=orange)
-                embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
-                embed.add_field(name='Вот заявка', value=f'``{arg}``', inline=False)
-                embed.add_field(name='Принять', value=f'Чтоб принять заявку напишите: ``{botconfig.PREFIX_COMMAND}принять [Упоминание участника]`` в #заявка', inline=True )
-                embed.add_field(name='Отказать', value=f'Чтоб отказать заявку напишите: ``{botconfig.PREFIX_COMMAND}отказать [Упоминание участника]`` в #заявка', inline=True )
-                embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
-
-                await channel_admin.send(embed=embed) # В модераторскую
-            else:
-                print("Stop, second request")
-                await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже подавали заявку подождите пока ее примут!', color=red), delete_after=60) 
+        await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
+        embed = discord.Embed(title='Новая заявка!', color=orange)
+        embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
+        embed.add_field(name='Вот заявка', value=f'``{arg}``', inline=False)
+        embed.add_field(name='Принять', value=f'Чтоб принять заявку напишите: ``{botconfig.PREFIX_COMMAND}принять [Упоминание участника]`` в #заявка', inline=True )
+        embed.add_field(name='Отказать', value=f'Чтоб отказать заявку напишите: ``{botconfig.PREFIX_COMMAND}отказать [Упоминание участника]`` в #заявка', inline=True )
+        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщени
+        await channel_admin.send(embed=embed) # В модераторскую
     else:
         print("Stop no channel")
         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявку нельзя писать в этот чат!', color=red), delete_after=60) 
-
-    print("End")
 
 @client.command(pass_context=True, aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
@@ -270,14 +261,8 @@ async def Accept(ctx, member: discord.Member):
 @client.command(pass_context=True, aliases = ["denny", "Отказать", "отказать"])
 @commands.has_permissions(manage_roles=True)
 async def Denny(ctx, member: discord.Member):
-    for r in [request_stop]:
-        if author not in r:
-            print("Next")
-        else:
-            print(f'Отказано {member}')
-            r.remove(author)
-            print(f'Base: {[request_stop]}\nNew {r}')
-            await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
+    print(f'Отказано {member}')
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
 
 @client.command(pass_context=True, aliases = ["заявка_помощь", "Request_help", "request_help"])
 async def Заявка_помощь(ctx):
