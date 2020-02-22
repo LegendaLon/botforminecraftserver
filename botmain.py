@@ -250,7 +250,7 @@ async def Request(ctx, *, arg):
 async def Accept(ctx, member: discord.Member):
     role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
     role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
-    channel = client.get_channel(botconfig.channel_start_bot_message) 
+    channel = client.get_channel(botconfig.channel_message_join) 
     print(f'Принят {member}')
     await member.add_roles(role_add)
     await member.remove_roles(role_rem)
