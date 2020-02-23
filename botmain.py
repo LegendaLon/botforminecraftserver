@@ -54,14 +54,6 @@ async def on_member_join(member): # Когда заходит новый пол�
     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=orange)) # Пишет в чат сообщение
     await member.add_role(botconfig.roll_add)
 
- @client.event
-    async def on_message(message):
-        channel = message.channel
-        channel_ = client.get_channel() # Сюда id чата
-        if channel == channel_:
-            # Сюда код
-
-
 # client.command
 # Fun and test   No comments
 
