@@ -181,7 +181,7 @@ async def list_event(ctx, amount=1): # Создает команду
 
 @client.command(aliases = ["розыгрыш"]) # 
 async def Розыгрыш(ctx): # Создает команду
-    author = ctx.message.authorv
+    author = ctx.message.author
     for x in [raffle]: # 
         if author not in x: # 
             raffle.extend([author]) # 
@@ -226,17 +226,6 @@ async def code(ctx, arg1, amount=1): # Создает команду
     else:
         await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=red), delete_after=300)
 
-
-@client.command()
-@commands.has_permissions(administrator=True)
-async def clear(ctx, amount: int):
-    author = ctx.message.author
-    if amount <= 100:
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{author.name}, ✅ очищено {amount}', color=orange), delete_after=300)
-    elif amount >= 100:
-        await ctx.send(embed=discord.Embed(description=f'{author.name}, ❎ вы ввели слишком большое число!', color=red), delete_after=300) 
-
 # Request Accept and Refuse(Отказать)
 
 @client.command(aliases = ["request", "Заявка", "заявка"])
@@ -256,10 +245,7 @@ async def Request(ctx, *, arg):
 
         await channel_admin.send(embed=embed) # В модераторскую
     else:
-        print("Stop no channel")
         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявку нельзя писать в этот чат!', color=red), delete_after=60) 
-
-    print("End")
 
 @client.command(aliases = ["accept", "Принять", "принять"])
 @commands.has_permissions(manage_roles=True)
@@ -277,27 +263,13 @@ async def Accept(ctx, member: discord.Member):
 @client.command(aliases = ["denny", "Отказать", "отказать"])
 @commands.has_permissions(manage_roles=True)
 async def Denny(ctx, member: discord.Member):
-    for r in [request_stop]:
-        if author not in r:
-            print("Next")
-        else:
-            print(f'Отказано {member}')
-            r.remove(author)
-            print(f'Base: {[request_stop]}\nNew {r}')
-            await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
+    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
 
 @client.command(aliases = ["заявка_помощь", "Request_help", "request_help"])
 async def Заявка_помощь(ctx):
     author = ctx.message.author
     channel = client.get_channel(botconfig.channel_request)
     await ctx.send(f'{author.mention}, заявку можна найти в {channel.mention}!', delete_after=120)
-
-@client.command()
-async def testing(ctx):
-    author = ctx.message.author
-    role = utils.get(ctx.message.guild.members, id=author.user_id) # получаем объект пользователя который поставил реакцию
-    print(role)
-
 
 # Error
 
