@@ -111,7 +111,7 @@ async def Сервер(ctx):
 async def ip(ctx): # Создает команду
     channel_msg = ctx.message.channel
     channel_black = client.get_channel(botconfig.black_list_channel)
-    if channel_msg not in channel_black;
+    if channel_msg not in channel_black:
         embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=orange) # 
         embed.add_field(name="IP и версия", value=f"IP - {botconfig.server_ip}\nВерсия - {botconfig.server_version}", inline=True) # 
         embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
