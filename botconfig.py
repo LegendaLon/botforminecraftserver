@@ -46,5 +46,5 @@ ip_private_message_onejoin = 'ip'
 help_private_message_onejoin = 'Помощь'
 
 # ver
-version = "Основная 1.2.6.0" # 1.1.6.0
+version = "Основная 1.2.1.0" # 1.1.6.0
 BOT_AUTHOR = "Lonely_#1572"
