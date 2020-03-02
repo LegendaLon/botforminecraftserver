@@ -49,7 +49,7 @@ class CommandCode(commands.Cog):
 	async def code(self, ctx, arg1, amount=1): # Создает команду
 		await ctx.channel.purge(limit=amount) # 
 		author = ctx.message.author
-		bot_author = client.get_user(518766156790890496)
+		bot_author = self.client.get_user(518766156790890496)
 		if arg1 == botconfig.code1:
 			for x in [code_stop]:
 				if author not in x:
@@ -68,12 +68,12 @@ class CommandMiniGame(commands.Cog):
 
 	@commands.command(aliases = ["кот", "мешок"]) # 
 	async def cat(self, ctx): # Создает команду
-		r_cat_gif = choice(botconfig.cat_gif) # 
+		r_cat_gif = choice(cat_gif) # 
 		await ctx.send(r_cat_gif, delete_after=43200) # 
 
 	@commands.command(aliases = ["ball", "Ball", "Шар"]) # 
 	async def шар(self, ctx): # Создает команду
-		r_ball = choice(botconfig.ball) # 
+		r_ball = choice(ball) # 
 		await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
 class CommandRPS(commands.Cog):

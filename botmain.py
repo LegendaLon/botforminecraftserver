@@ -24,17 +24,17 @@ client = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Префикс 
 client.remove_command('help') # Удаляет команду help
 
 # Error
-@add_event.error
-async def add_event_error(ctx, error, amount = 1):
-    if isinstance(error, commands.errors.MissingRequiredArgument):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не ввели свой ник!! ``.add_event [Ваш ник]``', color=red), delete_after=60)
+# @add_event.error
+# async def add_event_error(ctx, error, amount = 1):
+#     if isinstance(error, commands.errors.MissingRequiredArgument):
+#         await ctx.channel.purge(limit=amount)
+#         await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не ввели свой ник!! ``.add_event [Ваш ник]``', color=red), delete_after=60)
 
-@list_event.error
-async def list_event_error(ctx, error, amount = 1):
-    if isinstance(error, commands.errors.MissingPermissions):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
+# @list_event.error
+# async def list_event_error(ctx, error, amount = 1):
+#     if isinstance(error, commands.errors.MissingPermissions):
+#         await ctx.channel.purge(limit=amount)
+#         await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
 
 """ Join Cogs """
 # client.load_extension('cogs.EventGiveRoles') # Выдача ролей
@@ -43,6 +43,6 @@ client.load_extension('cogs.CommandHelp') # Команды помощи
 client.load_extension('cogs.CommandGame') # Игровые команды
 client.load_extension('cogs.CommandUser') # Пользовательские команды
 
-""" RUN """    
+""" RUN """  
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))

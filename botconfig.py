@@ -33,6 +33,11 @@ cat_gif = [
     "https://i.gifer.com/ZHbd.gif", "https://i.gifer.com/5v1Y.gif", "https://i.gifer.com/2CR.gif", "https://i.gifer.com/ZUyt.gif",
 ]
 
+# Color
+green = 0x00ff00 # color green for start
+red = 0xff0000 # color red for error 
+orange = 0xff8000 # color orange for custom
+
 # ip
 server_ip = '188.246.224.82:25700'
 server_version = '1.14.4'

@@ -10,7 +10,7 @@ class CommandSentence(commands.Cog):
 	@commands.command(aliases = ["предложение", "Sentence", "Предложение"])
 	async def sentence(self, ctx, *, arg): # Создает команду
 		author = ctx.message.author # Инициализирует автора
-		channel_log = client.get_channel(channel_log) # Лог чат
+		channel_log = self.client.get_channel(channel_log) # Лог чат
 		await ctx.message.add_reaction('✅') # Добавляет лайк
 		await ctx.message.add_reaction('❎') # Добавляет дизлайк
 		await ctx.send(embed=discord.Embed(description=f'{author.name}, спасибо за вашу идею.', color=orange), delete_after=30) # Отправляет сообщение в чат
@@ -34,7 +34,7 @@ class CommandBots(commands.Cog):
 
 	@commands.command(aliases=['bots', 'Бот', 'бот'])
 	async def Bots(self, ctx):
-		await ctx.send(f'Bots is {self.user}')
+		await ctx.send(f'Bots is {self.client.user}')
 
 def setup(client):
 	client.add_cog(CommandSentence(client)) # 6

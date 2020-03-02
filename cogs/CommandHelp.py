@@ -39,18 +39,18 @@ class CommandHelp(commands.Cog):
 	@commands.command(aliases=["донат", "Донат", "Donate"])
 	async def donate(ctx):
 	    embed = discord.Embed(title="**Реквизиты**", description="Места куда можно скинуть денюжку.", color=orange)
-	    embed.add_field(name="**Реквизиты**", value=f"QIWI - {botconfig.donate_qiwi}\nWebMoney - {botconfig.donate_webmoney}", inline=True) # 
-	    embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
+	    embed.add_field(name="**Реквизиты**", value=f"QIWI - {donate_qiwi}\nWebMoney - {donate_webmoney}", inline=True) # 
+	    embed.set_footer(text=f"Все права на бота пренадлежат: {BOT_AUTHOR}") # Подвал сообщения
 	    await ctx.author.send(embed=embed)
-	    
+
 	@commands.command(aliases=["айпи", "ип", "Айпи", "Ип"]) # Команда ip работает также с...
 	async def ip(ctx): # Создает команду
 	    channel_msg = ctx.message.channel
-	    channel_black = client.get_channel(botconfig.black_list_channel)
+	    channel_black = self.client.get_channel(black_list_channel)
 	    if channel_msg not in channel_black:
 	        embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=orange) # 
-	        embed.add_field(name="IP и версия", value=f"IP - {botconfig.server_ip}\nВерсия - {botconfig.server_version}", inline=True) # 
-	        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения
+	        embed.add_field(name="IP и версия", value=f"IP - {server_ip}\nВерсия - {server_version}", inline=True) # 
+	        embed.set_footer(text=f"Все права на бота пренадлежат: {BOT_AUTHOR}") # Подвал сообщения
 	        await ctx.author.send(embed=embed) # 
 	    else:
 	        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=orange))
