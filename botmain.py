@@ -322,12 +322,6 @@ async def list_event_error(ctx, error, amount = 1):
         await ctx.channel.purge(limit=amount)
         await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
 
-@Request.error
-async def Request_error(ctx, error, amount = 1):
-    if isinstance(error, commands.errors.MissingRequiredArgument):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не написали заявку!! Чтобы узнать вопросы заявки напишите ``.заявка_помощь``', color=red), delete_after=60)
-
 # RUN
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))
