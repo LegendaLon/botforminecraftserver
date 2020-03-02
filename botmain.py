@@ -23,7 +23,6 @@ client = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Префикс 
 
 client.remove_command('help') # Удаляет команду help
 
-<<<<<<< HEAD
 # Error
 # @add_event.error
 # async def add_event_error(ctx, error, amount = 1):
@@ -39,13 +38,12 @@ client.remove_command('help') # Удаляет команду help
 
 """ Join Cogs """
 # client.load_extension('cogs.EventGiveRoles') # Выдача ролей
-client.load_extension('cogs.EventGlobal') # Глобальные ивенты
-client.load_extension('cogs.CommandHelp') # Команды помощи
-client.load_extension('cogs.CommandGame') # Игровые команды
-client.load_extension('cogs.CommandUser') # Пользовательские команды
+# client.load_extension('cogs.EventGlobal') # Глобальные ивенты
+# client.load_extension('cogs.CommandHelp') # Команды помощи
+# client.load_extension('cogs.CommandGame') # Игровые команды
+# client.load_extension('cogs.CommandUser') # Пользовательские команды
 
 """ RUN """  
-=======
 # client.event
 
 @client.event
@@ -236,6 +234,37 @@ async def code(ctx, arg1, amount=1): # Создает команду
     else:
         await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=red), delete_after=300)
 
+@client.command(aliases = ["кнб"])
+async def rps(ctx, arg1):
+	author = ctx.message.author
+	x = random.randint(1, 3)
+	y = arg1
+
+	""" Lose """
+	if x == 1 and y == "ножници":
+		await ctx.send(f"{author.mention} вы выбрали ножнци, а бот - камень! Вы проиграли!")
+	if x == 2 and y == "бумага":
+		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - ножници! Вы проиграли!")
+	if x == 3 and y == "камень":
+		await ctx.send(f"{author.mention} вы выбрали камень, а бот - бумагу! Вы проиграли!")
+	
+	""" Won """
+	if x == 2 and y == "камень":
+		await ctx.send(f"{author.mention} вы выбрали камень, а бот - ножници! Вы выиграли! :tada: ")
+	if x == 3 and y == "ножницы":
+		await ctx.send(f"{author.mention} вы выбрали ножници, а бот - бумагу! Вы выиграли! :tada: ")
+	if x == 1 and y == "бумага":
+		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - камень! Вы выиграли! :tada: ")
+	
+	""" Draw """
+	if x == 1 and y == "камень":
+		await ctx.send(f"{author.mention} вы выбрали камень, а бот - камень! Ничья!")
+	if x == 2 and y == "ножницы":
+		await ctx.send(f"{author.mention} вы выбрали ножници, а бот - ножници! Ничья!")
+	if x == 3 and y == "бумага":
+		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
+
+
 # Request Accept and Refuse(Отказать)
 
 # @client.command(aliases = ["request", "Заявка", "заявка"])
@@ -299,26 +328,6 @@ async def Request_error(ctx, error, amount = 1):
         await ctx.channel.purge(limit=amount)
         await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не написали заявку!! Чтобы узнать вопросы заявки напишите ``.заявка_помощь``', color=red), delete_after=60)
 
-@Accept.error
-async def Accept_error(ctx, error, amount = 1):
-    if isinstance(error, commands.errors.MissingRequiredArgument):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не указали участника!! ``.принять [Упоминание участника]``', color=red), delete_after=60)
-    elif isinstance(error, commands.errors.MissingPermissions):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
-
-@Denny.error
-async def Denny_error(ctx, error, amount = 1):
-    if isinstance(error, commands.errors.MissingRequiredArgument):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, вы не указали участника!! ``.принять [Упоминание участника]``', color=red), delete_after=60)
-    elif isinstance(error, commands.errors.MissingPermissions):
-        await ctx.channel.purge(limit=amount)
-        await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
-
 # RUN
-    
->>>>>>> parent of 6c8fcf4... Update botmain.py
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))
