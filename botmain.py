@@ -241,26 +241,26 @@ async def rps(ctx, arg1):
 	y = arg1
 
 	""" Lose """
-	if x == 1 and y == "ножници":
+	if x == 1 and y == "ножницы":
 		await ctx.send(f"{author.mention} вы выбрали ножнци, а бот - камень! Вы проиграли!")
 	if x == 2 and y == "бумага":
-		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - ножници! Вы проиграли!")
+		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - ножницы! Вы проиграли!")
 	if x == 3 and y == "камень":
 		await ctx.send(f"{author.mention} вы выбрали камень, а бот - бумагу! Вы проиграли!")
 	
 	""" Won """
 	if x == 2 and y == "камень":
 		await ctx.send(f"{author.mention} вы выбрали камень, а бот - ножници! Вы выиграли! :tada: ")
-	if x == 3 and y == "ножници":
-		await ctx.send(f"{author.mention} вы выбрали ножници, а бот - бумагу! Вы выиграли! :tada: ")
+	if x == 3 and y == "ножницы":
+		await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - бумагу! Вы выиграли! :tada: ")
 	if x == 1 and y == "бумага":
 		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - камень! Вы выиграли! :tada: ")
 	
 	""" Draw """
 	if x == 1 and y == "камень":
 		await ctx.send(f"{author.mention} вы выбрали камень, а бот - камень! Ничья!")
-	if x == 2 and y == "ножници":
-		await ctx.send(f"{author.mention} вы выбрали ножници, а бот - ножници! Ничья!")
+	if x == 2 and y == "ножницы":
+		await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - ножницы! Ничья!")
 	if x == 3 and y == "бумага":
 		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
 
