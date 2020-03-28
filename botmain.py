@@ -256,5 +256,5 @@ async def list_event_error(ctx, error, amount = 1):
         await ctx.send(embed=discord.Embed(description=f'{ctx.author.name}, у вас нету прав чтоб использывать эту функцию!', color=red), delete_after=60)
 
 # RUN
-bot_token = 'NjcxMDExODk4NzE1NjY4NDgx.Xn-QgQ.qu9uP0SFCkP2BKeXoxby087x9hw'
-client.run(str(bot_token))
+token = os.environ.get('BOT_TOKEN')
+client.run(str(token))
