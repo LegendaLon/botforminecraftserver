@@ -264,52 +264,6 @@ async def rps(ctx, arg1):
 	if x == 3 and y == "бумага":
 		await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
 
-
-# Request Accept and Refuse(Отказать)
-
-# @client.command(aliases = ["request", "Заявка", "заявка"])
-# async def Request(ctx, *, arg):
-#    author = ctx.message.author
-#    channel = ctx.message.channel
-#    channel_white = client.get_channel(botconfig.channel_request_white)
-#    channel_admin = client.get_channel(botconfig.channel_admin)
-#    if channel == channel_white:
-#        await ctx.send(embed=discord.Embed(description=f'{author.name}, заявка принята, ожидайте!', color=orange), delete_after=60)
-#        embed = discord.Embed(title='Новая заявка!', color=orange)
-#        embed.add_field(name='Автор:', value=f'Заявку написал {author}.', inline=False)
-#        embed.add_field(name='Вот заявка', value=f'``{arg}``', inline=False)
-#        embed.add_field(name='Принять', value=f'Чтоб принять заявку напишите: ``{botconfig.PREFIX_COMMAND}принять [Упоминание участника]`` в #заявка', inline=True )
-#        embed.add_field(name='Отказать', value=f'Чтоб отказать заявку напишите: ``{botconfig.PREFIX_COMMAND}отказать [Упоминание участника]`` в #заявка', inline=True )
-#        embed.set_footer(text=f"Все права на бота пренадлежат: {botconfig.BOT_AUTHOR}") # Подвал сообщения#
-# 
-#         await channel_admin.send(embed=embed) # В модераторскую
-#     else:
-#         await ctx.send(embed=discord.Embed(description=f'{author.name}, заявку нельзя писать в этот чат!', color=red), delete_after=60) 
-# 
-# @client.command(aliases = ["accept", "Принять", "принять"])
-# @commands.has_permissions(manage_roles=True)
-# async def Accept(ctx, member: discord.Member):
-#     role_add = utils.get(member.guild.roles, id=botconfig.roll_add_accept)
-#     role_rem = utils.get(member.guild.roles, id=botconfig.roll_add)
-#     channel = client.get_channel(botconfig.channel_start_bot_message) 
-#     print(f'Принят {member}')
-#     await member.add_roles(role_add)
-#     await member.remove_roles(role_rem)
-#     await channel.send(embed=discord.Embed(description=f'{member.name}, был принят! :tada: :tada:', color=orange))
-# 
-#@client.command(aliases = ["denny", "Отказать", "отказать"])
-#@commands.has_permissions(manage_roles=True)
-#async def Denny(ctx, member: discord.Member):
-#    await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя не приняли :frowning2: :frowning2: , попробуй ещё ', color=orange))
-#
-#@client.command(aliases = ["заявка_помощь", "Request_help", "request_help"])
-#async def Заявка_помощь(ctx):
-#    author = ctx.message.author
-#    channel = client.get_channel(botconfig.channel_request)
-#    await ctx.send(f'{author.mention}, заявку можна найти в {channel.mention}!', delete_after=120)
-
-# Error
-
 @add_event.error
 async def add_event_error(ctx, error, amount = 1):
     if isinstance(error, commands.errors.MissingRequiredArgument):
@@ -324,4 +278,5 @@ async def list_event_error(ctx, error, amount = 1):
 
 # RUN
 token = os.environ.get('BOT_TOKEN')
+token = 'NjcxMDExODk4NzE1NjY4NDgx.XnqqyA.Tm3he2uvhfKUgz4vsGuw1YPwcuM'
 client.run(str(token))
