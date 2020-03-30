@@ -1,7 +1,7 @@
 #Конфигурация для тестов.
 
 # Setting
-PREFIX_COMMAND = '.' # Префикс для команды
+PREFIX_COMMAND = '!!' # Префикс для команды
 
 # First Start
 BOT_STATUS = [
