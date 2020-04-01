@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from ..botconfig import *
+import botconfig
 
 class GiveRoles(commands.Cog):
 	def __init__(self, client):

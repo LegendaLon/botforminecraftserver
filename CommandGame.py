@@ -2,7 +2,7 @@ from discord.ext import commands
 import botconfig
 import random
 
-from ..botconfig import *
+import botconfig
 
 raffle = []
 code_stop = []
