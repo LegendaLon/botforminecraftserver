@@ -15,7 +15,7 @@ class Event(commands.Cog):
         activity = activity = discord.Game(name=status) # Задает статус
         await self.client.change_presence(status=discord.Status.idle, activity=activity) # Применяет статус
         print("Ready? Gooo!") # Пишет сообщение в консоль что бот запущен
-        await channel.send("It's start hosting", delete_after=180) # Отправляет сообщение а потому удалит после 180 секунд
+        await channel.send("It's start hosting") # Отправляет сообщение а потому удалит после 180 секунд
 
     @commands.Cog.listener()
     async def on_member_join(self, member): # Когда заходит новый пользователь
