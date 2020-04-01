@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from botforminecraftserver.botconfig import *
+from ..botconfig import *
 
 class CommandSentence(commands.Cog):
 	def __init__(self, client):
