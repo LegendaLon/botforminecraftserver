@@ -1,13 +1,14 @@
+import discord
 from discord.ext import commands
-import botconfig
-from random import choice
 
-import botconfig
+from random import randint, choice
+
+from botforminecraftserver import botconfig
 
 raffle = []
 code_stop = []
 
-class CommandRaffle(commands.Cog):
+class Raffle(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -32,7 +33,7 @@ class CommandRaffle(commands.Cog):
 		await ctx.channel.purge(limit=amount)
 		author = ctx.message.author
 		len_raffle = len(raffle)
-		random_raffle = random.randint(1,len_raffle)
+		random_raffle = randint(1, len_raffle)
 		embed = discord.Embed(title='Розыгрыш!', color=botconfig.orange)
 		embed.add_field(name='Победитель',value='Сейчас решиться кто станет победителем!',inline=True)
 		embed.add_field(name='Нечего не подкручено!', value='Все решает бот!!')
@@ -41,7 +42,7 @@ class CommandRaffle(commands.Cog):
 		await ctx.send(embed=embed, delete_after=300)
 		await author.send(f'Победитель {raffle[random_raffle]}')
 
-class CommandCode(commands.Cog):
+class Codes(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -62,7 +63,7 @@ class CommandCode(commands.Cog):
 		else:
 			await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=botconfig.red), delete_after=300)
 
-class CommandMiniGame(commands.Cog):
+class MiniGame(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -73,17 +74,17 @@ class CommandMiniGame(commands.Cog):
 
 	@commands.command(aliases = ["ball", "Ball", "Шар"]) # 
 	async def шар(self, ctx): # Создает команду
-		r_ball = choice(botconfig.ball) # 
-		await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=botconfig.orange)) # 
+		r_ball = choice(botconfig.ball)
+		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=botconfig.orange)) # 
 
-class CommandRPS(commands.Cog):
+class RPS(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
 	@commands.command(aliases = ["кнб"])
 	async def rps(self, ctx, arg1):
 		author = ctx.message.author
-		x = random.randint(1, 3)
+		x = randint(1, 3)
 		y = arg1
 
 		""" Lose """
@@ -120,7 +121,7 @@ class CommandRPS(commands.Cog):
 			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
 
 def setup(client):
-	client.add_cog(CommandRaffle(client))
-	client.add_cog(CommandCode(client))
-	client.add_cog(CommandMiniGame(client))
-	client.add_cog(CommandRPS(client))
+	client.add_cog(Raffle(client))
+	client.add_cog(Codes(client))
+	client.add_cog(MiniGame(client))
+	client.add_cog(RPS(client))

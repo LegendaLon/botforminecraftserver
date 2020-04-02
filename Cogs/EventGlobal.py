@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from random import choice
-import botconfig
+from botforminecraftserver import botconfig
 
 class Event(commands.Cog):
     def __init__(self, client):

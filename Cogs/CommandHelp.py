@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-import botconfig
+from botforminecraftserver import botconfig
 
 class CommandHelp(commands.Cog):
 	def __init__(self, client):
