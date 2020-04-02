@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from random import randint, choice
 
-from botforminecraftserver import botconfig
+import botconfig
 
 raffle = []
 code_stop = []

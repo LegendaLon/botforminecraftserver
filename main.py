@@ -1,19 +1,9 @@
 """ Importing Module"""
 import discord
-from discord.ext import commands
-from discord import utils
 
 import os, sys
-import random
-from random import choice
-import asyncio
 
 import botconfig
-
-""" Constans """
-
-""" Structure """
-sys.path.append('../')
 
 """ Setting """
 client = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Префикс для команд 
