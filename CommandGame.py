@@ -36,13 +36,9 @@ class Raffle(commands.Cog):
 		await ctx.channel.purge(limit=amount)
 		author = ctx.message.author
 		len_raffle = len(raffle)
-
 		random_raffle = randint(1, len_raffle)
 		embed = discord.Embed(title='Розыгрыш!', color=botconfig.orange)
-
 		random_raffle = random.randint(1,len_raffle)
-		embed = discord.Embed(title='Розыгрыш!', color=orange)
-		parent of c1d2f26... 12
 		embed.add_field(name='Победитель',value='Сейчас решиться кто станет победителем!',inline=True)
 		embed.add_field(name='Нечего не подкручено!', value='Все решает бот!!')
 		embed.add_field(name='Победитель...', value=f'Иии.. Это - {raffle[random_raffle]}')
@@ -84,9 +80,6 @@ class MiniGame(commands.Cog):
 	async def шар(self, ctx): # Создает команду
 		r_ball = choice(botconfig.ball)
 		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=botconfig.orange)) # 
-
-		r_ball = choice(ball) # 
-		await ctx.send( embed = discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=orange)) # 
 
 class RPS(commands.Cog):
 	def __init__(self, client):
