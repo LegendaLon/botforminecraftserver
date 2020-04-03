@@ -37,7 +37,7 @@ class Start(commands.Cog):
         self.BotStatus.append(arg)
 
         await self.client.change_presence(activity=discord.Game(name=arg))
-        await ctx.send(f'{author.name}, статус бота был добавлен и применем! =D')
+        await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
         await ctx.send(f'Новый статус: **{arg}**')
 
     @commands.Cog.listener()
