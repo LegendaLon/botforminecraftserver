@@ -14,7 +14,7 @@ client.remove_command('help') # Удаляет команду help
 """ Cogs """
 module = ["BotSystem", "BotFun", "BotUser", "BotHelp"]
 for x in module:
-    print(x)
+    print(f"Модуль загружен: {x}")
     client.load_extension(str(x))
 
 # RUN

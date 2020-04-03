@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+from main import module
+
 from random import choice
 import config
 
@@ -19,8 +21,12 @@ class Start(commands.Cog):
         activity = discord.Game(name=status)
         await self.client.change_presence(status=discord.Status.online, activity=activity)
         # запуск
-        print("Ready? Gooo!")
-        await channel.send("It's start hosting")
+        print("===============================================")
+        print("|              Бот запущен успешно            |")
+        print("|               Рабочие модули:               |")
+        print(module)
+        print("===============================================")
+        await channel.send("Bot is start")
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
     async def status(self, ctx):
@@ -47,10 +53,6 @@ class Start(commands.Cog):
         await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange)) # Пишет в чат сообщение
         await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{config.PREFIX_COMMAND}{config.help_private_message_onejoin}`` в любой доступный чат, '
         f'а если нужна версия и IP-Адрес сервера напиши ``{config.PREFIX_COMMAND}{config.ip_private_message_onejoin}``', color=config.orange)) # Пишет новому пользователю в лс
-
-class Info(commands.Cog):
-    def __init__(self, client):
-        self.client = client
 
 class GiveRoles(commands.Cog):
     def __init__(self, client):
@@ -85,4 +87,3 @@ class GiveRoles(commands.Cog):
 
 def setup(client):
     client.add_cog(Start(client))
-    client.add_cog(Info(client))

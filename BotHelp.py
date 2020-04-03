@@ -1,9 +1,11 @@
 import discord
 from discord.ext import commands
 
+from main import module
+
 import config
 
-class CommandHelp(commands.Cog):
+class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -56,5 +58,16 @@ class CommandHelp(commands.Cog):
 	    else:
 	        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=config.orange))
 
+class Info(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+
+    @commands.command(aliases = ["Module", "Модули", "модули"])
+    async def module(self, ctx):
+    	author = ctx.message.author
+    	await ctx.send(f'{author}, все модули которые бот использует: ``{module}``')
+
+
 def setup(client):
-	client.add_cog(CommandHelp(client))
+	client.add_cog(Help(client))
+	client.add_cog(Info(client))
