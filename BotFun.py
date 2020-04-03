@@ -92,14 +92,14 @@ class MiniGame(commands.Cog):
 	async def call(self, ctx, member:discord.Member):
 		author = ctx.message.author
 
-		Random1 = randint(0, 10)
-		Random2 = randint(0, 10)
+		Random1 = randint(1, 10)
+		Random2 = randint(1, 10)
 
 		if Random1 > Random2:
-			await ctx.send(f"{author.name} победил получив {Random1} балов! А {member.name} набрал {Random2}")
+			await ctx.send(f"{author.name} победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов")
 
 		elif Random1 < Random2:
-			await ctx.send(f"{member.name} победил получив {Random2} балов! А {author.name} набрал {Random1}")
+			await ctx.send(f"{member.name} победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов")
 
 class RPS(commands.Cog):
 	def __init__(self, client):

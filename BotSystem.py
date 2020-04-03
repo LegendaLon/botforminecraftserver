@@ -16,11 +16,18 @@ class Start(commands.Cog):
         channel = self.client.get_channel(config.channel_start_bot_message)
         # Статус
         status = choice(self.BotStatus)
-        activity = activity = discord.Game(name=status)
+        activity = discord.Game(name=status)
         await self.client.change_presence(status=discord.Status.online, activity=activity)
         # запуск
         print("Ready? Gooo!")
         await channel.send("It's start hosting")
+
+    @commands.command(aliases = ["Status", "Статус", "статус"])
+    async def status(self, ctx):
+        status = choice(self.BotStatus)
+        author = ctx.message.author
+        await self.client.change_presence(activity=discord.Game(name=status))
+        await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
