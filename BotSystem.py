@@ -28,6 +28,17 @@ class Start(commands.Cog):
         author = ctx.message.author
         await self.client.change_presence(activity=discord.Game(name=status))
         await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
+        await ctx.send(f'Новый статус: **{status}**')
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def statusadd(self, ctx, *, arg):
+        author = ctx.message.author
+        self.BotStatus.append(arg)
+
+        await self.client.change_presence(activity=discord.Game(name=arg))
+        await ctx.send(f'{author.name}, статус бота был добавлен и применем! =D')
+        await ctx.send(f'Новый статус: **{arg}**')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -36,6 +47,10 @@ class Start(commands.Cog):
         await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange)) # Пишет в чат сообщение
         await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{config.PREFIX_COMMAND}{config.help_private_message_onejoin}`` в любой доступный чат, '
         f'а если нужна версия и IP-Адрес сервера напиши ``{config.PREFIX_COMMAND}{config.ip_private_message_onejoin}``', color=config.orange)) # Пишет новому пользователю в лс
+
+class Info(commands.Cog):
+    def __init__(self, client):
+        self.client = client
 
 class GiveRoles(commands.Cog):
     def __init__(self, client):
@@ -70,3 +85,4 @@ class GiveRoles(commands.Cog):
 
 def setup(client):
     client.add_cog(Start(client))
+    client.add_cog(Info(client))
