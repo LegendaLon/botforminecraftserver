@@ -4,21 +4,20 @@ from discord.ext import commands
 
 import os, sys
 
-import botconfig
+import config
 
 """ Setting """
-client = commands.Bot(command_prefix=botconfig.PREFIX_COMMAND) # Префикс для команд 
+client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс для команд 
 
 client.remove_command('help') # Удаляет команду help
 
 """ Cogs """
-client.load_extension('EventGlobal')
-client.load_extension('CommandGame')
-client.load_extension('CommandUser')
-client.load_extension('CommandHelp')
+module = ["BotSystem", "BotFun", "BotUser", "BotHelp"]
+for x in module:
+    print(x)
+    client.load_extension(str(x))
 
 # RUN
 token = os.environ.get('BOT_TOKEN')
-
 
 client.run(str(token))
