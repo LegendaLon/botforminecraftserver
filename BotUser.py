@@ -8,11 +8,14 @@ class Sentence(commands.Cog):
 		self.client = client
 
 	@commands.command(aliases = ["предложение", "Sentence", "Предложение"])
-	async def sentence(self, ctx, *, arg): # Создает команду
-		author = ctx.message.author # Инициализирует автора
-		await ctx.message.add_reaction('✅') # Добавляет лайк
-		await ctx.message.add_reaction('❎') # Добавляет дизлайк
-		await ctx.send(embed=discord.Embed(description=f'{author.name}, спасибо за вашу идею.', color=config.orange), delete_after=30) # Отправляет сообщение в чат
+	async def sentence(self, ctx, *, arg=None): # Создает команду
+		if arg == None:
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, вы забыли написать текст.', color=config.orange), delete_after=30) # Отправляет сообщение в чат
+		else:
+			author = ctx.message.author # Инициализирует автора
+			await ctx.message.add_reaction('✅') # Добавляет лайк
+			await ctx.message.add_reaction('❎') # Добавляет дизлайк
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, спасибо за вашу идею.', color=config.orange), delete_after=30) # Отправляет сообщение в чат
 
 class User(commands.Cog):
 	def __init__(self, client):
