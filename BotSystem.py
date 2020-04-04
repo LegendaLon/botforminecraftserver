@@ -56,12 +56,15 @@ class Start(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def astatus(self, ctx, command=None, *, value=None):
         author = ctx.message.author
-        if command == 'add' or command == 'добавить':       
-            self.BotStatus.append(value)
+        if command == 'add' or command == 'добавить': 
+            if value == None:
+                await ctx.send(f'Вы не ввели статус.')
+            else:     
+                self.BotStatus.append(value)
 
-            await self.client.change_presence(activity=discord.Game(name=value))
-            await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
-            await ctx.send(f'Новый статус: **{value}**')
+                await self.client.change_presence(activity=discord.Game(name=value))
+                await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
+                await ctx.send(f'Новый статус: **{value}**')
         elif command == 'help' or command == 'помощь':
             await ctx.send(embed=discord.Embed(description=f'{author.name}, чтобы добавить статус: ``{config.PREFIX_COMMAND}astatus add [Статус]``'))
         elif command == None:
