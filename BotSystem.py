@@ -47,7 +47,7 @@ class Start(commands.Cog):
                 num += 1
 
         elif command == None:
-            await ctx.send(f'Нету команды')
+            await ctx.send(f'Введите команду')
 
         else:
             await ctx.send(f'Неизвесная команда')
@@ -62,6 +62,9 @@ class Start(commands.Cog):
             await self.client.change_presence(activity=discord.Game(name=value))
             await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
             await ctx.send(f'Новый статус: **{value}**')
+        elif command == None:
+            await ctx.send(f'Введите команду')
+
         else:
             await ctx.send(f'Неизвесная команда')
 
