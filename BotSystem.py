@@ -12,8 +12,6 @@ class Start(commands.Cog):
 
         self.BotStatus = config.BOT_STATUS
 
-        self.lists = []
-
     @commands.Cog.listener()
     async def on_ready(self):
         # Чат
@@ -40,11 +38,13 @@ class Start(commands.Cog):
             await ctx.send(f'Новый статус: **{status}**')
 
         elif command == "список":
-            await ctx.send(f'Все статусы бота')
             num = 1
+            embed = discord.Embed(title='**Все статусы бота:**', color=config.orange)
             for x in self.BotStatus:
-                await ctx.send(f"{num}. {x}")
+                embed.add_field(name=f'**Номер: {num}**',value=f'**{x}**',inline=False)
                 num += 1
+
+            await ctx.send(embed=embed)
 
         elif command == None:
             await ctx.send(f'Введите команду')
@@ -52,19 +52,20 @@ class Start(commands.Cog):
         else:
             await ctx.send(f'Неизвесная команда')
 
-    @commands.command()
+    @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
     @commands.has_permissions(administrator=True)
     async def astatus(self, ctx, command=None, *, value=None):
-        if command == "add":
-            author = ctx.message.author
+        author = ctx.message.author
+        if command == 'help':       
             self.BotStatus.append(value)
 
             await self.client.change_presence(activity=discord.Game(name=value))
             await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
             await ctx.send(f'Новый статус: **{value}**')
+        elif command == 'help':
+            await ctx.send(embed=discord.Embed(description=f'{author.name}, чтобы добавить статус: ``{config.PREFIX_COMMAND}astatus add [Статус]``'))
         elif command == None:
             await ctx.send(f'Введите команду')
-
         else:
             await ctx.send(f'Неизвесная команда')
 
