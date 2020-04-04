@@ -55,15 +55,15 @@ class Start(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def astatus(self, command=None, *, value=None):
-            if command == "add":
-                author = ctx.message.author
-                self.BotStatus.append(value)
+        if command == "add":
+            author = ctx.message.author
+            self.BotStatus.append(value)
 
-                await self.client.change_presence(activity=discord.Game(name=value))
-                await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
-                await ctx.send(f'Новый статус: **{value}**')
-            else:
-                await ctx.send(f'Неизвесная команда')
+            await self.client.change_presence(activity=discord.Game(name=value))
+            await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
+            await ctx.send(f'Новый статус: **{value}**')
+        else:
+            await ctx.send(f'Неизвесная команда')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
