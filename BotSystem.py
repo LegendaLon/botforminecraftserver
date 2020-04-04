@@ -44,11 +44,11 @@ class Start(commands.Cog):
     async def astatus(self, command, *, value):
             if command in "add":
                 author = ctx.message.author
-                self.BotStatus.append(arg)
+                self.BotStatus.append(value)
 
-                await self.client.change_presence(activity=discord.Game(name=arg))
+                await self.client.change_presence(activity=discord.Game(name=value))
                 await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
-                await ctx.send(f'Новый статус: **{arg}**')
+                await ctx.send(f'Новый статус: **{value}**')
             else:
                 await ctx.send(f'Неизвесная команда')
 
