@@ -46,18 +46,6 @@ class Help(commands.Cog):
 	    # embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
 	    # await ctx.author.send(embed=embed)
 
-	@commands.command(aliases=["айпи", "ип", "Айпи", "Ип"]) # Команда ip работает также с...
-	async def ip(ctx): # Создает команду
-	    channel_msg = ctx.message.channel
-	    channel_black = self.client.get_channel(black_list_channel)
-	    if channel_msg not in channel_black:
-	        embed = discord.Embed(title="**IP - адрес и версия**", description="Удачи тебе, некогда не опускай руки", color=config.orange) # 
-	        embed.add_field(name="IP и версия", value=f"IP - {config.server_ip}\nВерсия - {config.server_version}", inline=True) # 
-	        embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-	        await ctx.author.send(embed=embed) # 
-	    else:
-	        await channel.send(embed=discord.Embed(description=f'{member.name}, нельзя сюда вводить эту команду', color=config.orange))
-
 class Info(commands.Cog):
     def __init__(self, client):
         self.client = client

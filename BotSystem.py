@@ -29,22 +29,28 @@ class Start(commands.Cog):
         await channel.send("Bot is start")
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
-    async def status(self, ctx):
-        status = choice(self.BotStatus)
-        author = ctx.message.author
-        await self.client.change_presence(activity=discord.Game(name=status))
-        await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
-        await ctx.send(f'Новый статус: **{status}**')
+    async def status(self, ctx, command, *, value):
+        if command in "reload":
+            status = choice(self.BotStatus)
+            author = ctx.message.author
+            await self.client.change_presence(activity=discord.Game(name=status))
+            await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
+            await ctx.send(f'Новый статус: **{status}**')
+        else:
+                await ctx.send(f'Неизвесная команда')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def statusadd(self, ctx, *, arg):
-        author = ctx.message.author
-        self.BotStatus.append(arg)
+    async def astatus(self, command, *, value):
+            if command in "add":
+                author = ctx.message.author
+                self.BotStatus.append(arg)
 
-        await self.client.change_presence(activity=discord.Game(name=arg))
-        await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
-        await ctx.send(f'Новый статус: **{arg}**')
+                await self.client.change_presence(activity=discord.Game(name=arg))
+                await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
+                await ctx.send(f'Новый статус: **{arg}**')
+            else:
+                await ctx.send(f'Неизвесная команда')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
