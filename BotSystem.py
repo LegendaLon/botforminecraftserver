@@ -54,7 +54,7 @@ class Start(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def astatus(self, command=None, *, value=None):
+    async def astatus(self, ctx, command=None, *, value=None):
         if command == "add":
             author = ctx.message.author
             self.BotStatus.append(value)
