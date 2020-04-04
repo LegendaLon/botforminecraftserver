@@ -12,6 +12,8 @@ class Start(commands.Cog):
 
         self.BotStatus = config.BOT_STATUS
 
+        self.lists = []
+
     @commands.Cog.listener()
     async def on_ready(self):
         # Чат
@@ -29,20 +31,31 @@ class Start(commands.Cog):
         await channel.send("Bot is start")
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
-    async def status(self, ctx, command, *, value):
-        if command in "reload":
+    async def status(self, ctx, command=None, *, value=None):
+        if command == "reg":
             status = choice(self.BotStatus)
             author = ctx.message.author
             await self.client.change_presence(activity=discord.Game(name=status))
             await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
             await ctx.send(f'Новый статус: **{status}**')
+
+        elif command == "список":
+            await ctx.send(f'Все статусы бота')
+            num = 1
+            for x in self.BotStatus:
+                await ctx.send(f"{num}. {x}")
+                num += 1
+
+        elif command == None:
+            await ctx.send(f'Нету команды')
+
         else:
-                await ctx.send(f'Неизвесная команда')
+            await ctx.send(f'Неизвесная команда')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def astatus(self, command, *, value):
-            if command in "add":
+            if command == "add":
                 author = ctx.message.author
                 self.BotStatus.append(value)
 
