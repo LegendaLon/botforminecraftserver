@@ -118,7 +118,7 @@ class Food(commands.Cog):
 		if food == None:
 			await ctx.send(f'{author.name}, пожалуйста напишите что именно вы ходите дать!')
 		else:
-			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает {food} у {author.name} и молча уходит в свою команату =D', color=config.orange))
+			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает {food} у {author.name}, и молча уходит в свою комнату =D', color=config.orange))
 
 class RPS(commands.Cog):
 	def __init__(self, client):
