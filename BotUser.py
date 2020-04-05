@@ -38,6 +38,9 @@ class Bots(commands.Cog):
 		await ctx.send(f'Bots is {self.client.user.name}', delete_after=60)
 
 def setup(client):
-	client.add_cog(Sentence(client)) # 6
-	client.add_cog(User(client)) # 19
-	client.add_cog(Bots(client)) # 31
+	try:
+		client.add_cog(Sentence(client))
+		client.add_cog(User(client))
+		client.add_cog(Bots(client))
+	except Exception as e:
+		print(f'[ERROR] File BotUser.py not work because: "{e}"')

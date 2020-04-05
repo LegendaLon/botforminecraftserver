@@ -14,19 +14,12 @@ class Start(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        # Чат
-        channel = self.client.get_channel(config.channel_start_bot_message)
         # Статус
         status = choice(self.BotStatus)
         activity = discord.Game(name=status)
         await self.client.change_presence(status=discord.Status.online, activity=activity)
         # запуск
-        print("===============================================")
-        print("|              Бот запущен успешно            |")
-        print("|               Рабочие модули:               |")
-        print(module)
-        print("===============================================")
-        await channel.send("Bot is start")
+        print(f'[INFO] Бот запущен успешно. \n[INFO] Модули: {module}. \n[INFO] Количество загруженых модулей: {len(module)}')
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
     async def status(self, ctx, command=None, *, value=None):
@@ -77,8 +70,6 @@ class Start(commands.Cog):
         channel = self.client.get_channel(config.channel_message_join)
         print(f"{member.name}, присоединился к нам!")
         await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange)) # Пишет в чат сообщение
-        await member.send(embed=discord.Embed(description=f':wave: Привет {member.name} тебя приняли :tada: :tada: , чтобы знать все мои команды напиши ``{config.PREFIX_COMMAND}{config.help_private_message_onejoin}`` в любой доступный чат, '
-        f'а если нужна версия и IP-Адрес сервера напиши ``{config.PREFIX_COMMAND}{config.ip_private_message_onejoin}``', color=config.orange)) # Пишет новому пользователю в лс
 
 class GiveRoles(commands.Cog):
     def __init__(self, client):
@@ -112,4 +103,8 @@ class GiveRoles(commands.Cog):
             pass
 
 def setup(client):
-    client.add_cog(Start(client))
+    try:
+        client.add_cog(Start(client))
+    except Exception as e:
+        print(f'[ERROR] File BotSystem.py not work because: "{e}"')
+    

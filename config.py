@@ -6,8 +6,7 @@ PREFIX_COMMAND = '!!' # Префикс для команды
 # First Start
 BOT_STATUS = [
 	"Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
-]
-channel_start_bot_message = 672163621299552349
+] 
 
 # Log
 channel_log = 676366617940328449
@@ -36,20 +35,8 @@ cat_gif = [
 # Color
 green = 0x00ff00 # color green for start
 red = 0xff0000 # color red for error 
-orange = 0xff8000 # color orange for custom
-
-# ip
-server_ip = '188.246.224.82:25700'
-server_version = '1.14.4'
-
-# donate
-donate_qiwi = '+79162421415' # +79162421415
-donate_webmoney = 'None'
-
-# Join message
-ip_private_message_onejoin = 'ip'
-help_private_message_onejoin = 'Помощь'
+orange = 0xF37A01 # color orange for custom
 
 # ver
-version = "Основная 2.0" # 1.1.6.0
+version = "Основная 2.1"
 BOT_AUTHOR = "Lonely_#1572"

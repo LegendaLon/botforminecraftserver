@@ -5,9 +5,6 @@ from random import randint, choice
 
 import config
 
-raffle = []
-code_stop = []
-
 class Utils(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -22,12 +19,14 @@ class Raffle(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+		self.raffle = []
+
 	@commands.command(aliases = ["розыгрыш"])
 	async def Розыгрыш(self, ctx): # Создает команду
 		author = ctx.message.author
-		for x in [raffle]:
+		for x in [self.raffle]:
 			if author not in x:
-				raffle.extend([author])
+				self.raffle.extend([author])
 				player_raffle = len(raffle)
 				embed = discord.Embed(title='Розыгрыш!', color=config.orange)
 				embed.add_field(name='Спасибо!',value='Вы были добавлены в список участников розыгрыша!',inline=True) # 
@@ -42,14 +41,17 @@ class Raffle(commands.Cog):
 	async def start_raffle(self, ctx, amount=1): # Создает команду
 		await ctx.channel.purge(limit=amount)
 		author = ctx.message.author
-		len_raffle = len(raffle)
+		len_raffle = len(self.raffle)
 		random_raffle = randint(1, len_raffle)
-		embed = discord.Embed(title='Розыгрыш!', color=config.orange)
 		random_raffle = random.randint(1,len_raffle)
+		# Сообщение
+		embed = discord.Embed(title='Розыгрыш!', color=config.orange)
 		embed.add_field(name='Победитель',value='Сейчас решиться кто станет победителем!',inline=True)
 		embed.add_field(name='Нечего не подкручено!', value='Все решает бот!!')
 		embed.add_field(name='Победитель...', value=f'Иии.. Это - {raffle[random_raffle]}')
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
+		self.raffle = []
+		# Отправка
 		await ctx.send(embed=embed, delete_after=300)
 		await author.send(f'Победитель {raffle[random_raffle]}')
 
@@ -57,15 +59,17 @@ class Codes(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+		self.code_stop = []
+
 	@commands.command(aliases = ["код", "Код", "Code"]) # 
 	async def code(self, ctx, arg1, amount=1): # Создает команду
 		await ctx.channel.purge(limit=amount) # 
 		author = ctx.message.author
 		bot_author = self.client.get_user(518766156790890496)
 		if arg1 == botconfig.code1:
-			for x in [code_stop]:
+			for x in [self.code_stop]:
 				if author not in x:
-					code_stop.append(author)
+					self.code_stop.append(author)
 					print(code_stop)
 					await bot_author.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {config.code1_comment}!!', color=config.orange))
 					await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели верный код!!', color=config.orange))
@@ -88,18 +92,33 @@ class MiniGame(commands.Cog):
 		r_ball = choice(config.ball)
 		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=config.orange)) # 
 
-	@commands.command(aliases = ["Вызов","вызов"])
-	async def call(self, ctx, member:discord.Member):
+	@commands.command(aliases = ["Кости", "кости", "Bones"])
+	async def bones(self, ctx, member:discord.Member=None):
 		author = ctx.message.author
+		if member == None:
+			random = randint(1, 6)
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
+		else:
+			Random1 = randint(1, 6)
+			Random2 = randint(1, 6)
 
-		Random1 = randint(1, 10)
-		Random2 = randint(1, 10)
+			if Random1 > Random2:
+				await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
 
-		if Random1 > Random2:
-			await ctx.send(f"{author.name} победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов")
+			elif Random1 < Random2:
+				await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
 
-		elif Random1 < Random2:
-			await ctx.send(f"{member.name} победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов")
+class Food(commands.Cog):
+	def __init__(self, client):
+		self.client = client
+
+	@commands.command(aliases = ["Дать", "дать"])
+	async def donut(self, ctx, *, food=None):
+		author = ctx.message.author
+		if food == None:
+			await ctx.send(f'{author.name}, пожалуйста напишите что именно вы ходите дать!')
+		else:
+			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает {food} у {author.name} и молча уходит в свою команату =D', color=config.orange))
 
 class RPS(commands.Cog):
 	def __init__(self, client):
@@ -112,9 +131,9 @@ class RPS(commands.Cog):
 		y = arg1
 
 		""" Lose """
-		if x == 1 and y == "ножници":
+		if x == 1 and y == "ножницы":
 			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножнци, а бот - камень! Вы проиграли!")
+			await ctx.send(f"{author.mention} вы выбрали ножнцы, а бот - камень! Вы проиграли!")
 		if x == 2 and y == "бумага":
 			check = 1
 			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - ножници! Вы проиграли!")
@@ -128,7 +147,7 @@ class RPS(commands.Cog):
 			await ctx.send(f"{author.mention} вы выбрали камень, а бот - ножници! Вы выиграли! :tada: ")
 		if x == 3 and y == "ножницы":
 			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножници, а бот - бумагу! Вы выиграли! :tada: ")
+			await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - бумагу! Вы выиграли! :tada: ")
 		if x == 1 and y == "бумага":
 			check = 1
 			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - камень! Вы выиграли! :tada: ")
@@ -139,14 +158,18 @@ class RPS(commands.Cog):
 			await ctx.send(f"{author.mention} вы выбрали камень, а бот - камень! Ничья!")
 		if x == 2 and y == "ножницы":
 			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножници, а бот - ножници! Ничья!")
+			await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - ножници! Ничья!")
 		if x == 3 and y == "бумага":
 			check = 1
 			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
 
 def setup(client):
-	client.add_cog(Utils(client))
-	client.add_cog(Raffle(client))
-	client.add_cog(Codes(client))
-	client.add_cog(MiniGame(client))
-	client.add_cog(RPS(client))
+	try:
+		client.add_cog(Utils(client))
+		client.add_cog(Raffle(client))
+		client.add_cog(Codes(client))
+		client.add_cog(MiniGame(client))
+		client.add_cog(Food(client))
+		client.add_cog(RPS(client))
+	except Exception as e:
+		print(f'[ERROR] File BotFun.py not work because: "{e}"')

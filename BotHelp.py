@@ -9,27 +9,42 @@ class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["сервер", "серв", "server", "Server"]) # Информация о сервере рабоает также с командами...
+	@commands.command(aliases = ["сервер", "серв", "server", "Server"])
 	async def Сервер(self, ctx):
-	    guild = ctx.guild
-	    embed = discord.Embed(title=f"Сервер: **{guild.name}**", description="**Енот Бот** был сделан специально для этого сервера.", color=config.orange) # Создает строку
-	    embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value=f"Если ты тут значит тебя приняли,\n чтобы узнать айпи напиши - {config.PREFIX_COMMAND}ip", inline=True) # Создает строку
-	    embed.add_field(name="Людей на сервере", value=f"{guild.member_count}", inline=False)
-	    embed.add_field(name="**Немного о сервере:**", value="Нету приватов, нету доната, свобода действий, не ограниченая территория.", inline=False) # Создает строку
-	    embed.add_field(name="**Узнать все команды:**", value=f"{config.PREFIX_COMMAND}Помощь.", inline=False) # Создает строку
-	    embed.add_field(name="**Пожертвования:**", value=f"Если у вас появилось желание помочь серверу\n просто напишите - {config.PREFIX_COMMAND}donate", inline=False) # Создает строку
-	    embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-	    await ctx.send(embed=embed) # Отправляет сообщение а потому удалит после 300 секунд
+		guild = ctx.guild
+		embed = discord.Embed(title=f'Информация о сервере: **{guild.name}**', color=config.orange)
+		embed.set_thumbnail(url=guild.icon_url)
+		embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value="Ты сейчас на закрытом сервере.", inline=True) # Создает строку
+		embed.add_field(name="**Узнать все команды:**", value=f"{config.PREFIX_COMMAND}Помощь.", inline=False)
+		embed.add_field(name="**Сейчас людей на сервере:**", value=f"{guild.member_count}", inline=True)
+		embed.add_field(name="**Регион:**", value=guild.region, inline=True)
+		embed.add_field(name="**Создатель сервера:**", value=guild.owner, inline=True)
+		embed.add_field(name=f"**Количество чатов[{len(guild.channels)}]: **", value=f'Текстовых: **{len(guild.text_channels)}**\nГолосовых: **{len(guild.voice_channels)}**', inline=True)
+		embed.add_field(name=f"**Количество ролей:**",value=len(guild.roles), inline=True)
+		embed.add_field(name=f"**Сервер был создан:**",value=guild.created_at, inline=True)
+		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
+		await ctx.send(embed=embed)
 
 	@commands.command(aliases=["помощь", "Help", "help"]) # Команда Помощь работает также с...
 	async def Помощь(self, ctx): # Создает команду
-	    embed = discord.Embed(title="Все команды **Енот Бот**", description="", color=config.orange) # Создает красивый вывод с заголовком title и цветом green 
-	    embed.add_field(name=f'**{config.PREFIX_COMMAND}Сервер**', value="Информация о сервере.", inline=False) # Создает строку
-	    embed.add_field(name=f'**{config.PREFIX_COMMAND}cat**', value="Отправляет гифку кота =D.", inline=False) # Создает строку
-	    embed.add_field(name=f'**{config.PREFIX_COMMAND}ver**', value="Узнать версию бота.", inline=False) # Создает строку
-	    embed.add_field(name=f'**{config.PREFIX_COMMAND}шар**', value="Отвечает на заданый вопрос.", inline=False) # Создает строку
-	    embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-	    await ctx.send(embed=embed) # 
+		pr = config.PREFIX_COMMAND
+		embed = discord.Embed(title=f"Все команды **{self.client.user.name}**", description="", color=config.orange)
+		embed.set_thumbnail(url=self.client.user.avatar_url)
+		embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
+		embed.add_field(name=f'**{pr}шар [Вопрос]**', value="Отвечает на заданый вопрос.", inline=False)
+		embed.add_field(name=f'**{pr}кости [Упоминание]**', value="Сыграть с игроком в игру кости.", inline=False)
+		embed.add_field(name=f'**{pr}модули**', value="Список всех модулей.", inline=False)
+		embed.add_field(name=f'**{pr}Розыгрыш**', value="Поучаствовать в розыгрыше.", inline=False)
+		embed.add_field(name=f'**{pr}код [Код]**', value="Ввести код для получение некого подарка.", inline=False)
+		embed.add_field(name=f'**{pr}юзер [Упоминание]**', value="Узнать информацию о пользователе.", inline=False)
+		embed.add_field(name=f'**{pr}бот**', value="Узнать информацию о боте.", inline=False)
+		embed.add_field(name=f'**{pr}кнб [камень/ножницы/бумага]**', value="Камень ножници бумага с ботом.", inline=False)
+		embed.add_field(name=f'**{pr}дать [Вещь]**', value="Дать что-то боту.", inline=False)
+		embed.add_field(name=f'**{pr}рандом [Минимальное число] [Максимальное число]**', value="Генерация рандомного числа.", inline=False)
+		embed.add_field(name=f'**{pr}cat**', value="Отправляет гифку кота =D.", inline=False)
+		embed.add_field(name=f'**{pr}ver**', value="Узнать версию бота.", inline=False)
+		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
+		await ctx.send(embed=embed) # 
 
 	@commands.command(aliases = ["версия", "Версия", "Ver"]) # 
 	async def ver(self, ctx): # Создает команду
@@ -37,14 +52,6 @@ class Help(commands.Cog):
 	    embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True) # 
 	    embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
 	    await ctx.send(embed=embed) # 
-
-	@commands.command(aliases=["донат", "Донат", "Donate"])
-	async def donate(ctx):
-		pass
-	    # embed = discord.Embed(title="**Реквизиты**", description="Места куда можно скинуть денюжку.", color=config.orange)
-	    # embed.add_field(name="**Реквизиты**", value=f"QIWI - {donate_qiwi}\nWebMoney - {donate_webmoney}", inline=True) # 
-	    # embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-	    # await ctx.author.send(embed=embed)
 
 class Info(commands.Cog):
     def __init__(self, client):
@@ -57,5 +64,8 @@ class Info(commands.Cog):
 
 
 def setup(client):
-	client.add_cog(Help(client))
-	client.add_cog(Info(client))
+	try:
+		client.add_cog(Help(client))
+		client.add_cog(Info(client))
+	except Exception as e:
+		print(f'[ERROR] File BotHelp.py not work because: "{e}"')
