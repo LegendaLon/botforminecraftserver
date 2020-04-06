@@ -49,19 +49,19 @@ class Help(commands.Cog):
 
 	@commands.command(aliases = ["версия", "Версия", "Ver"]) # 
 	async def ver(self, ctx): # Создает команду
-	    embed = discord.Embed(title="**Версия бота**", color=config.orange) # 
-	    embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True) # 
-	    embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-	    await ctx.send(embed=embed) # 
+		embed = discord.Embed(title="**Версия бота**", color=config.orange) # 
+		embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True) # 
+		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
+		await ctx.send(embed=embed) # 
 
 class Info(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+	def __init__(self, client):
+		self.client = client
 
-    @commands.command(aliases = ["Module", "Модули", "модули"])
-    async def module(self, ctx):
-    	author = ctx.message.author
-    	await ctx.send(embed=discord.Embed(description=f'{author}, все модули которые бот использует: ``{module}``'))
+	@commands.command(aliases = ["Module", "Модули", "модули"])
+	async def module(self, ctx):
+		author = ctx.message.author
+		await ctx.send(embed=discord.Embed(description=f'{author}, все модули которые бот использует: ``{module}``'))
 
 	@commands.command(aliases=['Bots', 'Бот', 'бот'])
 	async def bots(self, ctx):

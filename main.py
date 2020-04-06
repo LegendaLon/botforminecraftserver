@@ -18,7 +18,7 @@ numN = 0
 for cog in module:
     try:
         print(f"[INFO] Модуль загружен: {cog}")
-        client.load_extension(str(cog))cog
+        client.load_extension(str(cog))
         numY += 1
     except Exception as e:
         del module[numY]

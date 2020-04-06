@@ -133,28 +133,26 @@ class RPS(commands.Cog):
 		""" Lose """
 		if x == 1 and y == "ножницы":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножнцы, а бот - камень! \n\n Вы проиграли!", color=config.orange))
-		elif x == 2 and y == "бумага":
+		if x == 2 and y == "бумага":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - ножници! \n\nВы проиграли!", color=config.orange))
-		elif x == 3 and y == "камень":
+		if x == 3 and y == "камень":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - бумагу! \n\nВы проиграли!", color=config.orange))
 		
 		""" Won """
-		elif x == 2 and y == "камень":
+		if x == 2 and y == "камень":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - ножници! \n\nВы выиграли! :tada: ", color=config.orange))
-		elif x == 3 and y == "ножницы":
+		if x == 3 and y == "ножницы":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - бумагу! \n\nВы выиграли! :tada: ", color=config.orange))
-		elif x == 1 and y == "бумага":
+		if x == 1 and y == "бумага":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - камень! \n\nВы выиграли! :tada: ", color=config.orange))
 		
 		""" Draw """
-		elif x == 1 and y == "камень":
+		if x == 1 and y == "камень":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - камень! \n\nНичья!", color=config.orange))
-		elif x == 2 and y == "ножницы":,
+		if x == 2 and y == "ножницы":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - ножници! \n\nНичья!", color=config.orange))
-		elif x == 3 and y == "бумага":
+		if x == 3 and y == "бумага":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - бумагу! \n\nНичья!", color=config.orange))
-		else:
-			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали не существующий предмет =D"))
 
 def setup(client):
 	try:
