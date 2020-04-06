@@ -13,7 +13,7 @@ class Utils(commands.Cog):
 	async def random(self, ctx, arg1:int, arg2:int):
 		author = ctx.message.author
 		random = randint(arg1, arg2)
-		await ctx.send(embed=discord.Embed(f"{author.name} рандомное число которое тебе выпало - {random}", color=config.orange))
+		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
 
 class Raffle(commands.Cog):
 	def __init__(self, client):
