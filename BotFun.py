@@ -99,7 +99,7 @@ class MiniGame(commands.Cog):
 			if arg1 == None and arg2 == None:
 				random = randint(1, 6)
 				await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
-				
+
 			else:
 				random = randint(arg1, arg2)
 				await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
@@ -116,8 +116,15 @@ class MiniGame(commands.Cog):
 					await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
 			
 			else:
-				Random1 = randint(arg1, arg2)
-				Random2 = randint(arg1, arg2)
+				# Генерация рандомного число
+				if arg1 == None:
+					Random1 = randint(1, 6)
+				else:
+					Random1 = randint(arg1, arg2)
+				if arg1 == None:
+					Random1 = randint(1, 6)
+				else:
+					Random2 = randint(arg1, arg2)
 
 				if Random1 > Random2:
 					await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
