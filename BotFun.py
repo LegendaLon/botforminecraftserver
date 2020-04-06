@@ -93,20 +93,37 @@ class MiniGame(commands.Cog):
 		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=config.orange)) # 
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
-	async def bones(self, ctx, member:discord.Member=None):
+	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):
 		author = ctx.message.author
 		if member == None:
-			random = randint(1, 6)
-			await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
+			if arg1 == None and arg2 == None:
+				random = randint(1, 6)
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
+				
+			else:
+				random = randint(arg1, arg2)
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, вам выпало {random}', color=config.orange))
+
 		else:
-			Random1 = randint(1, 6)
-			Random2 = randint(1, 6)
+			if arg1 == None and arg2 == None:
+				Random1 = randint(1, 6)
+				Random2 = randint(1, 6)
 
-			if Random1 > Random2:
-				await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
+				if Random1 > Random2:
+					await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
 
-			elif Random1 < Random2:
-				await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
+				elif Random1 < Random2:
+					await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
+			
+			else:
+				Random1 = randint(arg1, arg2)
+				Random2 = randint(arg1, arg2)
+
+				if Random1 > Random2:
+					await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
+
+				elif Random1 < Random2:
+					await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
 
 class Food(commands.Cog):
 	def __init__(self, client):
