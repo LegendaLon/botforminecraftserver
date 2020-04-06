@@ -32,7 +32,7 @@ class Help(commands.Cog):
 		embed.set_thumbnail(url=self.client.user.avatar_url)
 		embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
 		embed.add_field(name=f'**{pr}шар [Вопрос]**', value="Отвечает на заданый вопрос.", inline=False)
-		embed.add_field(name=f'**{pr}кости [Упоминание]**', value="Сыграть с игроком в игру кости.", inline=False)
+		embed.add_field(name=f'**{pr}кости [Упоминание] [Минимальное число] [Максимальное число]**', value="Сыграть с игроком в игру кости.", inline=False)
 		embed.add_field(name=f'**{pr}модули**', value="Список всех модулей.", inline=False)
 		embed.add_field(name=f'**{pr}Розыгрыш**', value="Поучаствовать в розыгрыше.", inline=False)
 		embed.add_field(name=f'**{pr}код [*Код]**', value="Ввести код для получение некого подарка.", inline=False)
