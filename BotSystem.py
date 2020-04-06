@@ -26,9 +26,12 @@ class Start(commands.Cog):
         if command == "reg" or command == 'рег':
             status = choice(self.BotStatus)
             author = ctx.message.author
+
+            embed = discord.Embed(title=f'{author.name}, статус бота был перегенерирован! =D', color=config.orange)
+            embed.add_field(name='Новый статус: **{status}**', value='', inline=True)
+
             await self.client.change_presence(activity=discord.Game(name=status))
-            await ctx.send(f'{author.name}, статус бота был перегенерирован! =D')
-            await ctx.send(f'Новый статус: **{status}**')
+            await ctx.send(embed=embed)
 
         elif command == "список" or command == 'list':
             num = 1
@@ -40,10 +43,10 @@ class Start(commands.Cog):
             await ctx.send(embed=embed)
 
         elif command == None:
-            await ctx.send(f'Введите команду')
+            await ctx.send(embed=discord.Embed(f'Введите команду'))
 
         else:
-            await ctx.send(f'Неизвесная команда')
+            await ctx.send(embed=discord.Embed(f'Неизвесная команда'))
 
     @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
     @commands.has_permissions(administrator=True)
@@ -51,7 +54,7 @@ class Start(commands.Cog):
         author = ctx.message.author
         if command == 'add' or command == 'добавить': 
             if value == None:
-                await ctx.send(f'Вы не ввели статус.')
+                await ctx.send(embed=discord.Embed(f'Вы не ввели статус.', color=config.orange))
             else:     
                 self.BotStatus.append(value)
 
@@ -59,11 +62,11 @@ class Start(commands.Cog):
                 await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
                 await ctx.send(f'Новый статус: **{value}**')
         elif command == 'help' or command == 'помощь':
-            await ctx.send(embed=discord.Embed(description=f'{author.name}, чтобы добавить статус: ``{config.PREFIX_COMMAND}astatus add [Статус]``'))
+            await ctx.send(embed=discord.Embed(description=f'{author.name}, чтобы добавить статус: ``{config.PREFIX_COMMAND}astatus add [Статус]``', color=config.orange))
         elif command == None:
-            await ctx.send(f'Введите команду')
+            await ctx.send(embed=discord.Embed(description=f'Введите команду', color=config.orange))
         else:
-            await ctx.send(f'Неизвесная команда')
+            await ctx.send(embed=discord.Embed(description=f'Неизвесная команда', color=config.orange))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

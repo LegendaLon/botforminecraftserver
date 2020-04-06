@@ -13,7 +13,7 @@ class Utils(commands.Cog):
 	async def random(self, ctx, arg1:int, arg2:int):
 		author = ctx.message.author
 		random = randint(arg1, arg2)
-		await ctx.send(f"{author.name} рандомное число которое тебе выпало - {random}")
+		await ctx.send(embed=discord.Embed(f"{author.name} рандомное число которое тебе выпало - {random}", color=config.orange))
 
 class Raffle(commands.Cog):
 	def __init__(self, client):
@@ -38,8 +38,8 @@ class Raffle(commands.Cog):
 
 	@commands.command()
 	@commands.has_permissions(administrator=True)
-	async def start_raffle(self, ctx, amount=1): # Создает команду
-		await ctx.channel.purge(limit=amount)
+	async def start_raffle(self, ctx): # Создает команду
+		await ctx.channel.purge(limit=1)
 		author = ctx.message.author
 		len_raffle = len(self.raffle)
 		random_raffle = randint(1, len_raffle)
@@ -62,16 +62,16 @@ class Codes(commands.Cog):
 		self.code_stop = []
 
 	@commands.command(aliases = ["код", "Код", "Code"]) # 
-	async def code(self, ctx, arg1, amount=1): # Создает команду
-		await ctx.channel.purge(limit=amount) # 
+	async def code(self, ctx, arg1): # Создает команду
+		await ctx.channel.purge(limit=1) # 
 		author = ctx.message.author
-		bot_author = self.client.get_user(518766156790890496)
+		guildAuthor = ctx.guild.owner
 		if arg1 == botconfig.code1:
 			for x in [self.code_stop]:
 				if author not in x:
 					self.code_stop.append(author)
 					print(code_stop)
-					await bot_author.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {config.code1_comment}!!', color=config.orange))
+					await guildAuthor.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {config.code1_comment}!!', color=config.orange))
 					await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели верный код!!', color=config.orange))
 				else:
 					await author.send(embed=discord.Embed(description=f'{author.name}, вы уже вводили этот код!!', color=config.red), delete_after=300)
@@ -116,7 +116,7 @@ class Food(commands.Cog):
 	async def donut(self, ctx, *, food=None):
 		author = ctx.message.author
 		if food == None:
-			await ctx.send(f'{author.name}, пожалуйста напишите что именно вы ходите дать!')
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, пожалуйста напишите что именно вы ходите дать!', color=config.orange))
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает **{food}** у {author.name}, и молча уходит в свою комнату =D', color=config.orange))
 
@@ -132,36 +132,29 @@ class RPS(commands.Cog):
 
 		""" Lose """
 		if x == 1 and y == "ножницы":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножнцы, а бот - камень! Вы проиграли!")
-		if x == 2 and y == "бумага":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - ножници! Вы проиграли!")
-		if x == 3 and y == "камень":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали камень, а бот - бумагу! Вы проиграли!")
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножнцы, а бот - камень! \n\n Вы проиграли!", color=config.orange))
+		elif x == 2 and y == "бумага":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - ножници! \n\nВы проиграли!", color=config.orange))
+		elif x == 3 and y == "камень":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - бумагу! \n\nВы проиграли!", color=config.orange))
 		
 		""" Won """
-		if x == 2 and y == "камень":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали камень, а бот - ножници! Вы выиграли! :tada: ")
-		if x == 3 and y == "ножницы":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - бумагу! Вы выиграли! :tada: ")
-		if x == 1 and y == "бумага":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - камень! Вы выиграли! :tada: ")
+		elif x == 2 and y == "камень":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - ножници! \n\nВы выиграли! :tada: ", color=config.orange))
+		elif x == 3 and y == "ножницы":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - бумагу! \n\nВы выиграли! :tada: ", color=config.orange))
+		elif x == 1 and y == "бумага":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - камень! \n\nВы выиграли! :tada: ", color=config.orange))
 		
 		""" Draw """
-		if x == 1 and y == "камень":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали камень, а бот - камень! Ничья!")
-		if x == 2 and y == "ножницы":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали ножницы, а бот - ножници! Ничья!")
-		if x == 3 and y == "бумага":
-			check = 1
-			await ctx.send(f"{author.mention} вы выбрали бумагу, а бот - бумагу! Ничья!")
+		elif x == 1 and y == "камень":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - камень! \n\nНичья!", color=config.orange))
+		elif x == 2 and y == "ножницы":,
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - ножници! \n\nНичья!", color=config.orange))
+		elif x == 3 and y == "бумага":
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - бумагу! \n\nНичья!", color=config.orange))
+		else:
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали не существующий предмет =D"))
 
 def setup(client):
 	try:

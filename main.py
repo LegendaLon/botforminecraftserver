@@ -12,19 +12,19 @@ client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс д�
 client.remove_command('help') # Удаляет команду help
 
 """ Cogs """
-module = ["BotSystem", "BotFun", "BotUser", "BotHelp", "BotAdministrator"]
+module = ["BotSystem", "BotFun", "BotUser", "BotHelp"]
 numY = 0
 numN = 0
-for x in module:
+for cog in module:
     try:
-        print(f"[INFO] Модуль загружен: {x}")
-        client.load_extension(str(x))
+        print(f"[INFO] Модуль загружен: {cog}")
+        client.load_extension(str(cog))cog
         numY += 1
     except Exception as e:
         del module[numY]
         numY += 1
         numN += 1
-        print(f'[ERROR] Модуль "{x}" не может быть загружен из-за ошибки: {e}')
+        print(f'[ERROR] Модуль "{cog}" не может быть загружен из-за ошибки: {e}')
 print('')
 # RUN
 token = os.environ.get('BOT_TOKEN')
