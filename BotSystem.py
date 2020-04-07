@@ -44,7 +44,7 @@ class Start(commands.Cog):
                 embed.add_field(name=f'**Номер: {num}**',value=f'**{x}**',inline=False)
                 num += 1
 
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed) 
 
         elif command == None:
             await ctx.send(embed=discord.Embed(f'Введите команду'))
@@ -58,34 +58,40 @@ class Start(commands.Cog):
         author = ctx.message.author
         if command == 'add' or command == 'добавить': 
             if value == None:
-                await ctx.send(embed=discord.Embed(f'{author.name}, Вы не ввели статус.', color=config.orange))
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
             else:
                 if value == self.BotStatus:
-                    await ctx.send(embed=discord.Embed(f'Вы ввели уже существующий статус.', color=config.orange))
+                    await ctx.send(embed=discord.Embed(description=f'Вы ввели уже существующий статус.', color=config.orange))
                 else:
                     self.BotStatus.append(value)
 
                     await self.client.change_presence(activity=discord.Game(name=value))
-                    await ctx.send(f'{author.name}, статус бота был добавлен и применен! =D')
-                    await ctx.send(f'Новый статус: **{value}**')
+                    await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**'))
 
         elif command == 'del' or command == 'удалить':
-            if type(value).__name__ == type(1).__name__:
+            print(type(int(value)).__name__)
+            print(type(1).__name__)
+            print(int(value))
+            if type(int(value)).__name__ == type(1).__name__:
                 if value == None:
-                    await ctx.send(embed=discord.Embed(f'{author.name}, Вы не ввели номер статуса чтобы удалить его.', color=config.orange))
+                    await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели номер статуса чтобы удалить его.', color=config.orange))
                 else:
-                    if value > len(self.BotStatus)+1:
-                        del self.BotStatus[value]
+                    value = int(value)
+                    print("=======")
+                    print(value)
+                    print(len(self.BotStatus))
+                    if value < len(self.BotStatus):
+                        stat = self.BotStatus[value-1]
+                        del self.BotStatus[value-1]
 
-                        await ctx.send(f'{author.name}, статус бота был удаллен! =D')
-                        await ctx.send(f'Удалленый статус: **{value}**')
+                        status = choice(self.BotStatus)
+                        await self.client.change_presence(activity=discord.Game(name=status))
+
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был удаллен! =D\nУдалленый статус: **{stat}**'))
                     else:
-                        await ctx.send(embed=discord.Embed(f'{author.name}, Вы ввели номер статуса которого не существует.', color=config.orange))
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы ввели номер статуса которого не существует.', color=config.orange))
             else:
-                await ctx.send(embed=discord.Embed(
-                        f'{author.name}, введите номер статуса чтобы удалить его.\n'
-                        f'Чтобы узнать все статусы введите ``{config.PREFIX_COMMAND}статус список``', color=config.orange
-                        ))
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, введите номер статуса чтобы удалить его.\nЧтобы узнать все статусы введите ``{config.PREFIX_COMMAND}статус список``', color=config.orange))
 
         elif command == 'help' or command == 'помощь':
             embed = discord.Embed(title='', color=config.orange)
