@@ -6,6 +6,7 @@ PREFIX_COMMAND = '!!' # Префикс для команды
 # First Start
 BOT_STATUS = [
 	"Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
+	"https://lotw.space/"
 ] 
 
 # Log

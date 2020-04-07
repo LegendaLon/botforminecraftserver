@@ -121,11 +121,13 @@ class MiniGame(commands.Cog):
 					Random1 = randint(1, 6)
 				else:
 					Random1 = randint(arg1, arg2)
-				if arg1 == None:
-					Random1 = randint(1, 6)
+
+				if arg2 == None:
+					Random2 = randint(1, 6)
 				else:
 					Random2 = randint(arg1, arg2)
 
+				# Отправка сообщений
 				if Random1 > Random2:
 					await ctx.send(embed=discord.Embed(description=f"{author.name}, победил получив {Random1} балов! А {member.name} набрал всего {Random2} баллов", color=config.orange))
 
