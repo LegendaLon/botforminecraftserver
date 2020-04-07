@@ -66,7 +66,7 @@ class Start(commands.Cog):
                     self.BotStatus.append(value)
 
                     await self.client.change_presence(activity=discord.Game(name=value))
-                    await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**'))
+                    await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**', color=config.orange))
 
         elif command == 'del' or command == 'удалить':
             print(type(int(value)).__name__)
@@ -87,7 +87,7 @@ class Start(commands.Cog):
                         status = choice(self.BotStatus)
                         await self.client.change_presence(activity=discord.Game(name=status))
 
-                        await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был удаллен! =D\nУдалленый статус: **{stat}**'))
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был удаллен! =D\nУдалленый статус: **{stat}**', color=config.orange))
                     else:
                         await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы ввели номер статуса которого не существует.', color=config.orange))
             else:
