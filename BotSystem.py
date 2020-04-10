@@ -61,7 +61,7 @@ class Start(commands.Cog):
 
     @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
     @commands.has_permissions(administrator=True)
-    async def aastatus(self, ctx, command:str=None, *, value=None):
+    async def astatus(self, ctx, command:str=None, *, value=None):
         author = ctx.message.author
         if command == 'add' or command == 'добавить': 
             if value == None:
