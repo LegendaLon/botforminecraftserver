@@ -174,4 +174,3 @@ def setup(client):
         client.add_cog(JoinGroun(client))
     except Exception as e:
         print(f'[ERROR] File BotSystem.py not work because: "{e}"')
-    
