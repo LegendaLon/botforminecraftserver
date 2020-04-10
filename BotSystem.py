@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from main import module
+from main import module, db
 
 from random import choice
 import config
@@ -10,15 +10,23 @@ class Start(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-        self.BotStatus = config.BOT_STATUS
+        self.lenStatus = []
 
-        self.serverid = None
+    def RandomStatus(self):
+        self.lenStatus = []
+        data = db.select_order_by('status', 'id')
+        for a in data:
+            self.lenStatus.append(int(a[0]))
+
+        print(self.lenStatus)
+        dataR = choice(data)
+        return dataR[1]
 
     @commands.Cog.listener()
     async def on_ready(self):
         BotCreator = self.client.get_user(518766156790890496)
         # Статус
-        status = choice(self.BotStatus)
+        status = self.RandomStatus()
         activity = discord.Game(name=status)
         await self.client.change_presence(status=discord.Status.online, activity=activity)
         # запуск
@@ -26,9 +34,9 @@ class Start(commands.Cog):
         print(f'[INFO] Бот запущен успешно. \n[INFO] Модули: {module}. \n[INFO] Количество загруженых модулей: {len(module)}')
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
-    async def status(self, ctx, command=None, *, value=None):
+    async def status(self, ctx, command:str=None, *, value:str=None):
         if command == "reg" or command == 'рег':
-            status = choice(self.BotStatus)
+            status = self.RandomStatus()
             author = ctx.message.author
 
             embed = discord.Embed(title=f'{author.name}, статус бота был перегенерирован! =D', color=config.orange)
@@ -38,11 +46,10 @@ class Start(commands.Cog):
             await ctx.send(embed=embed)
 
         elif command == "список" or command == 'list':
-            num = 1
             embed = discord.Embed(title='**Все статусы бота:**', color=config.orange)
-            for x in self.BotStatus:
-                embed.add_field(name=f'**Номер: {num}**',value=f'**{x}**',inline=False)
-                num += 1
+            data = db.select_order_by('status', 'id')
+            for x in data:
+                embed.add_field(name=f'**Номер: {x[0]}**\n**Автор: {x[2]}**',value=f'**{x[1]}**',inline=False)
 
             await ctx.send(embed=embed) 
 
@@ -54,44 +61,41 @@ class Start(commands.Cog):
 
     @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
     @commands.has_permissions(administrator=True)
-    async def astatus(self, ctx, command=None, *, value=None):
+    async def aastatus(self, ctx, command:str=None, *, value=None):
         author = ctx.message.author
         if command == 'add' or command == 'добавить': 
             if value == None:
                 await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
             else:
-                if value == self.BotStatus:
+                data = db.select_order_by('status', 'id')
+                if value == data:
                     await ctx.send(embed=discord.Embed(description=f'Вы ввели уже существующий статус.', color=config.orange))
                 else:
-                    self.BotStatus.append(value)
+                    db.insert_status(value, author.name)
 
                     await self.client.change_presence(activity=discord.Game(name=value))
                     await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**', color=config.orange))
 
+
         elif command == 'del' or command == 'удалить':
-            print(type(int(value)).__name__)
-            print(type(1).__name__)
-            print(int(value))
             if type(int(value)).__name__ == type(1).__name__:
                 if value == None:
                     await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели номер статуса чтобы удалить его.', color=config.orange))
                 else:
-                    value = int(value)
-                    print("=======")
-                    print(value)
-                    print(len(self.BotStatus))
-                    if value < len(self.BotStatus):
-                        stat = self.BotStatus[value-1]
-                        del self.BotStatus[value-1]
+                    try:    
+                        value = int(value)
+                        
+                        db.delete_status(value)
 
-                        status = choice(self.BotStatus)
+                        status = self.RandomStatus() 
                         await self.client.change_presence(activity=discord.Game(name=status))
-
-                        await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был удаллен! =D\nУдалленый статус: **{stat}**', color=config.orange))
-                    else:
-                        await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы ввели номер статуса которого не существует.', color=config.orange))
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, стотус под айди {value} успешно удален'))
+                    except Exception as e:
+                        print("[ERROR] " + e)
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, что-то пошло не так', color=config.orange))
             else:
                 await ctx.send(embed=discord.Embed(description=f'{author.name}, введите номер статуса чтобы удалить его.\nЧтобы узнать все статусы введите ``{config.PREFIX_COMMAND}статус список``', color=config.orange))
+
 
         elif command == 'help' or command == 'помощь':
             embed = discord.Embed(title='', color=config.orange)

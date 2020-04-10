@@ -1,6 +1,7 @@
 """ Importing Module"""
 import discord
 from discord.ext import commands
+from DataBase import DataBase
 
 import os, sys
 
@@ -11,8 +12,16 @@ client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс д�
 
 client.remove_command('help') # Удаляет команду help
 
+""" Data Base """
+pathDataBase = 'example.db'
+try:
+    db = DataBase(str(pathDataBase))
+    print(f"[INFO] База данных '{pathDataBase}' успешно подключилась!")
+except Exception as e:
+    print(f"[ERROR] База данных '{pathDataBase}' не смогла запуститься из-за ошибки: {e}")
+print('')
 """ Cogs """
-module = ["BotSystem", "BotFun", "BotUser", "BotHelp"]
+module = ["BotSystem", "BotFun", "BotUser", "BotHelp", "BotAdministrator"]
 numY = 0
 numN = 0
 for cog in module:
@@ -20,6 +29,7 @@ for cog in module:
         print(f"[INFO] Модуль загружен: {cog}")
         client.load_extension(str(cog))
         numY += 1
+        
     except Exception as e:
         del module[numY]
         numY += 1

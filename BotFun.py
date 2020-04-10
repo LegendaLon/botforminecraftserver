@@ -39,7 +39,7 @@ class Raffle(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(administrator=True)
 	async def start_raffle(self, ctx): # Создает команду
-		await ctx.channel.purge(limit=1)
+		await ctx.message.delete()
 		author = ctx.message.author
 		len_raffle = len(self.raffle)
 		random_raffle = randint(1, len_raffle)
@@ -63,7 +63,7 @@ class Codes(commands.Cog):
 
 	@commands.command(aliases = ["код", "Код", "Code"]) # 
 	async def code(self, ctx, arg1): # Создает команду
-		await ctx.channel.purge(limit=1) # 
+		await ctx.message.delete()
 		author = ctx.message.author
 		guildAuthor = ctx.guild.owner
 		if arg1 == botconfig.code1:
