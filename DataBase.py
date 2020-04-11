@@ -14,11 +14,12 @@ class DataBase:
 			print("[ERROR] File DataBase error: " + e)
 		
 	""" Create in Data Base """
-	def create(self):
-		self.cursor.execute(
-			'''CREATE TABLE status
-			(id integer, status text)'''
-		)
+	def create(self, nameTable:str, *, arg:str):
+		self.connect()
+		request = '''CREATE TABLE ''' + nameTable + ''' (''' + arg + ''')'''
+		print(request)
+		self.cursor.execute(request)
+		self.close()
 
 	""" Add in Data Base """
 	def insert(self, nameTable:str, paramArray):
