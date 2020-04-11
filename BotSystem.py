@@ -11,12 +11,17 @@ class Start(commands.Cog):
         self.client = client
 
         self.lenStatus = []
+        self.nameStatus = []
 
     def RandomStatus(self):
         self.lenStatus = []
+        self.nameStatus = []
         data = db.select_order_by('status', 'id')
         for a in data:
             self.lenStatus.append(int(a[0]))
+
+        for x in data:
+            self.nameStatus.append(str(x[1]))
 
         print(self.lenStatus)
         dataR = choice(data)
@@ -68,7 +73,7 @@ class Start(commands.Cog):
                 await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
             else:
                 data = db.select_order_by('status', 'id')
-                if value == data:
+                if value == self.nameStatus:
                     await ctx.send(embed=discord.Embed(description=f'Вы ввели уже существующий статус.', color=config.orange))
                 else:
                     db.insert_status(value, author.name)
