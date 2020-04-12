@@ -16,7 +16,7 @@ class Start(commands.Cog):
     def RandomStatus(self):
         self.lenStatus = []
         self.nameStatus = []
-        data = db.select_order_by('status', 'id')
+        data = db._select_order_by('status', 'id')
         for a in data:
             self.lenStatus.append(int(a[0]))
 
@@ -52,7 +52,7 @@ class Start(commands.Cog):
 
         elif command == "список" or command == 'list':
             embed = discord.Embed(title='**Все статусы бота:**', color=config.orange)
-            data = db.select_order_by('status', 'id')
+            data = db._select_order_by('status', 'id')
             for x in data:
                 embed.add_field(name=f'**Номер: {x[0]}**\n**Автор: {x[2]}**',value=f'**{x[1]}**',inline=False)
 
@@ -72,7 +72,7 @@ class Start(commands.Cog):
             if value == None:
                 await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
             else:
-                data = db.select_order_by('status', 'id')
+                data = db._select_order_by('status', 'id')
                 if value == self.nameStatus:
                     await ctx.send(embed=discord.Embed(description=f'Вы ввели уже существующий статус.', color=config.orange))
                 else:
@@ -87,6 +87,7 @@ class Start(commands.Cog):
                 if value == None:
                     await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели номер статуса чтобы удалить его.', color=config.orange))
                 else:
+                    
                     try:    
                         value = int(value)
                         

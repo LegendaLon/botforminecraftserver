@@ -13,17 +13,23 @@ client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс д�
 client.remove_command('help') # Удаляет команду help
 
 """ Data Base """
+# Путь к базе данных
 pathDataBase = 'example.db'
+
+# Подключение данных базы
 try:
     db = DataBase(str(pathDataBase))
     print(f"[INFO] База данных '{pathDataBase}' успешно подключилась!")
 except Exception as e:
     print(f"[ERROR] База данных '{pathDataBase}' не смогла запуститься из-за ошибки: {e}")
 print('')
+
 """ Cogs """
 module = ["BotSystem", "BotFun", "BotUser", "BotHelp", "BotAdministrator"]
 numY = 0
 numN = 0
+
+# Загрузка когов
 for cog in module:
     try:
         print(f"[INFO] Модуль загружен: {cog}")
@@ -36,7 +42,8 @@ for cog in module:
         numN += 1
         print(f'[ERROR] Модуль "{cog}" не может быть загружен из-за ошибки: {e}')
 print('')
-# RUN
+
+# Подключение бота
 token = os.environ.get('BOT_TOKEN')
 
 try:

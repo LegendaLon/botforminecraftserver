@@ -52,7 +52,7 @@ class DataBase:
 		self.close()
 
 	""" Select in Data Base """
-	def select_order_by(self, nameTable:str, sort:str):
+	def _select_order_by(self, nameTable:str, sort:str):
 		self.connect()
 		request = 'SELECT * FROM {0} ORDER BY {1}'.format(nameTable, sort)
 		self.cursor.execute(request)
@@ -60,7 +60,7 @@ class DataBase:
 		return data
 		self.close()
 
-	def select_all(self, nameTable:str):
+	def _select_all(self, nameTable:str):
 		self.connect()
 		request = 'SELECT * FROM {0}'.format(nameTable,)
 		self.cursor.execute(request)

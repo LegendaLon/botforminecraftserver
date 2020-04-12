@@ -5,55 +5,72 @@ from random import randint, choice
 
 import config
 
-class Utils(commands.Cog):
-	def __init__(self, client):
-		self.client = client
-
-	@commands.command(aliases = ["рандом"])
-	async def random(self, ctx, arg1:int, arg2:int):
-		author = ctx.message.author
-		random = randint(arg1, arg2)
-		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
-
 class Raffle(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+		self.startRaffle = False
 		self.raffle = []
 
-	@commands.command(aliases = ["розыгрыш"])
-	async def Розыгрыш(self, ctx): # Создает команду
+	@commands.command(aliases = ["Розыгрыш", "розыгрыш"])
+	async def raffle(self, ctx): # Создает команду
+		print(self.raffle)
 		author = ctx.message.author
-		for x in [self.raffle]:
-			if author not in x:
-				self.raffle.extend([author])
-				player_raffle = len(raffle)
+		if self.startRaffle:
+			if author != self.raffle:
+				self.raffle.append(author)
+				player_raffle = len(self.raffle)
 				embed = discord.Embed(title='Розыгрыш!', color=config.orange)
-				embed.add_field(name='Спасибо!',value='Вы были добавлены в список участников розыгрыша!',inline=True) # 
-				embed.add_field(name=f'Список участников.', value=f'В списке участников находиться {player_raffle} участник(ков) розыгрыша.') # 
-				embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-				await ctx.author.send(embed=embed) # 
+				embed.add_field(name='Спасибо!',value='Вы были добавлены в список участников розыгрыша!',inline=True)
+				embed.add_field(name=f'Список участников.', value=f'В списке участников находиться {player_raffle} участник(ков) розыгрыша.')
+				embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
+				await author.send(embed=embed)
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы были успешно добавлены в розыгрыш', color=config.orange))
 			else:
-				await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже есть в списке участников розыгрыша!', color=config.red)) # 
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, вы уже есть в списке участников розыгрыша!', color=config.red))
+			
+		else:
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, сейчас не проводится не какие розыгрыши', color=config.orange))
 
 	@commands.command()
 	@commands.has_permissions(administrator=True)
-	async def start_raffle(self, ctx): # Создает команду
-		await ctx.message.delete()
+	async def araffle(self, ctx, command:str=None, value:str=None):
 		author = ctx.message.author
-		len_raffle = len(self.raffle)
-		random_raffle = randint(1, len_raffle)
-		random_raffle = random.randint(1,len_raffle)
-		# Сообщение
-		embed = discord.Embed(title='Розыгрыш!', color=config.orange)
-		embed.add_field(name='Победитель',value='Сейчас решиться кто станет победителем!',inline=True)
-		embed.add_field(name='Нечего не подкручено!', value='Все решает бот!!')
-		embed.add_field(name='Победитель...', value=f'Иии.. Это - {raffle[random_raffle]}')
-		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
-		self.raffle = []
-		# Отправка
-		await ctx.send(embed=embed, delete_after=300)
-		await author.send(f'Победитель {raffle[random_raffle]}')
+		if command == 'activate':
+			self.startRaffle = True
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, запустил розыгрыш!!', color=config.orange))
+
+		elif command == 'start':
+			if self.startRaffle:
+				len_raffle = len(self.raffle)
+				winner = choice(self.raffle)
+				# Сообщение
+				embed = discord.Embed(title='Розыгрыш!', color=config.orange)
+				embed.add_field(name='Победитель',value='Сейчас решиться кто станет победителем!',inline=True)
+				embed.add_field(name='Нечего не подкручено!', value='Все решает бот!!')
+				embed.add_field(name='Победитель...', value=f'Иии.. Это - {winner}')
+				embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
+				self.startRaffle = False
+				self.raffle = []
+				# Отправка
+				await ctx.send(embed=embed)
+			else:
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не можете начать розыгрыш потому что он не был активирован =(', color=config.orange))
+
+		elif command == 'deactivate':
+			self.startRaffle = False
+			self.raffle = []
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, остановил розыгрыш!!', color=config.orange))
+
+		elif command == 'help':
+			embed = discord.Embed(title=f'Админ команды для ``{config.PREFIX_COMMAND}araffle``', color=config.orange)
+			embed.add_field(name='**Активация розыгрыша**  | ', value=f'``{config.PREFIX_COMMAND}araffle activate``')
+			embed.add_field(name='**Запустить розыгрыш**  | ', value=f'``{config.PREFIX_COMMAND}araffle start``')
+			embed.add_field(name='**Деактивация розыгрыша** ', value=f'``{config.PREFIX_COMMAND}araffle deactivate``')
+			await ctx.send(embed=embed)
+
+		else:
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы наверно не знаете но нужно вводить агрумент', color=config.orange))	
 
 class Codes(commands.Cog):
 	def __init__(self, client):
@@ -91,6 +108,13 @@ class MiniGame(commands.Cog):
 	async def ball(self, ctx): # Создает команду
 		r_ball = choice(config.ball)
 		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=config.orange)) # 
+
+	@commands.command(aliases = ["рандом"])
+	async def random(self, ctx, arg1:int, arg2:int):
+		author = ctx.message.author
+		random = randint(arg1, arg2)
+		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
+
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):
@@ -182,7 +206,6 @@ class RPS(commands.Cog):
 
 def setup(client):
 	try:
-		client.add_cog(Utils(client))
 		client.add_cog(Raffle(client))
 		client.add_cog(Codes(client))
 		client.add_cog(MiniGame(client))
