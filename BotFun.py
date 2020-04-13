@@ -3,7 +3,13 @@ from discord.ext import commands
 
 from random import randint, choice
 
+from asyncio import sleep as timer
+
 import config
+
+class RanbowRole(object):
+	def __init__(self, client):
+		self.client = client
 
 class Raffle(commands.Cog):
 	def __init__(self, client):
@@ -115,6 +121,9 @@ class MiniGame(commands.Cog):
 		random = randint(arg1, arg2)
 		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
 
+	@commands.command()
+	async def russian_ruletka(self, ctx, arg:str=None):
+		pass
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):
