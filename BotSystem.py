@@ -10,6 +10,11 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    def RandomStatus(self):
+        data = db._select_order_by('status', 'id')
+        dataR = choice(data)
+        return dataR[1]
+
     @commands.Cog.listener()
     async def on_ready(self):
         BotCreator = self.client.get_user(518766156790890496)
