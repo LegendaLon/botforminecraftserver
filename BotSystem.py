@@ -6,7 +6,37 @@ from main import module, db
 from random import choice
 import config
 
-class Start(commands.Cog):
+class JoinAndLeaveMemberInGroup(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        BotCreator = self.client.get_user(518766156790890496)
+        # Статус
+        status = self.RandomStatus()
+        activity = discord.Game(name=status)
+        await self.client.change_presence(status=discord.Status.online, activity=activity)
+        # запуск
+        await BotCreator.send(embed=discord.Embed(description=f'Bot {self.client.user.name}, is start', color=config.orange))
+        print(f'[INFO] Бот запущен успешно. \n[INFO] Модули: {module}. \n[INFO] Количество загруженых модулей: {len(module)}')
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        channel = self.client.get_channel(config.channel_message_join)
+        await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
+        print(f"{member.name}, присоединился к нам!")
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        channel = self.client.get_channel(config.channel_message_join)
+        channelAdmin = self.client.get_channel(config.moderators_channel)
+
+        await channel.send(embed=discord.Embed(description=f'{member.name} вышел из сервера. =('))
+        await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа'))
+        print(f"{member.name}, ушёл от нас!")
+
+class StatusInBot(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -26,17 +56,6 @@ class Start(commands.Cog):
         print(self.lenStatus)
         dataR = choice(data)
         return dataR[1]
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        BotCreator = self.client.get_user(518766156790890496)
-        # Статус
-        status = self.RandomStatus()
-        activity = discord.Game(name=status)
-        await self.client.change_presence(status=discord.Status.online, activity=activity)
-        # запуск
-        await BotCreator.send(embed=discord.Embed(description=f'Bot {self.client.user.name}, is start', color=config.orange))
-        print(f'[INFO] Бот запущен успешно. \n[INFO] Модули: {module}. \n[INFO] Количество загруженых модулей: {len(module)}')
 
     @commands.command(aliases = ["Status", "Статус", "статус"])
     async def status(self, ctx, command:str=None, *, value:str=None):
@@ -114,16 +133,6 @@ class Start(commands.Cog):
         
         else:
             await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы ввели неизвесную команду.', color=config.orange))
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        guild = member.guild.id
-        if guild == 645564398378680332:
-            channel = self.client.get_channel(config.channel_message_join)
-            await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
-        else:
-            print(f"New member: {member}, in guild: {guild.name}")
-        print(f"{member.name}, присоединился к нам!")
         
 class JoinGroun(commands.Cog):
     def __init__(self, client):
@@ -176,7 +185,8 @@ class GiveRoles(commands.Cog):
 
 def setup(client):
     try:
-        client.add_cog(Start(client))
+        client.add_cog(JoinAndLeaveMemberInGroup(client))
+        client.add_cog(StatusInBot(client))
         client.add_cog(JoinGroun(client))
     except Exception as e:
         print(f'[ERROR] File BotSystem.py not work because: "{e}"')

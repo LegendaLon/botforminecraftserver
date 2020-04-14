@@ -11,7 +11,7 @@ BOT_STATUS = [
 
 # Log
 channel_log = 676366617940328449
-channel_admin = 645614295517888513
+moderators_channel = 645614295517888513
 
 # join 
 channel_message_join = 654042717382246420

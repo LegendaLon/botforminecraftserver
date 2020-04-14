@@ -56,7 +56,7 @@ class User(commands.Cog):
 			embed.add_field(name='Статус пользователя',value=f'Статус {author.status}',inline=True)
 			embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
 			await ctx.send(embed=embed)
-		else:
+		elif member != None:
 			embed = discord.Embed(title=f'Пользователь {member.name}', color=config.orange)
 			embed.add_field(name='Статус пользователя',value=f'Статус {member.status}',inline=True)
 			embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
