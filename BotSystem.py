@@ -37,8 +37,8 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
         channel = self.client.get_channel(config.channel_message_join)
         channelAdmin = self.client.get_channel(config.moderators_channel)
 
-        await channel.send(embed=discord.Embed(description=f'{member.name} вышел из сервера. =('))
-        await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа'))
+        await channel.send(embed=discord.Embed(description=f'{member.name} вышел из сервера. =(', color=config.orange))
+        await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа', color=config.orange))
         print(f"{member.name}, ушёл от нас!")
 
 class StatusInBot(commands.Cog):
