@@ -35,10 +35,10 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         channel = self.client.get_channel(config.channel_message_join)
-        channelAdmin = self.client.get_channel(config.moderators_channel)
+        # channelAdmin = self.client.get_channel(config.moderators_channel)
 
-        await channel.send(embed=discord.Embed(description=f'{member.name} вышел из сервера. =(', color=config.orange))
-        await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа', color=config.orange))
+        await channel.send(embed=discord.Embed(description=f'{member.name} решил покинуть нас. =(', color=config.orange))
+        # await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа', color=config.orange))
         print(f"{member.name}, ушёл от нас!")
 
 class StatusInBot(commands.Cog):
