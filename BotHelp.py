@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
 
-from main import module
+from main import module, db, allfiles
+
+from lenlines import counterLinesWordsLetters
 
 import config
 
@@ -9,6 +11,7 @@ class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+	@commands.cooldown(1, 30, commands.BucketType.user)
 	@commands.command(aliases = ["сервер", "серв", "server", "Server"])
 	async def Сервер(self, ctx):
 		guild = ctx.guild
@@ -25,6 +28,7 @@ class Help(commands.Cog):
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 		await ctx.send(embed=embed)
 
+	@commands.cooldown(1, 30, commands.BucketType.user)
 	@commands.command(aliases=["помощь", "Help", "help"])
 	async def Помощь(self, ctx, type=None):
 		if type == 'admin' or type == 'админ':
@@ -63,6 +67,7 @@ class Info(commands.Cog):
 		self.client = client
 
 	@commands.command(aliases = ["Module", "Модули", "модули"])
+	@commands.has_permissions(administrator=True)
 	async def module(self, ctx):
 		author = ctx.message.author
 		await ctx.send(embed=discord.Embed(description=f'{author}, все модули которые бот использует:\n``{module}``'))
@@ -70,6 +75,26 @@ class Info(commands.Cog):
 	@commands.command(aliases=['Bots', 'Бот', 'бот'])
 	async def bots(self, ctx):
 		await ctx.send(embed=discord.Embed(description=f'Bots is {self.client.user.name}', delete_after=260))
+
+	@commands.cooldown(1, 10, commands.BucketType.user)
+	@commands.command()
+	async def lines(self, ctx):
+		totallines = 0
+		totalwords = 0
+		totalletters = 0
+		alllines = counterLinesWordsLetters(allfiles)
+		embed = discord.Embed(title='Количество строчек, слов, букв в коде бота')
+		for a in alllines:
+			embed.add_field(name=f'Все строчки файла: {a[0]}', value=f'Строчки: {a[1]}\nСлова: {a[2]}\nБуквы: {a[3]}', inline=True)
+
+			totallines += a[1]
+			totalwords += a[2]
+			totalletters += a[3]
+
+		embed.add_field(name=f'Все строчки всех вайлов:\n{allfiles}', value=f'Строчки: {totallines},\nСлова: {totalwords},\nБуквы: {totalletters}', inline=False)
+		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
+		print(alllines)
+		await ctx.send(embed=embed)
 
 def setup(client):
 	try:
