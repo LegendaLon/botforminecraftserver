@@ -16,6 +16,17 @@ class Owners(commands.Cog):
 	async def dbadd(self, ctx, tableName:str, name:str):
 		pass
 
+class Clear(commands.Cog):
+	def __init__(self, client):
+		self.client = client
+
+	@commands.command()
+	@commands.has_role(adminRole)
+	async def clear(self, ctx, limit:int=1):
+		await ctx.message.delete()
+		await ctx.privatemassage.purge(limit=limit)
+		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, успешно удалено {limit} сообщений', color=config.orange), delete_after=10)
+
 def setup(client):
     try:
         client.add_cog(Owners(client))
