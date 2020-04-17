@@ -129,6 +129,5 @@ def setup(client):
 	try:
 		client.add_cog(Sentence(client))
 		client.add_cog(User(client))
-		client.add_cog(Economy(client))
 	except Exception as e:
 		print(f'[ERROR] File BotUser.py not work because: "{e}"')
