@@ -55,7 +55,7 @@ class Help(commands.Cog):
 
 		await ctx.send(embed=embed)
 
-	@commands.command(aliases = ["версия", "Версия", "Ver"]) # 
+	@commands.command(aliases = ["версия", "Версия", "Ver"])
 	async def ver(self, ctx): # Создает команду
 		embed = discord.Embed(title="**Версия бота**", color=config.orange) # 
 		embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True)
@@ -83,7 +83,7 @@ class Info(commands.Cog):
 		totalwords = 0
 		totalletters = 0
 		alllines = counterLinesWordsLetters(allfiles)
-		embed = discord.Embed(title='Количество строчек, слов, букв в коде бота')
+		embed = discord.Embed(title='Количество строчек, слов, букв в коде бота', color=config.orange)
 		for a in alllines:
 			embed.add_field(name=f'Все строчки файла: {a[0]}', value=f'Строчки: {a[1]}\nСлова: {a[2]}\nБуквы: {a[3]}', inline=True)
 

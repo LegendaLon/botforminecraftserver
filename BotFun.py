@@ -5,6 +5,8 @@ from random import randint, choice
 
 from asyncio import sleep as timer
 
+from main import db
+
 import config
 
 class RanbowRole(object):
@@ -57,7 +59,6 @@ class Raffle(commands.Cog):
 				embed.add_field(name='Победитель...', value=f'Иии.. Это - {winner}')
 				embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}") # Подвал сообщения
 				self.startRaffle = False
-				self.raffle = []
 				# Отправка
 				await ctx.send(embed=embed)
 			else:
@@ -122,8 +123,22 @@ class MiniGame(commands.Cog):
 		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
 
 	@commands.command()
-	async def russian_ruletka(self, ctx, arg:str=None):
-		pass
+	async def russian_ruletka(self, ctx, member:discord.Member=None):
+		author = ctx.message.author
+		if member == author:
+			await ctx.send(embed=description.Embed(description=f'Все улышали громкий звук выстрела и увидили что {author.name} застрелил сам себя в попытках сыграть сам с собой в "Русскую рулетку"'))
+		else:		
+			if member == None:
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, напишите своего противника'))
+			else:
+				random = randint(1, 6)
+				RandomAuthor = randint(1, 6)
+				RandomMember = randint(1, 6)
+
+				while won:
+					await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, заряжает шестизарядный револьвер и протягивает его {author}'))
+					sleep(1)
+					await ctx.send("К чтобы пройти дальше нужно подождать пока появится код! =)")
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):

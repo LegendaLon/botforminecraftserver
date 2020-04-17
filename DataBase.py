@@ -12,15 +12,13 @@ class DataBase:
 			self.cursor = self.conn.cursor()
 		except Exception as e:
 			print("[ERROR] File DataBase error: " + e)
-		
-	""" Create in Data Base """
-	def create(self, nameTable:str, *, arg:str):
-		self.connect()
-		request = '''CREATE TABLE ''' + nameTable + ''' (''' + arg + ''')'''
-		print(request)
-		self.cursor.execute(request)
-		self.close()
 
+	""" Close """
+	def close(self):
+		self.cursor.close()
+		self.conn.close()
+		print("[INFO] Close connect to database, and close cursor")
+		
 	""" Add in Data Base """
 	def insert(self, nameTable:str, paramArray):
 		self.connect()
@@ -36,6 +34,21 @@ class DataBase:
 
 		self.conn.commit()
 		self.close()
+
+	def insert_users(self, funcType:int, user:str, money:int=None, vip:int=None):
+		self.connect()
+
+		if funcType == 1:
+			try:
+				self.cursor.execute('''INSERT INTO users(user) VALUES(?) ''', (str(user),))
+			except sqlite3.IntegrityError as e:
+				print('[ERROR] sqlite3 ' + e)
+
+		elif funcType == 2:
+			self.cursor.execute()
+
+		self.conn.commit()
+		self.close
 
 	""" Remove in Data Base """
 	def delete(self, nameTable:str, func:str):
@@ -60,6 +73,15 @@ class DataBase:
 		return data
 		self.close()
 
+	def select_where(self, nameTable:str, elements:str, lines:str):
+		self.connect()
+		# request = "SELECT * FROM {0} WHERE {1} LIKE '{2}%'".format(nameTable, elements, lines)
+		request = "SELECT * FROM {0} WHERE {1}=?".format(nameTable, elements)
+		self.cursor.execute(request, (lines,))
+		data = self.cursor.fetchall()
+		return data
+		self.close()
+
 	def _select_all(self, nameTable:str):
 		self.connect()
 		request = 'SELECT * FROM {0}'.format(nameTable,)
@@ -68,8 +90,13 @@ class DataBase:
 		return data
 		self.close()
 
-	""" Close """
-	def close(self):
-		self.cursor.close()
-		self.conn.close()
-		print("[INFO] Close connect to database, and close cursor")
+
+db = DataBase('example.db')
+
+author = 'Lonely_#1572'
+data = db.select_where('users', 'user', str(author))[0]
+
+print(data[0])
+print(data[1])
+print(data[2])
+print(data[3])
