@@ -69,7 +69,7 @@ class User(commands.Cog):
 
 		if str(users) in self.users:
 			""" Parametrs """
-			data = db.select_where('users', 'user', str(users))[0]
+			data = db._select_where('users', 'user', str(users))[0]
 			status = data[2]
 			money = data[3]
 

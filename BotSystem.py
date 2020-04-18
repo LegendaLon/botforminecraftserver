@@ -15,6 +15,9 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
         dataR = choice(data)
         return dataR[1]
 
+    def LenGuilds(self):
+        pass
+
     @commands.Cog.listener()
     async def on_ready(self):
         BotCreator = self.client.get_user(518766156790890496)
@@ -28,18 +31,31 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        channel = self.client.get_channel(config.channel_message_join)
-        await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
-        print(f"{member.name}, присоединился к нам!")
+        guild = member.guild
+
+        data = db._select_where('guild', 'guild_id', int(guild.id))[0]
+
+        if guild.id == data[1]:
+            channel = self.client.get_channel(data[2])
+            await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
+        else:
+            pass
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        channel = self.client.get_channel(config.channel_message_join)
-        # channelAdmin = self.client.get_channel(config.moderators_channel)
+        guild = member.guild
 
-        await channel.send(embed=discord.Embed(description=f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
-        # await channelAdmin.send(embed=discord.Embed(description=f'{member} вышел из сервера, пожалуйста удалите его из вайт листа', color=config.orange))
-        print(f"{member.name}, ушёл от нас!")
+        data = db._select_where('guild', 'guild_id', int(guild.id))[0]
+
+        if guild.id == data[1]:
+            print(int(data[2]))
+            channel = self.client.get_channel(int(data[2]))        
+            await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
+        else:
+            pass
+
+        # await channel.send(embed=discord.Embed(description=f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
+
 
 class StatusInBot(commands.Cog):
     def __init__(self, client):
@@ -142,11 +158,9 @@ class StatusInBot(commands.Cog):
 class JoinGroun(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.BotCreator = self.client.get_user(518766156790890496)
 
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        embed = discord.Embed(title=f'Бот присоединился к: **{guild.name}**', color=config.orange)
+    def CreateEmbed(self, guild, title):
+        embed = discord.Embed(title=f'{title}: **{guild.name}**', color=config.orange)
         embed.set_thumbnail(url=guild.icon_url)
         embed.add_field(name="**Сейчас людей на сервере:**", value=f"{guild.member_count}", inline=True)
         embed.add_field(name="**Регион:**", value=guild.region, inline=True)
@@ -154,39 +168,30 @@ class JoinGroun(commands.Cog):
         embed.add_field(name=f"**Количество чатов[{len(guild.channels)}]: **", value=f'Текстовых: **{len(guild.text_channels)}**\nГолосовых: **{len(guild.voice_channels)}**', inline=True)
         embed.add_field(name=f"**Количество ролей:**",value=len(guild.roles), inline=True)
         embed.add_field(name=f"**Сервер был создан:**",value=guild.created_at, inline=True)
+        embed.add_field(name=f"**Id:**", value=guild.id, inline=True)
         embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
-        await self.BotCreator.send(embed=embed)
-
-class GiveRoles(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+        return embed
 
     @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):
-        msgID = int(payload.message_id)
-        if msgID == int(config.message_id):
-            emoji = str(payload.emoji)
-            member = payload.member 
-            role = discord.utils.get(member.guild.roles, id=config.roles[emoji])
-            await member.add_roles(role)
-        else:
-            pass
+    async def on_guild_join(self, guild):
+        BotCreator = self.client.get_user(518766156790890496)
+        # Добавление группы в базу
+        db.insert_guild(2, guild.id)
+
+        # Оповищеное о конекте к группе
+        embed = CreateEmbed(guild, "Бот присоединился к")
+        await BotCreator.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload):
-        msgID = int(payload.message_id)
-        if msgID == int(config.message_id):
-            channelID = payload.channel_id
-            channel = clibotent.get_channel(channelID)
-            messageID = payload.message_id
-            message = await channel.fetch_message(messageID)
-            userID = payload.user_id
-            member = discord.utils.get(message.guild.members, id= userID)
-            emoji = str(payload.emoji)
-            role = discord.utils.get(member.guild.roles, id=config.roles[emoji])
-            await member.remove_roles(role)
-        else:
-            pass
+    async def on_guild_remove(self, guild):
+        BotCreator = self.client.get_user(518766156790890496)
+        # Удаление из базы
+        db.delete_guild(guild.id)
+
+        # Оповищеное о уходе из группы
+        embed = CreateEmbed(guild, "Бот вышел из")
+        await BotCreator.send(embed=embed)
+
 
 def setup(client):
     try:

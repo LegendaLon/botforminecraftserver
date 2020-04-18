@@ -50,6 +50,27 @@ class DataBase:
 		self.conn.commit()
 		self.close
 
+	def insert_guild(self, funcType:int, guild_id, channel=None):
+		self.connect()
+
+		if funcType == 1:
+			try:
+				self.cursor.execute('''INSERT INTO guild(guild_id, channel_join) VALUES(?, ?)''', (guild_id, channel))
+			except Exception as e:
+				print('[ERROR] sqlite3 ' + e)
+
+		elif funcType == 2:
+			try:
+				self.cursor.execute('''INSERT INTO guild(guild_id) VALUES(?)''', (guild_id,))
+			except Exception as e:
+				print('[ERROR] sqlite3 ' + e)
+
+		else:
+			print("[ERROR] sqlite3: No func")
+
+		self.conn.commit()
+		self.close
+
 	""" Remove in Data Base """
 	def delete(self, nameTable:str, func:str):
 		self.connect()
@@ -60,7 +81,25 @@ class DataBase:
 
 	def delete_status(self, id):
 		self.connect()
-		self.cursor.execute('''DELETE FROM status WHERE id=?''', (id,))
+		
+		try:
+			self.cursor.execute('''DELETE FROM status WHERE id=?''', (id,))
+
+		except Exception as e:
+			raise e
+
+		self.conn.commit()
+		self.close()
+
+	def delete_guild(self, id):
+		self.connect()
+		
+		try:
+			self.cursor.execute('''DELETE FROM guild WHERE guild_id=?''', (id,))
+
+		except Exception as e:
+			raise e
+
 		self.conn.commit()
 		self.close()
 
@@ -73,9 +112,8 @@ class DataBase:
 		return data
 		self.close()
 
-	def select_where(self, nameTable:str, elements:str, lines:str):
+	def _select_where(self, nameTable:str, elements:str, lines:str):
 		self.connect()
-		# request = "SELECT * FROM {0} WHERE {1} LIKE '{2}%'".format(nameTable, elements, lines)
 		request = "SELECT * FROM {0} WHERE {1}=?".format(nameTable, elements)
 		self.cursor.execute(request, (lines,))
 		data = self.cursor.fetchall()
@@ -89,14 +127,3 @@ class DataBase:
 		data = self.cursor.fetchall()
 		return data
 		self.close()
-
-
-db = DataBase('example.db')
-
-author = 'Lonely_#1572'
-data = db.select_where('users', 'user', str(author))[0]
-
-print(data[0])
-print(data[1])
-print(data[2])
-print(data[3])
