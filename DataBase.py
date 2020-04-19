@@ -48,7 +48,7 @@ class DataBase:
 			self.cursor.execute()
 
 		self.conn.commit()
-		self.close
+		self.close()
 
 	def insert_guild(self, funcType:int, guild_id, channel=None):
 		self.connect()
@@ -69,7 +69,7 @@ class DataBase:
 			print("[ERROR] sqlite3: No func")
 
 		self.conn.commit()
-		self.close
+		self.close()
 
 	""" Remove in Data Base """
 	def delete(self, nameTable:str, func:str):
@@ -95,7 +95,7 @@ class DataBase:
 		self.connect()
 		
 		try:
-			self.cursor.execute('''DELETE FROM guild WHERE guild_id=?''', (id,))
+			self.cursor.execute('''DELETE FROM guild WHERE guild_id=?''', (int(id),))
 
 		except Exception as e:
 			raise e
@@ -106,24 +106,33 @@ class DataBase:
 	""" Select in Data Base """
 	def _select_order_by(self, nameTable:str, sort:str):
 		self.connect()
-		request = 'SELECT * FROM {0} ORDER BY {1}'.format(nameTable, sort)
-		self.cursor.execute(request)
-		data = self.cursor.fetchall()
-		return data
+		try:
+			request = 'SELECT * FROM {0} ORDER BY {1}'.format(nameTable, sort)
+			self.cursor.execute(request)
+			data = self.cursor.fetchall()
+			return data
+		except Exception as e:
+			print("[ERROR] sqlite3 " + e)
 		self.close()
 
 	def _select_where(self, nameTable:str, elements:str, lines:str):
 		self.connect()
-		request = "SELECT * FROM {0} WHERE {1}=?".format(nameTable, elements)
-		self.cursor.execute(request, (lines,))
-		data = self.cursor.fetchall()
-		return data
+		try:
+			request = "SELECT * FROM {0} WHERE {1}=?".format(nameTable, elements)
+			self.cursor.execute(request, (lines,))
+			data = self.cursor.fetchall()
+			return data
+		except Exception as e:
+			print("[ERROR] sqlite3 " + e)
 		self.close()
 
 	def _select_all(self, nameTable:str):
 		self.connect()
-		request = 'SELECT * FROM {0}'.format(nameTable,)
-		self.cursor.execute(request)
-		data = self.cursor.fetchall()
-		return data
+		try:
+			request = 'SELECT * FROM {0}'.format(nameTable,)
+			self.cursor.execute(request)
+			data = self.cursor.fetchall()
+			return data
+		except Exception as e:
+			print("[ERROR] sqlite3 " + e)
 		self.close()

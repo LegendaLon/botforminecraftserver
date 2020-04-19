@@ -106,6 +106,9 @@ class MiniGame(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+		self._stric__last_member = None
+		self._stric__member_stric = 0
+
 	@commands.command(aliases = ["кот", "мешок"]) # 
 	async def cat(self, ctx): # Создает команду
 		r_cat_gif = choice(config.cat_gif) # 
@@ -139,6 +142,28 @@ class MiniGame(commands.Cog):
 					await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, заряжает шестизарядный револьвер и протягивает его {author}'))
 					sleep(1)
 					await ctx.send("К чтобы пройти дальше нужно подождать пока появится код! =)")
+
+	@commands.cooldown(1, 10, commands.BucketType.user)
+	@commands.command()
+	async def stric(self, ctx, helps:str=None):
+		if helps == None:
+
+			author = ctx.message.author
+
+			if self._stric__last_member != author and self._stric__last_member != None:
+				secondauthor = self._stric__last_member
+				self._stric__last_member = author
+				await ctx.send(embed=discord.Embed(description=f'``{secondauthor.name}`` потерял лидерство, ``{author.name}`` занял место лидера!', color=config.orange))
+
+			elif author == self._stric__last_member or self._stric__last_member == None:
+				self._stric__last_member = author
+				self._stric__member_stric += 1
+				await ctx.send(embed=discord.Embed(description=f'``{author.name}``, ваш стрик {self._stric__member_stric}', color=config.orange))
+
+		else:
+			await ctx.send(embed=discord.Embed(title='Правила игры **Стрик**', description=f'Удерживайте место в лидерстве.', color=config.orange))
+
+
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):

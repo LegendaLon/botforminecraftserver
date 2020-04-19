@@ -12,7 +12,7 @@ client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс д�
 
 client.remove_command('help') # Удаляет команду help
 
-allfiles = ['main.py', 'BotSystem.py', 'BotUser.py', 'BotAdministrator.py', 'BotHelp.py', 'config.py', 'BotFun.py', 'DataBase.py']
+allfiles = ['main.py', 'BotSystem.py', 'BotUser.py', 'BotAdministrator.py', 'BotHelp.py', 'BotFun.py', 'DataBase.py', 'config.py']
 
 """ Data Base """
 # Путь к базе данных
@@ -27,7 +27,17 @@ except Exception as e:
 print('')
 
 """ Cogs """
-module = ["BotSystem", "BotFun", "BotUser", "BotHelp", "BotAdministrator"]
+module = [
+    # Система
+    "BotSystem",
+    # Веселие
+    "BotFun",
+    # Помощь
+    "BotUser",
+    "BotHelp",
+    # Админ
+    "BotAdministrator",
+]
 
 # Загрузка когов
 for cog in module:

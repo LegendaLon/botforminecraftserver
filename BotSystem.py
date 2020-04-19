@@ -10,13 +10,21 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+        self.allguildid = []
+
     def RandomStatus(self):
         data = db._select_order_by('status', 'id')
         dataR = choice(data)
         return dataR[1]
 
     def LenGuilds(self):
-        pass
+        self.allguildid = []
+        data = db._select_all('guild')
+
+        for a in data:
+            self.allguildid.append(a[1])
+
+        print(self.allguildid)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -31,31 +39,43 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        # Сообщение в определенный чат
+        self.LenGuilds()
         guild = member.guild
+        guild_id = guild.id
 
-        data = db._select_where('guild', 'guild_id', int(guild.id))[0]
-
-        if guild.id == data[1]:
-            channel = self.client.get_channel(data[2])
-            await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
+        if guild_id in self.allguildid:
+            data = db._select_where('guild', 'guild_id', int(guildid))[0]
+            if data[1] in self.allguildid:
+                if data[2] != 0:
+                    channel = self.client.get_channel(data[2])
+                    await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
+                else:
+                    pass
+            else:
+                pass
         else:
             pass
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        # Сообщение в определенный чат
+        self.LenGuilds()
         guild = member.guild
+        guild_id = guild.id
 
-        data = db._select_where('guild', 'guild_id', int(guild.id))[0]
-
-        if guild.id == data[1]:
-            print(int(data[2]))
-            channel = self.client.get_channel(int(data[2]))        
-            await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
+        if guild_id in self.allguildid:
+            data = db._select_where('guild', 'guild_id', int(guildid))[0]
+            if data[1] in self.allguildid:
+                if data[2] != 0:
+                    channel = self.client.get_channel(data[2])
+                    await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
+                else:
+                    pass
+            else:
+                pass
         else:
             pass
-
-        # await channel.send(embed=discord.Embed(description=f'Пользователь ``{member.name}`` решил покинуть нас. =(', color=config.orange))
-
 
 class StatusInBot(commands.Cog):
     def __init__(self, client):
@@ -159,8 +179,14 @@ class JoinGroun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    def CreateEmbed(self, guild, title):
-        embed = discord.Embed(title=f'{title}: **{guild.name}**', color=config.orange)
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        BotCreator = self.client.get_user(518766156790890496)
+        # Добавление группы в базу
+        db.insert_guild(2, guild.id)
+
+        # Оповищеное о конекте к группе
+        embed = discord.Embed(title=f'Бот присоединился к: **{guild.name}**', color=config.orange)
         embed.set_thumbnail(url=guild.icon_url)
         embed.add_field(name="**Сейчас людей на сервере:**", value=f"{guild.member_count}", inline=True)
         embed.add_field(name="**Регион:**", value=guild.region, inline=True)
@@ -170,26 +196,26 @@ class JoinGroun(commands.Cog):
         embed.add_field(name=f"**Сервер был создан:**",value=guild.created_at, inline=True)
         embed.add_field(name=f"**Id:**", value=guild.id, inline=True)
         embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
-        return embed
-
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        BotCreator = self.client.get_user(518766156790890496)
-        # Добавление группы в базу
-        db.insert_guild(2, guild.id)
-
-        # Оповищеное о конекте к группе
-        embed = CreateEmbed(guild, "Бот присоединился к")
         await BotCreator.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         BotCreator = self.client.get_user(518766156790890496)
         # Удаление из базы
-        db.delete_guild(guild.id)
+        guild_id = guild.id
+        db.delete_guild(guild_id)
 
-        # Оповищеное о уходе из группы
-        embed = CreateEmbed(guild, "Бот вышел из")
+        # Оповищеное об уходе из группы
+        embed = discord.Embed(title=f'Бот вышел из: **{guild.name}**', color=config.orange)
+        embed.set_thumbnail(url=guild.icon_url)
+        embed.add_field(name="**Сейчас людей на сервере:**", value=f"{guild.member_count}", inline=True)
+        embed.add_field(name="**Регион:**", value=guild.region, inline=True)
+        embed.add_field(name="**Создатель сервера:**", value=guild.owner, inline=True)
+        embed.add_field(name=f"**Количество чатов[{len(guild.channels)}]: **", value=f'Текстовых: **{len(guild.text_channels)}**\nГолосовых: **{len(guild.voice_channels)}**', inline=True)
+        embed.add_field(name=f"**Количество ролей:**",value=len(guild.roles), inline=True)
+        embed.add_field(name=f"**Сервер был создан:**",value=guild.created_at, inline=True)
+        embed.add_field(name=f"**Id:**", value=guild.id, inline=True)
+        embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
         await BotCreator.send(embed=embed)
 
 

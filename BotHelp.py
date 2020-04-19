@@ -17,7 +17,7 @@ class Help(commands.Cog):
 		guild = ctx.guild
 		embed = discord.Embed(title=f'Информация о сервере: **{guild.name}**', color=config.orange)
 		embed.set_thumbnail(url=guild.icon_url)
-		embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value="Ты сейчас на закрытом сервере.", inline=True) # Создает строку
+		# embed.add_field(name=":wave: **Привет дорогой друг.** :wave:", value="Ты сейчас на закрытом сервере.", inline=True) # Создает строку
 		embed.add_field(name="**Узнать все команды:**", value=f"{config.PREFIX_COMMAND}Помощь.", inline=False)
 		embed.add_field(name="**Сейчас людей на сервере:**", value=f"{guild.member_count}", inline=True)
 		embed.add_field(name="**Регион:**", value=guild.region, inline=True)
