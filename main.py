@@ -16,7 +16,7 @@ allfiles = ['main.py', 'BotSystem.py', 'BotUser.py', 'BotAdministrator.py', 'Bot
 
 """ Data Base """
 # Путь к базе данных
-pathDataBase = 'example.db'
+pathDataBase = 'database.db'
 
 # Подключение данных базы
 try:
@@ -47,6 +47,7 @@ print('')
 
 # Подключение бота
 token = os.environ.get('BOT_TOKEN')
+
 
 try:
     client.run(str(token))

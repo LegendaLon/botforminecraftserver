@@ -155,7 +155,7 @@ class StatusInBot(commands.Cog):
 
                         status = self.RandomStatus() 
                         await self.client.change_presence(activity=discord.Game(name=status))
-                        await ctx.send(embed=discord.Embed(description=f'{author.name}, стотус под айди {value} успешно удален'))
+                        await ctx.send(embed=discord.Embed(description=f'{author.name}, статус под айди {value} успешно удален', color=config.orange))
                     except Exception as e:
                         print("[ERROR] " + e)
                         await ctx.send(embed=discord.Embed(description=f'{author.name}, что-то пошло не так', color=config.orange))
