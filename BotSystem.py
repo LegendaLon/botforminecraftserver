@@ -125,7 +125,7 @@ class StatusInBot(commands.Cog):
             await ctx.send(embed=discord.Embed(f'Неизвесная команда'))
 
     @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
-    @commands.has_permissions(administrator=True)
+    @commands.is_owner()
     async def astatus(self, ctx, command:str=None, *, value=None):
         author = ctx.message.author
         if command == 'add' or command == 'добавить': 
