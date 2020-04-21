@@ -80,7 +80,7 @@ class Info(commands.Cog):
 		embed.set_thumbnail(url=self.client.user.avatar_url)
 		embed.add_field(name=f'Обновления:', value=f'Регулярные', inline=False)
 		embed.add_field(name=f'Идеи пользователей:', value=f'Если у Вас появилась идея что можно добавить в {self.client.user.name}\nтогда пишите в группу которую можете увидеть ниже', inline=True)
-		embed.add_field(name=f'Сервер:', value=f'Место где можно получить тех поддержку бота + место\nгде можно пообщатся и поиграть!\nhttps://discord.gg/tJMrQhN', inline=True)
+		embed.add_field(name=f'Сервер:', value=f'Место где можно получить тех поддержку бота + место\nгде можно пообщатся и поиграть!\nhttps://discord.gg/tJMrQhN', inline=False)
 		embed.add_field(name=f'Автор:', value=f'Автор бота {config.BOT_AUTHOR}', inline=True)
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 		await ctx.send(embed=embed)
