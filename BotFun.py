@@ -153,6 +153,7 @@ class MiniGame(commands.Cog):
 			if self._stric__last_member != author and self._stric__last_member != None:
 				secondauthor = self._stric__last_member
 				self._stric__last_member = author
+				self._stric__member_stric = 0
 				await ctx.send(embed=discord.Embed(description=f'``{secondauthor.name}`` потерял лидерство, ``{author.name}`` занял место лидера!', color=config.orange))
 
 			elif author == self._stric__last_member or self._stric__last_member == None:
