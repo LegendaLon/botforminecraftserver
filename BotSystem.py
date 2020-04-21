@@ -33,9 +33,11 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
         status = self.RandomStatus()
         activity = discord.Game(name=status)
         await self.client.change_presence(status=discord.Status.online, activity=activity)
+
         # запуск
         await BotCreator.send(embed=discord.Embed(description=f'Bot {self.client.user.name}, is start', color=config.orange))
         print(f'[INFO] Модули: {module}.\n[INFO] Бот запущен успешно.')
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

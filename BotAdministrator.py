@@ -12,9 +12,16 @@ class Owners(commands.Cog):
 		self.client = client
 
 	@commands.command()
-	@commands.has_role(adminRole)
-	async def dbadd(self, ctx, tableName:str, name:str):
-		pass
+
+	@commands.command()
+	@commands.has_permissions(administrator=True)
+	async def connect(self, ctx):
+		guild = ctx.guild
+		author = ctx.message.author
+		channel = ctx.message.channel
+
+		db.update_guild(1, guild.id, channel.id)
+		await ctx.send(embed=discord.Embed(description=f'{author.name}, теперь этот чат используется как чат для приведствий пользователей'))
 
 class Clear(commands.Cog):
 	def __init__(self, client):

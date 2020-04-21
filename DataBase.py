@@ -71,6 +71,18 @@ class DataBase:
 		self.conn.commit()
 		self.close()
 
+	""" Update in Data Base """
+	def update_guild(self, funcType:int=1, guild_id, channel_join=None):
+		self.connect()
+
+		if channel_join != None and funcType == 1:
+			self.cursor.execute("""UPDATE guild SET channel_join=? WHERE guild_id=? """, (channel_join, guild_id))
+		else:
+			pass
+
+		self.conn.commit()
+		self.close()
+
 	""" Remove in Data Base """
 	def delete(self, nameTable:str, func:str):
 		self.connect()

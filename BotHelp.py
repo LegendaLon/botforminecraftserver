@@ -11,7 +11,7 @@ class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.cooldown(1, 30, commands.BucketType.user)
+	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command(aliases = ["сервер", "серв", "server", "Server"])
 	async def Сервер(self, ctx):
 		guild = ctx.guild
@@ -28,11 +28,13 @@ class Help(commands.Cog):
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 		await ctx.send(embed=embed)
 
-	@commands.cooldown(1, 30, commands.BucketType.user)
+	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command(aliases=["помощь", "Help", "help"])
 	async def Помощь(self, ctx, type=None):
 		if type == 'admin' or type == 'админ':
 			embed = discord.Embed(title=f"Все админ команды **{self.client.user.name}**", description="", color=config.orange)
+		elif type == 'bots' or type == 'бот':
+			await ctx.send(embed=discord.Embed(description=f'Напишите ``{config.PREFIX_COMMAND}бот``\nЧтобы узнать больше информации про бота'))
 		else:
 			pr = config.PREFIX_COMMAND
 			embed = discord.Embed(title=f"Все обычные команды **{self.client.user.name}**", description="", color=config.orange)
@@ -74,7 +76,14 @@ class Info(commands.Cog):
 
 	@commands.command(aliases=['Bots', 'Бот', 'бот'])
 	async def bots(self, ctx):
-		await ctx.send(embed=discord.Embed(description=f'Bots is {self.client.user.name}', delete_after=260))
+		embed = discord.Embed(title=f'Бот: {self.client.user.name}')
+		embed.set_thumbnail(url=self.client.user.avatar_url)
+		embed.add_field(name=f'Обновления:', value=f'Регулярные', inline=True)
+		embed.add_field(name=f'Идеи пользователей:', value=f'Если у Вас появилась идея что можно добавить в {self.client.user.name}\nтогда пишите в группу которую можете увидеть ниже', inline=True)
+		embed.add_field(name=f'Сервер:', value=f'Место где можно получить тех поддержку бота + место\nгде можно пообщатся и поиграть!\nhttps://discord.gg/tJMrQhN', inline=True)
+		embed.add_field(name=f'Автор:', value=f'Автор бота {config.BOT_AUTHOR}', inline=True)
+		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
+		await ctx.send(embed=embed)
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command()
