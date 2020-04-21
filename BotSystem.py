@@ -47,17 +47,18 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
         guild_id = guild.id
 
         if guild_id in self.allguildid:
-            data = db._select_where('guild', 'guild_id', int(guildid))[0]
+            data = db._select_where('guild', 'guild_id', int(guild_id))[0]
             if data[1] in self.allguildid:
                 if data[2] != 0:
-                    channel = self.client.get_channel(data[2])
+                    print(data[2])
+                    channel = self.client.get_channel(int(data[2]))
                     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
                 else:
-                    pass
+                    print("No 1")
             else:
-                pass
+                print("No 2")
         else:
-            pass
+            print("No 3")
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -67,7 +68,7 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
         guild_id = guild.id
 
         if guild_id in self.allguildid:
-            data = db._select_where('guild', 'guild_id', int(guildid))[0]
+            data = db._select_where('guild', 'guild_id', int(guild_id))[0]
             if data[1] in self.allguildid:
                 if data[2] != 0:
                     channel = self.client.get_channel(data[2])

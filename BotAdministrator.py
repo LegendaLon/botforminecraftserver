@@ -19,7 +19,7 @@ class Owners(commands.Cog):
 		channel = ctx.message.channel
 
 		db.update_guild(1, guild.id, channel.id)
-		await ctx.send(embed=discord.Embed(description=f'{author.name}, теперь этот чат используется как чат для приведствий пользователей'))
+		await ctx.send(embed=discord.Embed(description=f'{author.name}, теперь этот чат используется как чат для приведствий пользователей', color=config.orange))
 
 class Clear(commands.Cog):
 	def __init__(self, client):
