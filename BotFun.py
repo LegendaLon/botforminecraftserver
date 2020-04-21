@@ -114,6 +114,13 @@ class MiniGame(commands.Cog):
 		r_cat_gif = choice(config.cat_gif) # 
 		await ctx.send(r_cat_gif, delete_after=43200) # 
 
+	@commands.command(aliases = ["Push", "Ударить", "ударить"])
+	async def push(self, ctx, member: discord.Member=None, *, arg=None):
+		author = ctx.message.author
+
+		if member != None and arg != None:
+			await ctx.send(embed=discord.Embed(description=f'{author.name} ударил {member.name} с помощью {arg}'))
+
 	@commands.command(aliases = ["Ball", "Шар", "шар"]) # 
 	async def ball(self, ctx): # Создает команду
 		r_ball = choice(config.ball)
