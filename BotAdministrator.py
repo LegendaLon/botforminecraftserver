@@ -12,8 +12,6 @@ class Owners(commands.Cog):
 		self.client = client
 
 	@commands.command()
-
-	@commands.command()
 	@commands.has_permissions(administrator=True)
 	async def connect(self, ctx):
 		guild = ctx.guild

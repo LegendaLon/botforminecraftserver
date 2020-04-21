@@ -72,7 +72,7 @@ class DataBase:
 		self.close()
 
 	""" Update in Data Base """
-	def update_guild(self, funcType:int=1, guild_id, channel_join=None):
+	def update_guild(self, funcType:int, guild_id, channel_join=None):
 		self.connect()
 
 		if channel_join != None and funcType == 1:
