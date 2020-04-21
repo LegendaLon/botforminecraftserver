@@ -102,6 +102,28 @@ class Codes(commands.Cog):
 		else:
 			await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=config.red), delete_after=300)
 
+class RolePlay(commands.Cog):
+	def __init__(self, client):
+		self.client = client
+
+	@commands.command(aliases = ["Push", "Ударить", "ударить"])
+	async def push(self, ctx, member: discord.Member=None, *, arg=None):
+		author = ctx.message.author
+
+		if member != None and arg != None:
+			await ctx.send(embed=discord.Embed(description=f'``{author.name}`` ударил ``{member.name}`` с помощью {arg}', color=config.orange))
+
+	@commands.command(aliases = ["Me", "Ме", "ме"])
+	async def me(self, ctx, *, arg=None):
+		author = ctx.message.author
+		won = randint(1, 2)
+
+		if won == 1:
+			await ctx.send(embed=discord.Embed(description=f'{author.name} {arg}\nУспешно', color=config.orange))
+		else:
+			await ctx.send(embed=discord.Embed(description=f'{author.name} {arg}\nПровалено', color=config.orange))
+
+
 class MiniGame(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -114,12 +136,6 @@ class MiniGame(commands.Cog):
 		r_cat_gif = choice(config.cat_gif) # 
 		await ctx.send(r_cat_gif, delete_after=43200) # 
 
-	@commands.command(aliases = ["Push", "Ударить", "ударить"])
-	async def push(self, ctx, member: discord.Member=None, *, arg=None):
-		author = ctx.message.author
-
-		if member != None and arg != None:
-			await ctx.send(embed=discord.Embed(description=f'{author.name} ударил {member.name} с помощью {arg}'))
 
 	@commands.command(aliases = ["Ball", "Шар", "шар"]) # 
 	async def ball(self, ctx): # Создает команду
@@ -223,7 +239,7 @@ class Food(commands.Cog):
 	async def donut(self, ctx, *, food=None):
 		author = ctx.message.author
 		if food == None:
-			await ctx.send(embed=discord.Embed(description=f'{author.name}, пожалуйста напишите что именно вы ходите дать!', color=config.orange))
+			await ctx.send(embed=discord.Embed(description=f'{author.name}, пожалуйста напишите что именно Вы ходите дать!', color=config.orange))
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает **{food}** у {author.name}, и молча уходит в свою комнату =D', color=config.orange))
 
@@ -265,6 +281,7 @@ def setup(client):
 	try:
 		client.add_cog(Raffle(client))
 		client.add_cog(Codes(client))
+		client.add_cog(RolePlay(client))
 		client.add_cog(MiniGame(client))
 		client.add_cog(Food(client))
 		client.add_cog(RPS(client))

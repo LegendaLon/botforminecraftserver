@@ -144,6 +144,14 @@ class StatusInBot(commands.Cog):
                     await self.client.change_presence(activity=discord.Game(name=value))
                     await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**', color=config.orange))
 
+        if command == 'set' or command == 'установить': 
+            if value == None:
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
+            else:
+                db.insert_status(value, author.name)
+
+                await self.client.change_presence(activity=discord.Game(name=value))
+                await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота применен! =D\nНовый статус: **{value}**', color=config.orange))
 
         elif command == 'del' or command == 'удалить':
             if type(int(value)).__name__ == type(1).__name__:
@@ -186,7 +194,7 @@ class JoinGroun(commands.Cog):
     async def on_guild_join(self, guild):
         BotCreator = self.client.get_user(518766156790890496)
         # Добавление группы в базу
-        db.insert_guild(2, guild.id)
+        db.insert_guild(2, guild.id, guild.name)
 
         # Оповищеное о конекте к группе
         embed = discord.Embed(title=f'Бот присоединился к: **{guild.name}**', color=config.orange)
