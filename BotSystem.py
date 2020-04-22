@@ -144,7 +144,7 @@ class StatusInBot(commands.Cog):
                     await self.client.change_presence(activity=discord.Game(name=value))
                     await ctx.send(embed=discord.Embed(description=f'{author.name}, статус бота был добавлен и применен! =D\nНовый статус: **{value}**', color=config.orange))
 
-        if command == 'set' or command == 'установить': 
+        elif command == 'set' or command == 'установить': 
             if value == None:
                 await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы не ввели статус.', color=config.orange))
             else:
