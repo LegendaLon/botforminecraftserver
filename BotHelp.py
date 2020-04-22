@@ -37,7 +37,7 @@ class Help(commands.Cog):
 	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command(aliases=["помощь", "Help", "help"])
 	async def Помощь(self, ctx, types=None):
-
+		pr = config.PREFIX_COMMAND
 		embed = discord.Embed(title=f"Все обычные команды **{self.client.user.name}**", description="", color=config.orange)
 		embed.set_thumbnail(url=self.client.user.avatar_url)
 		embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
