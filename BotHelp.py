@@ -8,9 +8,9 @@ from lenlines import counterLinesWordsLetters
 import config
 
 """ Constants """
-adminhelparr = []
-bothelparr = []
-rphelparr = []
+adminhelparr = ["админ", "admin"]
+bothelparr = ["бот", "bot"]
+rphelparr = ["рп", "rp", "roleplay"]
 
 
 class Help(commands.Cog):
@@ -36,13 +36,14 @@ class Help(commands.Cog):
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command(aliases=["помощь", "Help", "help"])
-	async def Помощь(self, ctx, type=None):
+	async def Помощь(self, ctx, types=None):
 		pr = config.PREFIX_COMMAND
-		if type in adminhelparr:
+		types = types.lower()
+		if types in adminhelparr:
 			embed = discord.Embed(title=f"Все админ команды **{self.client.user.name}**", description="", color=config.orange)
-		elif type in bothelparr:
+		elif types in bothelparr:
 			await ctx.send(embed=discord.Embed(description=f'Напишите ``{config.PREFIX_COMMAND}бот``\nЧтобы узнать больше информации про бота'))
-		elif type in rphelparr:
+		elif types in rphelparr:
 			embed = discord.Embed(title=f"Все обычные команды **{self.client.user.name}**", description="", color=config.orange)
 			embed.set_thumbnail(url=self.client.user.avatar_url)
 			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value="Бьет пользователя предметом.", inline=False)

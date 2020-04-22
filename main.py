@@ -12,7 +12,9 @@ client = commands.Bot(command_prefix=config.PREFIX_COMMAND) # Префикс д�
 
 client.remove_command('help') # Удаляет команду help
 
-allfiles = ['main.py', 'BotSystem.py', 'BotUser.py', 'BotAdministrator.py', 'BotHelp.py', 'BotFun.py', 'DataBase.py', 'config.py']
+allfiles = [
+    'main.py', 'BotSystem.py', 'BotUser.py', 'BotAdministrator.py', 'BotHelp.py', 'BotFun.py', 'DataBase.py', 'config.py'
+]
 
 """ Data Base """
 # Путь к базе данных
