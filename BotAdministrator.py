@@ -9,18 +9,15 @@ class Owners(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-
 	@commands.command()
 	@commands.is_owner()
-	async def leaveisgroup(self, ctx, guild, *, last_message=None):
-		author = str(guild.owner_id)
-		embed = discord.Embed(title=f'{author.name} бот **{self.client.user.name}** вышёл с вашей группы {guild.name}')
-		if last_message != None:
-			embed.add_field(name='Сообщение от автора:', value=last_message, inline=True)
-		else:
-			embed.add_field(name=f'Сообщение от автора:', value=f'К сожелению нету не каких сообщений', inline=True)
-		await author.send(embed=embed)
-		await guild.leave()
+	async def db(self, ctx, nameTable:str):
+		author = ctx.message.author
+		data = db._select_all(nameTable)
+		embed = discord.Embed(title=f'{author.name} таблица {nameTable}')
+		for a in data:
+			embed.add_field(name=f'ID: **{a[0]}**', value=f'1. {a[1]}\n2. {a[2]}\n3. {a[3]}\n4. {a[4]}\n5. {a[5]}\n')
+		await ctx.send(embed=embed)
 
 class Verification(commands.Cog):
 	def __init__(self, client):
