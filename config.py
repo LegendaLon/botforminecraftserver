@@ -36,7 +36,7 @@ cat_gif = [
 # Color
 green = 0x00ff00 # color green for start
 red = 0xff0000 # color red for error 
-orange = 0xF37A01 # color orange for custom
+orange = 0xEE7700 # color orange for custom
 
 # ver
 version = "Основная 2.1"

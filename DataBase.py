@@ -53,13 +53,7 @@ class DataBase:
 	def insert_guild(self, funcType:int, guild_id, guild_name=None, channel=None):
 		self.connect()
 
-		if funcType == 1:
-			try:
-				self.cursor.execute('''INSERT INTO guild(guild_id, channel_join) VALUES(?, ?)''', (guild_id, channel))
-			except Exception as e:
-				print('[ERROR] sqlite3 ' + e)
-
-		elif funcType == 2:
+		if funcType == 1 and channel == None:
 			try:
 				self.cursor.execute('''INSERT INTO guild(guild_id, guild_name) VALUES(?, ?)''', (guild_id, guild_name))
 			except Exception as e:
@@ -75,7 +69,7 @@ class DataBase:
 	def update_guild(self, funcType:int, guild_id, channel_join=None):
 		self.connect()
 
-		if channel_join != None and funcType == 1:
+		if funcType == 1 and channel_join != None  :
 			self.cursor.execute("""UPDATE guild SET channel_join=? WHERE guild_id=? """, (channel_join, guild_id))
 		else:
 			pass

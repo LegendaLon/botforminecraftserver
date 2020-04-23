@@ -79,29 +79,6 @@ class Raffle(commands.Cog):
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{author.name}, Вы наверно не знаете но нужно вводить агрумент', color=config.orange))	
 
-class Codes(commands.Cog):
-	def __init__(self, client):
-		self.client = client
-
-		self.code_stop = []
-
-	@commands.command(aliases = ["код", "Код", "Code"]) # 
-	async def code(self, ctx, arg1): # Создает команду
-		await ctx.message.delete()
-		author = ctx.message.author
-		guildAuthor = ctx.guild.owner
-		if arg1 == botconfig.code1:
-			for x in [self.code_stop]:
-				if author not in x:
-					self.code_stop.append(author)
-					print(code_stop)
-					await guildAuthor.send(embed=discord.Embed(description=f'{author}, ввел код {arg}, {config.code1_comment}!!', color=config.orange))
-					await author.send(embed=discord.Embed(description=f'{author.name}, вы ввели верный код!!', color=config.orange))
-				else:
-					await author.send(embed=discord.Embed(description=f'{author.name}, вы уже вводили этот код!!', color=config.red), delete_after=300)
-		else:
-			await author.send(embed=discord.Embed(description='Вы ввели не существующий код!!', color=config.red), delete_after=300)
-
 class RolePlay(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -109,6 +86,7 @@ class RolePlay(commands.Cog):
 	@commands.command(aliases = ["Push", "Ударить", "ударить"])
 	async def push(self, ctx, member: discord.Member=None, *, arg=None):
 		author = ctx.message.author
+		await ctx.message.delete()
 
 		if member != None and arg != None:
 			await ctx.send(embed=discord.Embed(description=f'``{author.name}`` ударил ``{member.name}`` с помощью {arg}', color=config.orange))
@@ -117,6 +95,7 @@ class RolePlay(commands.Cog):
 	async def me(self, ctx, *, arg=None):
 		author = ctx.message.author
 		won = randint(1, 2)
+		await ctx.message.delete()
 
 		if won == 1:
 			await ctx.send(embed=discord.Embed(description=f'{author.name} {arg}\nУспешно', color=config.orange))
@@ -231,6 +210,21 @@ class MiniGame(commands.Cog):
 				elif Random1 < Random2:
 					await ctx.send(embed=discord.Embed(description=f"{member.name}, победил получив {Random2} балов! А {author.name} набрал всего {Random1} балов", color=config.orange))
 
+class Pasxalci(commands.Cog):
+	def __init__(self, client):
+		self.client = client
+
+	@commands.command()
+	async def createdfor(self, ctx):
+		author = ctx.message.author
+		await ctx.send(embed=discord.Embed(description=f'{author.name}, о Ты нашёл одну из пасхалок!\nЭтот бот изначально создавался для группы дискорд одно из серверов игры **MineCraft**', color=config.orange))
+
+	@commands.command()
+	async def BadPerson(self, ctx):
+		author = ctx.message.author
+		await ctx.send(embed=discord.Embed(description=f'``{author.name}``, о Ты нашёл одну из пасхалок!\nАвтор бота плохо относится к людям которые были извесны под никами ``Neros_``, ``DonDanon``, ``KislBall``, ``EnotKEK3``', color=config.orange))
+
+
 class Food(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -280,9 +274,9 @@ class RPS(commands.Cog):
 def setup(client):
 	try:
 		client.add_cog(Raffle(client))
-		client.add_cog(Codes(client))
 		client.add_cog(RolePlay(client))
 		client.add_cog(MiniGame(client))
+		client.add_cog(Pasxalci(client))
 		client.add_cog(Food(client))
 		client.add_cog(RPS(client))
 	except Exception as e:

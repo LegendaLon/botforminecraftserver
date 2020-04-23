@@ -193,8 +193,6 @@ class JoinGroun(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         BotCreator = self.client.get_user(518766156790890496)
-        # Добавление группы в базу
-        db.insert_guild(2, guild.id, guild.name)
 
         # Оповищеное о конекте к группе
         embed = discord.Embed(title=f'Бот присоединился к: **{guild.name}**', color=config.orange)
@@ -213,9 +211,6 @@ class JoinGroun(commands.Cog):
     async def on_guild_remove(self, guild):
         BotCreator = self.client.get_user(518766156790890496)
         # Удаление из базы
-        guild_id = guild.id
-        db.delete_guild(guild_id)
-
         # Оповищеное об уходе из группы
         embed = discord.Embed(title=f'Бот вышел из: **{guild.name}**', color=config.orange)
         embed.set_thumbnail(url=guild.icon_url)

@@ -7,12 +7,6 @@ from lenlines import counterLinesWordsLetters
 
 import config
 
-""" Constants """
-adminhelparr = ["админ", "admin"]
-bothelparr = ["бот", "bot"]
-rphelparr = ["рп", "rp", "roleplay"]
-
-
 class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -38,21 +32,34 @@ class Help(commands.Cog):
 	@commands.command(aliases=["помощь", "Help", "help"])
 	async def Помощь(self, ctx, types=None):
 		pr = config.PREFIX_COMMAND
-		embed = discord.Embed(title=f"Все обычные команды **{self.client.user.name}**", description="", color=config.orange)
+		author = ctx.message.author
+		types = types.lower()
+
+		if types == 'админ' or types == 'admin':
+			embed = discord.Embed(title=f"Все админ команды **{self.client.user.name}**", description="", color=config.orange)
+			embed.add_field(name=f'**{pr}верификация [*Группы]**', value=f'Добавляет группу в систему, позволяет определить чат для сообщений о входе/выходе новых людей``', inline=False)
+			embed.add_field(name=f'**{pr}подключение **', value=f'Определяет чат для сообщений о входе/выходе новых людей``', inline=False)
+			
+		elif types == 'рп' or types == 'rp':
+			embed = discord.Embed(title=f"Все RolePlay команды **{self.client.user.name}**", description="", color=config.orange)
+			embed.add_field(name=f'**{pr}me [*Действие]**', value=f'Сделать рп действие в формате:\n``<пользователь> сделал что-то. Успешно/Провалено``', inline=False)
+			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value=f'Ударить пользователя``', inline=False)
+
+		else:
+			embed = discord.Embed(title=f"Все команды **{self.client.user.name}**", description="", color=config.orange)
+			embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
+			embed.add_field(name=f'**{pr}шар [Вопрос]**', value="Отвечает на заданый вопрос, да или нет.", inline=False)
+			embed.add_field(name=f'**{pr}кости [Упоминание] [Минимальное число] [Максимальное число]**', value="Сыграть с игроком в игру кости.", inline=False)
+			embed.add_field(name=f'**{pr}юзер [Упоминание]**', value="Узнать информацию о пользователе.", inline=False)
+			embed.add_field(name=f'**{pr}бот**', value="Узнать информацию о боте.", inline=False)
+			embed.add_field(name=f'**{pr}кнб [*камень/ножницы/бумага]**', value="Камень ножници бумага с ботом.", inline=False)
+			embed.add_field(name=f'**{pr}дать [*Вещь]**', value="Дать что-то боту.", inline=False)
+			embed.add_field(name=f'**{pr}рандом [*Минимальное число] [*Максимальное число]**', value="Генерация рандомного числа.", inline=False)
+			embed.add_field(name=f'**{pr}cat**', value="Отправляет гифку кота =D.", inline=False)
+			embed.add_field(name=f'**{pr}модули**', value="Список всех модулей.", inline=False)
+			embed.add_field(name=f'**{pr}ver**', value="Узнать версию бота.", inline=False)
+
 		embed.set_thumbnail(url=self.client.user.avatar_url)
-		embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
-		embed.add_field(name=f'**{pr}шар [Вопрос]**', value="Отвечает на заданый вопрос, да или нет.", inline=False)
-		embed.add_field(name=f'**{pr}кости [Упоминание] [Минимальное число] [Максимальное число]**', value="Сыграть с игроком в игру кости.", inline=False)
-		embed.add_field(name=f'**{pr}Розыгрыш**', value="Поучаствовать в розыгрыше.", inline=False)
-		embed.add_field(name=f'**{pr}код [*Код]**', value="Ввести код для получение некого подарка.", inline=False)
-		embed.add_field(name=f'**{pr}юзер [Упоминание]**', value="Узнать информацию о пользователе.", inline=False)
-		embed.add_field(name=f'**{pr}бот**', value="Узнать информацию о боте.", inline=False)
-		embed.add_field(name=f'**{pr}кнб [*камень/ножницы/бумага]**', value="Камень ножници бумага с ботом.", inline=False)
-		embed.add_field(name=f'**{pr}дать [*Вещь]**', value="Дать что-то боту.", inline=False)
-		embed.add_field(name=f'**{pr}рандом [*Минимальное число] [*Максимальное число]**', value="Генерация рандомного числа.", inline=False)
-		embed.add_field(name=f'**{pr}cat**', value="Отправляет гифку кота =D.", inline=False)
-		embed.add_field(name=f'**{pr}модули**', value="Список всех модулей.", inline=False)
-		embed.add_field(name=f'**{pr}ver**', value="Узнать версию бота.", inline=False)
 		embed.add_field(name=f'**Аргументы:**', value="Если перед аргументом стоит ``*`` то нужно обезательно указывать аргумент.", inline=False)
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 
