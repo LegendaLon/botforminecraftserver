@@ -2,12 +2,13 @@
 
 # Setting
 PREFIX_COMMAND = '!' # Префикс для команды
+conn_bot = 'https://discordapp.com/oauth2/authorize?client_id=694224724087144569&permissions=8&scope=bot'
 
 # First Start
 BOT_STATUS = [
 	"Minecraft", "Plague Inc: Evolved", "Коронавирус", "Симулятор разработчика бота", "Dendy", "В компьтерном клубе", "SEGA",
 	"https://lotw.space/"
-] 
+]
 
 # Log
 channel_log = 676366617940328449
