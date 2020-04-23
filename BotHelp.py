@@ -42,8 +42,8 @@ class Help(commands.Cog):
 			
 		elif types == 'рп' or types == 'rp':
 			embed = discord.Embed(title=f"Все RolePlay команды **{self.client.user.name}**", description="", color=config.orange)
-			embed.add_field(name=f'**{pr}me [*Действие]**', value=f'Сделать рп действие в формате:\n``<пользователь> сделал что-то. Успешно/Провалено``', inline=False)
-			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value=f'Ударить пользователя``', inline=False)
+			embed.add_field(name=f'**{pr}me [*Действие]**', value=f'Сделать рп действие в формате:\n``<пользователь> сделал что-то. Успешно/Провалено', inline=False)
+			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value=f'Ударить пользователя', inline=False)
 
 		else:
 			embed = discord.Embed(title=f"Все команды **{self.client.user.name}**", description="", color=config.orange)

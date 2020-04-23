@@ -50,15 +50,15 @@ class Verification(commands.Cog):
 			guild = ctx.guild
 			if guild.id != self.allguildid:
 				db.insert_guild(1, guild.id, guild.name)
-				await ctx.send(embed=discord.Embed(description=f'{author.name}, эта группа была успешно верифицированая'))
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, эта группа была успешно верифицированая', color=config.orange))
 
 			else:
-				await ctx.send(embed=discord.Embed(description=f'{author.name}, к сожелению эта группа уже верифицирования.'))
+				await ctx.send(embed=discord.Embed(description=f'{author.name}, к сожелению эта группа уже верифицирования.', color=config.orange))
 
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{author.name}, неизвесная команда!', color=config.orange))
 
-	@commands.command()
+	@commands.command(aliases = ["Connect", "Подключение", "подключение"])
 	@commands.has_permissions(administrator=True)
 	async def connect(self, ctx):
 		guild = ctx.guild
