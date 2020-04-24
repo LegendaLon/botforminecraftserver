@@ -166,7 +166,12 @@ class MiniGame(commands.Cog):
 		else:
 			await ctx.send(embed=discord.Embed(title='Правила игры **Стрик**', description=f'Удерживайте место в лидерстве.', color=config.orange))
 
+	@commands.command(aliases = ["Love", "Любовь", "любовь"])
+	async def love(self, ctx, *, arg):
+		love = randint(1, 100)
+		author = ctx.message.author
 
+		await ctx.send(embed=discord.Embed(description=f'Любовь {author.name} к {arg} измеряеться в {love}%', color=config.orange))
 
 	@commands.command(aliases = ["Кости", "кости", "Bones"])
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):
