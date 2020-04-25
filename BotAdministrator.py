@@ -38,7 +38,8 @@ class Verification(commands.Cog):
 	@commands.has_permissions(administrator=True)
 	async def verification(self, ctx, command=None, value=None):
 		author = ctx.message.author
-		command = command.lower()
+		if command != None:
+			command = command.lower()
 
 		if command == None:
 			await ctx.send(embed=discord.Embed(description=f'{author.name}, вы забыли написать команду!', color=config.orange))
