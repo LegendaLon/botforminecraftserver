@@ -30,17 +30,18 @@ class Help(commands.Cog):
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
 	@commands.command(aliases=["помощь", "Help", "help"])
-	async def Помощь(self, ctx, types=None):
+	async def Помощь(self, ctx, func:str=None):
 		pr = config.PREFIX_COMMAND
 		author = ctx.message.author
-		types = types.lower()
+		if func != None:
+			func = func.lower()
 
-		if types == 'админ' or types == 'admin':
+		if func == 'админ' or func == 'admin':
 			embed = discord.Embed(title=f"Все админ команды **{self.client.user.name}**", description="", color=config.orange)
 			embed.add_field(name=f'**{pr}верификация [*Группы]**', value=f'Добавляет группу в систему, позволяет определить чат для сообщений о входе/выходе новых людей``', inline=False)
 			embed.add_field(name=f'**{pr}подключение **', value=f'Определяет чат для сообщений о входе/выходе новых людей``', inline=False)
 			
-		elif types == 'рп' or types == 'rp':
+		elif func == 'рп' or func == 'rp':
 			embed = discord.Embed(title=f"Все RolePlay команды **{self.client.user.name}**", description="", color=config.orange)
 			embed.add_field(name=f'**{pr}me [*Действие]**', value=f'Сделать рп действие в формате:\n``<пользователь> сделал что-то. Успешно/Провалено', inline=False)
 			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value=f'Ударить пользователя', inline=False)

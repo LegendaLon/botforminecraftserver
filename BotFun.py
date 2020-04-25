@@ -109,6 +109,7 @@ class MiniGame(commands.Cog):
 
 		self._stric__last_member = None
 		self._stric__member_stric = 0
+		self._stric__guild_name = None
 
 	@commands.command(aliases = ["кот", "мешок"]) # 
 	async def cat(self, ctx): # Создает команду
@@ -151,11 +152,13 @@ class MiniGame(commands.Cog):
 		if helps == None:
 
 			author = ctx.message.author
+			guild = ctx.guild
 
 			if self._stric__last_member != author and self._stric__last_member != None:
 				secondauthor = self._stric__last_member
 				self._stric__last_member = author
 				self._stric__member_stric = 1
+				self._stric__guild_name = guild.name
 				await ctx.send(embed=discord.Embed(description=f'``{secondauthor.name}`` потерял лидерство, ``{author.name}`` занял место лидера!', color=config.orange))
 
 			elif author == self._stric__last_member or self._stric__last_member == None:
