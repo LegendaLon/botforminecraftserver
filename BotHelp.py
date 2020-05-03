@@ -51,7 +51,7 @@ class Help(commands.Cog):
 			if not command.hidden:
 				
 				if command.help != '' or command.help != None and command.description != '':
-					self.command_list.append(f"`{pr}{command}` {command.help} — {command.description}\n")
+					self.command_list.append(f"`{pr}{command} {command.help}` — {command.description}\n")
 
 				elif command.help == '' or command.help == None and command.description != '':
 					self.command_list.append(f"`{pr}{command}` — {command.description}\n")
@@ -98,7 +98,7 @@ class Info(commands.Cog):
 		hidden = False,
 		)
 	async def bots(self, ctx):
-		embed = discord.Embed(title=f'Бот: {self.client.user.name}')
+		embed = discord.Embed(title=f'Бот: {self.client.user.name}', color=config.orange)
 		embed.set_thumbnail(url=self.client.user.avatar_url)
 		# embed.add_field(name=f'Сервера:', value=f'Бот стоит на {}', inline=False)
 		embed.add_field(name=f'Идеи пользователей:', value=f'Если у Вас появилась идея что можно добавить в {self.client.user.name}\nтогда пишите в группу которую можете увидеть ниже', inline=True)
