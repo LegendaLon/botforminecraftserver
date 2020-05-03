@@ -12,7 +12,21 @@ import config
 class Psychologist(commands.Cog):
 	def __init__(self, client):
 		self.client = client
-		
+
+	@commands.Cog.listener()
+	async def on_message(self, message):
+		if not message.guild:
+			author = message.author
+			if author != self.client.user:
+				if message.content[0] != '!':
+					msg = choice(config.messagePsychologist)
+					await author.send(embed=discord.Embed(description=msg, color=config.orange))
+
+				else:
+					pass
+
+			else:
+				pass
 
 class Raffle(commands.Cog):
 	def __init__(self, client):
@@ -141,6 +155,19 @@ class MiniGame(commands.Cog):
 		r_cat_gif = choice(config.cat_gif) # 
 		await ctx.send(r_cat_gif, delete_after=43200) # 
 
+	@commands.command(
+		aliases = ["Math", "Математика", "математика"],
+		help = '[*Математическая задачка]',
+		description = 'Решит Вашу задачку',
+		hidden = False,
+		)
+	async def math(self, ctx, *, evalFunc:str=None):
+		author = ctx.message.author
+		if evalFunc != None:
+			math = eval(evalFunc)
+			await ctx.send(embed=discord.Embed(description=f'{evalFunc} = {math}', color=config.orange))
+		else:
+			await ctx.send(embed=discord.Embed(description=f'Вы забыли написать задачку', color=config.orange))
 
 	@commands.command(
 		aliases = ["Ball", "Шар", "шар"],
@@ -351,6 +378,7 @@ class RPS(commands.Cog):
 
 def setup(client):
 	try:
+		client.add_cog(Psychologist(client))
 		client.add_cog(Raffle(client))
 		client.add_cog(RolePlay(client))
 		client.add_cog(MiniGame(client))

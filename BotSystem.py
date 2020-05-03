@@ -54,11 +54,11 @@ class JoinAndLeaveMemberInGroup(commands.Cog):
                     channel = self.client.get_channel(int(data[2]))
                     await channel.send(embed=discord.Embed(description= f'Пользователь ``{member.name}``, присоединился к нам!', color=config.orange))
                 else:
-                    print("No 1")
+                    pass
             else:
-                print("No 2")
+                pass
         else:
-            print("No 3")
+            pass
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
