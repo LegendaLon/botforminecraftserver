@@ -11,8 +11,15 @@ class Help(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
+		self.command_list = []
+
 	@commands.cooldown(1, 10, commands.BucketType.user)
-	@commands.command(aliases = ["сервер", "серв", "server", "Server"])
+	@commands.command(
+		aliases = ["сервер", "серв", "server", "Server"],
+		help = None,
+		description = 'Расскажет информацию о сервере',
+		hidden = False,
+		)
 	async def Сервер(self, ctx):
 		guild = ctx.guild
 		embed = discord.Embed(title=f'Информация о сервере: **{guild.name}**', color=config.orange)
@@ -29,61 +36,67 @@ class Help(commands.Cog):
 		await ctx.send(embed=embed)
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
-	@commands.command(aliases=["помощь", "Help", "help"])
+	@commands.command(
+		aliases=["помощь", "Help", "help"],
+		help = None,
+		description = 'Расскажет информацию о всех командах',
+		hidden = False,
+		)
 	async def Помощь(self, ctx, func:str=None):
 		pr = config.PREFIX_COMMAND
 		author = ctx.message.author
-		if func != None:
-			func = func.lower()
+					
+		self.command_list = []
+		for command in self.client.commands:
+			if not command.hidden:
+				
+				if command.help != '' or command.help != None and command.description != '':
+					self.command_list.append(f"`{pr}{command}` {command.help} — {command.description}\n")
 
-		if func == 'админ' or func == 'admin':
-			embed = discord.Embed(title=f"Все админ команды **{self.client.user.name}**", description="", color=config.orange)
-			embed.add_field(name=f'**{pr}верификация [*Группы]**', value=f'Добавляет группу в систему, позволяет определить чат для сообщений о входе/выходе новых людей``', inline=False)
-			embed.add_field(name=f'**{pr}подключение **', value=f'Определяет чат для сообщений о входе/выходе новых людей``', inline=False)
-			
-		elif func == 'рп' or func == 'rp':
-			embed = discord.Embed(title=f"Все RolePlay команды **{self.client.user.name}**", description="", color=config.orange)
-			embed.add_field(name=f'**{pr}me [*Действие]**', value=f'Сделать рп действие в формате:\n``<пользователь> сделал что-то. Успешно/Провалено', inline=False)
-			embed.add_field(name=f'**{pr}ударить [*Пользователь] [*Предмет]**', value=f'Ударить пользователя', inline=False)
+				elif command.help == '' or command.help == None and command.description != '':
+					self.command_list.append(f"`{pr}{command}` — {command.description}\n")
 
-		else:
-			embed = discord.Embed(title=f"Все команды **{self.client.user.name}**", description="", color=config.orange)
-			embed.add_field(name=f'**{pr}Сервер**', value="Информация о сервере.", inline=False)
-			embed.add_field(name=f'**{pr}шар [Вопрос]**', value="Отвечает на заданый вопрос, да или нет.", inline=False)
-			embed.add_field(name=f'**{pr}кости [Упоминание] [Минимальное число] [Максимальное число]**', value="Сыграть с игроком в игру кости.", inline=False)
-			embed.add_field(name=f'**{pr}юзер [Упоминание]**', value="Узнать информацию о пользователе.", inline=False)
-			embed.add_field(name=f'**{pr}бот**', value="Узнать информацию о боте.", inline=False)
-			embed.add_field(name=f'**{pr}кнб [*камень/ножницы/бумага]**', value="Камень ножници бумага с ботом.", inline=False)
-			embed.add_field(name=f'**{pr}дать [*Вещь]**', value="Дать что-то боту.", inline=False)
-			embed.add_field(name=f'**{pr}рандом [*Минимальное число] [*Максимальное число]**', value="Генерация рандомного числа.", inline=False)
-			embed.add_field(name=f'**{pr}cat**', value="Отправляет гифку кота =D.", inline=False)
-			embed.add_field(name=f'**{pr}модули**', value="Список всех модулей.", inline=False)
-			embed.add_field(name=f'**{pr}ver**', value="Узнать версию бота.", inline=False)
+				elif command.help != '' or command.help != None and command.description == '':
+					self.command_list.append(f"`{pr}{command}` {command.help}\n")
+
+				elif command.help != '' or command.help != None and command.description == '':
+					self.command_list.append(f"`{pr}{command}`\n")
+
+				else:
+					pass
+
+		embed = discord.Embed(
+			title = f"Список команд для {self.client.user.name}:",
+			description = "".join(self.command_list),
+			color = config.orange)
 
 		embed.set_thumbnail(url=self.client.user.avatar_url)
 		embed.add_field(name=f'**Аргументы:**', value="Если перед аргументом стоит ``*`` то нужно обезательно указывать аргумент.", inline=False)
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 
-		await ctx.send(embed=embed)
-
-	@commands.command(aliases = ["версия", "Версия", "Ver"])
-	async def ver(self, ctx): # Создает команду
-		embed = discord.Embed(title="**Версия бота**", color=config.orange) # 
-		embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True)
-		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
-		await ctx.send(embed=embed) # 
+		await author.send(embed=embed)
 
 class Info(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["Module", "Модули", "модули"])
+	@commands.command(
+		aliases = ["Module", "Модули", "модули"],
+		help = None,
+		description = '',
+		hidden = True,
+		)
 	@commands.has_permissions(administrator=True)
 	async def module(self, ctx):
 		author = ctx.message.author
 		await ctx.send(embed=discord.Embed(description=f'{author}, все модули которые бот использует:\n``{module}``', color=config.orange))
 
-	@commands.command(aliases=['Bots', 'Бот', 'бот'])
+	@commands.command(
+		aliases=['Bots', 'Бот', 'бот'],
+		help = None,
+		description = 'Информация о боте',
+		hidden = False,
+		)
 	async def bots(self, ctx):
 		embed = discord.Embed(title=f'Бот: {self.client.user.name}')
 		embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -92,12 +105,17 @@ class Info(commands.Cog):
 		embed.add_field(name=f'Обновления:', value=f'Регулярные', inline=False)
 		embed.add_field(name=f'Если хотите добавить бота к себе:', value=f'Зайдите в группу которыю вы увидете ниже!', inline=False)
 		embed.add_field(name=f'Сервер:', value=f'Место где можно получить тех поддержку бота + место\nгде можно пообщатся и поиграть!\nhttps://discord.gg/tJMrQhN', inline=False)
+		embed.add_field(name="**Последняя версия**", value=f"Версия - {config.version}", inline=True)
 		embed.add_field(name=f'Автор:', value=f'Автор бота {config.BOT_AUTHOR}', inline=True)
 		embed.set_footer(text=f"Все права на бота пренадлежат: {config.BOT_AUTHOR}")
 		await ctx.send(embed=embed)
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
-	@commands.command()
+	@commands.command(
+		help = None,
+		description = 'Все строчки, слова, буквы в коде бота',
+		hidden = False,
+		)
 	async def lines(self, ctx):
 		totallines = 0
 		totalwords = 0

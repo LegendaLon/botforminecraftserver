@@ -9,7 +9,11 @@ class Owners(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command()
+	@commands.command(
+        help = '',
+        description = '',
+        hidden = True,
+        )
 	@commands.is_owner()
 	async def db(self, ctx, nameTable:str):
 		author = ctx.message.author
@@ -34,7 +38,12 @@ class Verification(commands.Cog):
 
 		print(self.allguildid)
 
-	@commands.command(aliases = ["Verification", "Верификация", "верификация"])
+	@commands.command(
+		aliases = ["Verification", "Верификация", "верификация"],
+        help = '',
+        description = '',
+        hidden = True,
+        )
 	@commands.has_permissions(administrator=True)
 	async def verification(self, ctx, command=None, value=None):
 		author = ctx.message.author
@@ -56,7 +65,12 @@ class Verification(commands.Cog):
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{author.name}, неизвесная команда!', color=config.orange))
 
-	@commands.command(aliases = ["Connect", "Подключение", "подключение"])
+	@commands.command(
+		aliases = ["Connect", "Подключение", "подключение"],
+        help = '',
+        description = '',
+        hidden = True,
+        )
 	@commands.has_permissions(administrator=True)
 	async def connect(self, ctx):
 		guild = ctx.guild

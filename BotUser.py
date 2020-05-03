@@ -9,7 +9,12 @@ class Sentence(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["предложение", "Sentence", "Предложение"])
+	@commands.command(
+		aliases = ["предложение", "Sentence", "Предложение"],
+        help = '[*Идея]',
+        description = 'Поставит вашему сообщению лайк и дизлайк',
+        hidden = False,
+        )
 	async def sentence(self, ctx, *, arg = None): # Создает команду
 		author = ctx.message.author
 		if arg == None:
@@ -57,7 +62,12 @@ class User(commands.Cog):
 		for a in data:
 			self.users.append(a[1])
 
-	@commands.command(aliases = ["User", "Юзер", "юзер"])
+	@commands.command(
+		aliases = ["User", "Юзер", "юзер"],
+        help = '[Пользователь]',
+        description = 'Показывает информацию о пользователе. Команда дорабатываеться',
+        hidden = False,
+        )
 	async def user(self, ctx, member: discord.Member = None):
 		users = None
 		author = ctx.message.author

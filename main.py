@@ -50,7 +50,6 @@ print('')
 # Подключение бота
 token = os.environ.get('BOT_TOKEN')
 
-
 try:
     client.run(str(token))
 except Exception as e:

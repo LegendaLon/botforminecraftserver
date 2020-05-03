@@ -101,7 +101,12 @@ class StatusInBot(commands.Cog):
         dataR = choice(data)
         return dataR[1]
 
-    @commands.command(aliases = ["Status", "Статус", "статус"])
+    @commands.command(
+        aliases = ["Status", "Статус", "статус"],
+        help = '',
+        description = '',
+        hidden = True,
+        )
     async def status(self, ctx, command:str=None, *, value:str=None):
         if command == "reg" or command == 'рег':
             status = self.RandomStatus()
@@ -127,7 +132,12 @@ class StatusInBot(commands.Cog):
         else:
             await ctx.send(embed=discord.Embed(f'Неизвесная команда'))
 
-    @commands.command(aliases = ["Астатус", "астатус", "Astatus"])
+    @commands.command(
+        aliases = ["Астатус", "астатус", "Astatus"],
+        help = '',
+        description = '',
+        hidden = True,
+        )
     @commands.is_owner()
     async def astatus(self, ctx, command:str=None, *, value=None):
         author = ctx.message.author

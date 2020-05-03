@@ -9,9 +9,10 @@ from main import db
 
 import config
 
-class RanbowRole(object):
+class Psychologist(commands.Cog):
 	def __init__(self, client):
 		self.client = client
+		
 
 class Raffle(commands.Cog):
 	def __init__(self, client):
@@ -20,7 +21,12 @@ class Raffle(commands.Cog):
 		self.startRaffle = False
 		self.raffle = []
 
-	@commands.command(aliases = ["Розыгрыш", "розыгрыш"])
+	@commands.command(
+		aliases = ["Розыгрыш", "розыгрыш"],
+		help = None,
+		description = '',
+		hidden = True,
+		)
 	async def raffle(self, ctx): # Создает команду
 		print(self.raffle)
 		author = ctx.message.author
@@ -40,7 +46,11 @@ class Raffle(commands.Cog):
 		else:
 			await ctx.send(embed=discord.Embed(description=f'{author.name}, сейчас не проводится не какие розыгрыши', color=config.orange))
 
-	@commands.command()
+	@commands.command(
+		help = None,
+		description = '',
+		hidden = True,
+		)
 	@commands.has_permissions(administrator=True)
 	async def araffle(self, ctx, command:str=None, value:str=None):
 		author = ctx.message.author
@@ -83,7 +93,12 @@ class RolePlay(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["Push", "Ударить", "ударить"])
+	@commands.command(
+		aliases = ["Push", "Ударить", "ударить"],
+		help = '[*Пользователь] [*Предмет]',
+		description = 'Ударит пользователя предметом',
+		hidden = False,
+		)
 	async def push(self, ctx, member: discord.Member=None, *, arg=None):
 		author = ctx.message.author
 		await ctx.message.delete()
@@ -91,7 +106,12 @@ class RolePlay(commands.Cog):
 		if member != None and arg != None:
 			await ctx.send(embed=discord.Embed(description=f'``{author.name}`` ударил ``{member.name}`` с помощью {arg}', color=config.orange))
 
-	@commands.command(aliases = ["Me", "Ме", "ме"])
+	@commands.command(
+		aliases = ["Me", "Ме", "ме"],
+		help = '[*Пользователь] [*Предмет]',
+		description = 'Выполний рп действие',
+		hidden = False,
+		)
 	async def me(self, ctx, *, arg=None):
 		author = ctx.message.author
 		won = randint(1, 2)
@@ -111,24 +131,44 @@ class MiniGame(commands.Cog):
 		self._stric__member_stric = 0
 		self._stric__guild_name = None
 
-	@commands.command(aliases = ["кот", "мешок"]) # 
+	@commands.command(
+		aliases = ["кот", "мешок"],
+		help = None,
+		description = 'Отправит гифку котика <3',
+		hidden = False,
+		) 
 	async def cat(self, ctx): # Создает команду
 		r_cat_gif = choice(config.cat_gif) # 
 		await ctx.send(r_cat_gif, delete_after=43200) # 
 
 
-	@commands.command(aliases = ["Ball", "Шар", "шар"]) # 
+	@commands.command(
+		aliases = ["Ball", "Шар", "шар"],
+		help = '[Вопрос]',
+		description = 'Ответит на ваш вопрос',
+		hidden = False,
+		) 
 	async def ball(self, ctx): # Создает команду
 		r_ball = choice(config.ball)
 		await ctx.send(embed=discord.Embed(description=f'{ctx.message.author.name}, Знаки говорят - **{ r_ball }**.', color=config.orange)) # 
 
-	@commands.command(aliases = ["рандом"])
+	@commands.command(
+		aliases = ["рандом"],
+		help = '[Минимальное число] [Максимальное число]',
+		description = 'Сгенерирует число.',
+		hidden = False,
+		
+		)
 	async def random(self, ctx, arg1:int, arg2:int):
 		author = ctx.message.author
 		random = randint(arg1, arg2)
 		await ctx.send(embed=discord.Embed(description=f"{author.name} рандомное число которое тебе выпало: **{random}**", color=config.orange))
 
-	@commands.command()
+	@commands.command(
+		help = '',
+		description = '',
+		hidden = True,
+		)
 	async def russian_ruletka(self, ctx, member:discord.Member=None):
 		author = ctx.message.author
 		if member == author:
@@ -147,7 +187,11 @@ class MiniGame(commands.Cog):
 					await ctx.send("К чтобы пройти дальше нужно подождать пока появится код! =)")
 
 	@commands.cooldown(1, 10, commands.BucketType.user)
-	@commands.command()
+	@commands.command(
+		help = '',
+		description = '',
+		hidden = True,
+		)
 	async def stric(self, ctx, helps:str=None):
 		if helps == None:
 
@@ -169,14 +213,25 @@ class MiniGame(commands.Cog):
 		else:
 			await ctx.send(embed=discord.Embed(title='Правила игры **Стрик**', description=f'Удерживайте место в лидерстве.', color=config.orange))
 
-	@commands.command(aliases = ["Love", "Любовь", "любовь"])
+	@commands.command(
+		aliases = ["Love", "Любовь", "любовь"],
+		help = '[*Человек/Предмет]',
+		description = 'Покажет Вашу любовь к человеку/предмету в процентах',
+		hidden = False,
+		)
 	async def love(self, ctx, *, arg):
 		love = randint(1, 100)
 		author = ctx.message.author
 
 		await ctx.send(embed=discord.Embed(description=f'Любовь {author.name} к {arg} измеряеться в {love}%', color=config.orange))
 
-	@commands.command(aliases = ["Кости", "кости", "Bones"])
+	@commands.command(
+		aliases = ["Кости", "кости", "Bones"],
+		help = '[*Пользователь] [Максимальное число] [Минимальное число]',
+		description = 'Сыграть с пользователем в кости.',
+		hidden = False,
+		
+		)
 	async def bones(self, ctx, member:discord.Member=None, arg1:int=None, arg2:int=None):
 		author = ctx.message.author
 		if member == None:
@@ -222,12 +277,20 @@ class Pasxalci(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command()
+	@commands.command(
+		help = '',
+		description = '',
+		hidden = True,
+		)
 	async def createdfor(self, ctx):
 		author = ctx.message.author
 		await ctx.send(embed=discord.Embed(description=f'{author.name}, о Ты нашёл одну из пасхалок!\nЭтот бот изначально создавался для группы дискорд одно из серверов игры **MineCraft**', color=config.orange))
 
-	@commands.command()
+	@commands.command(
+		help = '',
+		description = '',
+		hidden = True,
+		)
 	async def BadPerson(self, ctx):
 		author = ctx.message.author
 		await ctx.send(embed=discord.Embed(description=f'``{author.name}``, о Ты нашёл одну из пасхалок!\nАвтор бота плохо относится к людям которые были извесны под никами ``Neros_``, ``DonDanon``, ``KislBall``, ``EnotKEK3``', color=config.orange))
@@ -237,35 +300,42 @@ class Food(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["Дать", "дать"])
-	async def donut(self, ctx, *, food=None):
+	@commands.command(
+		aliases = ["Дать", "дать"],
+		help = '[*Предмет]',
+		description = 'Вы дадите предмет боту',
+		hidden = False,
+		)
+	async def donut(self, ctx, *, food='воздух'):
 		author = ctx.message.author
-		if food == None:
-			await ctx.send(embed=discord.Embed(description=f'{author.name}, пожалуйста напишите что именно Вы ходите дать!', color=config.orange))
-		else:
-			await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает **{food}** у {author.name}, и молча уходит в свою комнату =D', color=config.orange))
+		await ctx.send(embed=discord.Embed(description=f'{self.client.user.name}, забирает **{food}** у {author.name}, и молча уходит в свою комнату =D', color=config.orange))
 
 class RPS(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command(aliases = ["кнб"])
+	@commands.command(
+		aliases = ["кнб"],
+		help = '[*Камень/Ножницы/Бумага]',
+		description = 'Сыграть в камень кожницы бумага с ботом',
+		hidden = False,
+		)
 	async def rps(self, ctx, arg1):
 		author = ctx.message.author
 		x = randint(1, 3)
-		y = arg1
+		y = arg1.lower()
 
 		""" Lose """
 		if x == 1 and y == "ножницы":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножнцы, а бот - камень! \n\n Вы проиграли!", color=config.orange))
 		if x == 2 and y == "бумага":
-			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - ножници! \n\nВы проиграли!", color=config.orange))
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - ножницы! \n\nВы проиграли!", color=config.orange))
 		if x == 3 and y == "камень":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - бумагу! \n\nВы проиграли!", color=config.orange))
 		
 		""" Won """
 		if x == 2 and y == "камень":
-			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - ножници! \n\nВы выиграли! :tada: ", color=config.orange))
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - ножницы! \n\nВы выиграли! :tada: ", color=config.orange))
 		if x == 3 and y == "ножницы":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - бумагу! \n\nВы выиграли! :tada: ", color=config.orange))
 		if x == 1 and y == "бумага":
@@ -275,7 +345,7 @@ class RPS(commands.Cog):
 		if x == 1 and y == "камень":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали камень, а бот - камень! \n\nНичья!", color=config.orange))
 		if x == 2 and y == "ножницы":
-			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - ножници! \n\nНичья!", color=config.orange))
+			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали ножницы, а бот - ножницы! \n\nНичья!", color=config.orange))
 		if x == 3 and y == "бумага":
 			await ctx.send(embed=discord.Embed(description=f"{author.name}, вы выбрали бумагу, а бот - бумагу! \n\nНичья!", color=config.orange))
 
