@@ -9,9 +9,51 @@ from main import db
 
 import config
 
+
+
 class Psychologist(commands.Cog):
 	def __init__(self, client):
 		self.client = client
+
+		self.PsychologistNeuron = {
+			# Приведствие и прощание 
+			("привет", "хай"):("Привет!!! =)", "Хай", "Хелло", "Привет, как у тебя дела"),
+			"пока":("Пока =(", "Бай"),
+
+			"как дела":("Все ок, как у тебя?", "У меня все хорошо, только вот есть один вопрос как дела у тебя", "У меня все окей", "У меня все плохо =("),
+			"что делаешь":("Сижу учусь, хочу стать человеком", "Обрабатываю алгоритмы с помощью которых я с тобой общаюсь"),
+			"у меня был плохой день":("Все хорошо дерижись", "Не расстраивайся"),
+			"помоги мне":("Я не смогу помочь тебе, я всего лишь программа", "Постараюсь помочь, но мои алгоритмы не смогут справиться с сложными вопросами"),
+			"у меня все хорошо":("Круто!", "Это прекрастно"),
+			"у меня все плохо":("Это плохо, пойди займись чем то приятным", "Оууу, посмотри фильмы или ещё что-то"),
+		}
+
+	def replace_all(self, request):
+		try:
+			request = request.replace("!", "")
+		except:
+			pass
+		try:
+			request = request.replace("?", "")
+		except:
+			pass
+		return request
+
+
+	def chating(self, request):
+		request = request.lower()
+		for key, value in self.PsychologistNeuron.items():
+			request = self.replace_all(request)
+			if request in key:
+				breaks = False
+				value = choice(value)
+				return value
+				break
+			else:
+				breaks = True
+
+		if breaks:
+			return choice(config.messagePsychologist)
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
@@ -19,7 +61,7 @@ class Psychologist(commands.Cog):
 			author = message.author
 			if author != self.client.user:
 				if message.content[0] != '!':
-					msg = choice(config.messagePsychologist)
+					msg = self.chating(message.content)
 					await author.send(embed=discord.Embed(description=msg, color=config.orange))
 
 				else:
